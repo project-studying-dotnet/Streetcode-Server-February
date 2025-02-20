@@ -1,18 +1,17 @@
-﻿using System;
+﻿using AutoMapper;
+using FluentAssertions;
+using Moq;
+using Streetcode.BLL.DTO.Media.Audio;
+using Streetcode.BLL.Interfaces.BlobStorage;
+using Streetcode.BLL.Interfaces.Logging;
+using Streetcode.BLL.MediatR.Media.Audio.Create;
+using Streetcode.DAL.Repositories.Interfaces.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using Moq;
-using MediatR;
-using AutoMapper;
-using Streetcode.BLL.Interfaces.BlobStorage;
-using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.BLL.MediatR.Media.Audio.Create;
-using Streetcode.DAL.Repositories.Interfaces.Base;
-using FluentAssertions;
-using Streetcode.BLL.DTO.Media.Audio;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
 {

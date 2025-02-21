@@ -39,10 +39,10 @@ namespace Streetcode.BLL.MediatR.Newss.GetNewsAndLinksByUrl
                 return Result.Fail(errorMsg);
             }
 
-            if (newsDTO.Image is not null)
+            /*if (newsDTO.Image is not null)
             {
                 newsDTO.Image.Base64 = _blobService.FindFileInStorageAsBase64(newsDTO.Image.BlobName);
-            }
+            }*/
 
             var news = (await _repositoryWrapper.NewsRepository.GetAllAsync()).ToList();
             var newsIndex = news.FindIndex(x => x.Id == newsDTO.Id);
@@ -81,20 +81,20 @@ namespace Streetcode.BLL.MediatR.Newss.GetNewsAndLinksByUrl
                 randomNewsTitleAndLink.Title = news[newsIndex].Title;
             }
 
-            var newsDTOWithUrls = new NewsDTOWithURLs();
-            newsDTOWithUrls.RandomNews = randomNewsTitleAndLink;
-            newsDTOWithUrls.News = newsDTO;
-            newsDTOWithUrls.NextNewsUrl = nextNewsLink;
-            newsDTOWithUrls.PrevNewsUrl = prevNewsLink;
+            var newsDtoWithUrls = new NewsDTOWithURLs();
+            newsDtoWithUrls.RandomNews = randomNewsTitleAndLink;
+            newsDtoWithUrls.News = newsDTO;
+            newsDtoWithUrls.NextNewsUrl = nextNewsLink;
+            newsDtoWithUrls.PrevNewsUrl = prevNewsLink;
 
-            if (newsDTOWithUrls is null)
+            /*if (newsDTOWithUrls is null)
             {
                 string errorMsg = $"No news by entered Url - {url}";
                 _logger.LogError(request, errorMsg);
                 return Result.Fail(errorMsg);
-            }
+            }*/
 
-            return Result.Ok(newsDTOWithUrls);
+            return Result.Ok(newsDtoWithUrls);
         }
     }
 }

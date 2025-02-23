@@ -30,7 +30,9 @@ public class GetToponymsByStreetcodeIdHandler : IRequestHandler<GetToponymsByStr
                 predicate: sc => sc.Streetcodes.Any(s => s.Id == request.StreetcodeId),
                 include: scl => scl
                     .Include(sc => sc.Coordinate));
-        toponyms.DistinctBy(x => x.StreetName);
+
+        toponyms = toponyms.DistinctBy(x => x.StreetName).ToList();
+
         if (toponyms is null)
         {
             string errorMsg = $"Cannot find any toponym by the streetcode id: {request.StreetcodeId}";
@@ -38,7 +40,10 @@ public class GetToponymsByStreetcodeIdHandler : IRequestHandler<GetToponymsByStr
             return Result.Fail(new Error(errorMsg));
         }
 
-        var toponymDto = toponyms.GroupBy(x => x.StreetName).Select(group => group.First()).Select(x => _mapper.Map<ToponymDTO>(x));
+        var toponymDto = toponyms.GroupBy(x => x.StreetName)
+            .Select(group => group.First())
+            .Select(x => _mapper.Map<ToponymDTO>(x));
+            
         return Result.Ok(toponymDto);
     }
 }

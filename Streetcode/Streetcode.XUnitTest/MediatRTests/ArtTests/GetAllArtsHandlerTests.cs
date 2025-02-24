@@ -58,5 +58,4 @@ public class GetAllArtsHandlerTests
         var result = await handler.Handle(new GetAllArtsQuery(), CancellationToken.None);
         Assert.True(result.IsFailed);
     }
-
 }

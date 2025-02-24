@@ -45,13 +45,14 @@ public class GetArtsByStreetcodeIdHandlerTests
         };
 
         var artRepository = new Mock<IRepositoryWrapper>();
-        artRepository.Setup(x => x.ArtRepository).Returns(Mock.Of<IArtRepository>(r => r.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(),It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>())
+        artRepository.Setup(x => x.ArtRepository).Returns(Mock.Of<IArtRepository>(r => r.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(), It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>())
                 == Task.FromResult((IEnumerable<Art>)arts)));
 
         _mockMapper.Setup(m => m.Map<IEnumerable<ArtDTO>>(It.IsAny<IEnumerable<Art>>()))
             .Returns(artsDto);
 
-        var handler = new GetArtsByStreetcodeIdHandler(artRepository.Object,
+        var handler = new GetArtsByStreetcodeIdHandler(
+            artRepository.Object,
             _mockMapper.Object,
             _mockBlobService.Object,
             _mockLogger.Object);
@@ -64,10 +65,11 @@ public class GetArtsByStreetcodeIdHandlerTests
     public async Task GetArtsByStreetcodeId_ReturnsFail_WhenNoArtsExist()
     {
         var artRepository = new Mock<IRepositoryWrapper>();
-        artRepository.Setup(x => x.ArtRepository).Returns(Mock.Of<IArtRepository>(r => r.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(),It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>())
+        artRepository.Setup(x => x.ArtRepository).Returns(Mock.Of<IArtRepository>(r => r.GetAllAsync(It.IsAny<Expression<Func<Art, bool>>>(), It.IsAny<Func<IQueryable<Art>, IIncludableQueryable<Art, object>>>())
                 == Task.FromResult((IEnumerable<Art>)null)));
 
-        var handler = new GetArtsByStreetcodeIdHandler(artRepository.Object,
+        var handler = new GetArtsByStreetcodeIdHandler(
+            artRepository.Object,
             _mockMapper.Object,
             _mockBlobService.Object,
             _mockLogger.Object);

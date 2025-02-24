@@ -46,7 +46,7 @@ public class GetArtByIdHandlerTests
     public async Task GetArtById_ReturnsFail_WhenArtDoesNotExist()
     {
         var artRepository = new Mock<IRepositoryWrapper>();
-        artRepository.Setup(x => x.ArtRepository).Returns(Mock.Of<IArtRepository>(r =>r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Art, bool>>>(), null) ==
+        artRepository.Setup(x => x.ArtRepository).Returns(Mock.Of<IArtRepository>(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Art, bool>>>(), null) ==
                 Task.FromResult((Art)null)));
 
         var handler = new GetArtByIdHandler(artRepository.Object, _mockMapper.Object, _mockLogger.Object);
@@ -54,5 +54,4 @@ public class GetArtByIdHandlerTests
 
         Assert.True(result.IsFailed);
     }
-
 }

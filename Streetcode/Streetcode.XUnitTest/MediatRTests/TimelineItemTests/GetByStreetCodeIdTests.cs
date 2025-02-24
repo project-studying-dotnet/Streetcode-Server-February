@@ -29,12 +29,12 @@ public class GetByStreetCodeIdTests
             _mockMapper.Object,
             _mockLoggerService.Object);
     }
-    
+
     [Fact]
     public async Task Handle_ShouldReturnTimelineItems_WhenTheyExist()
     {
         var request = new GetTimelineItemsByStreetcodeIdQuery(1);
-        
+
         var timelineItems = new List<TimelineItem>
         {
             new() { Id = 1, StreetcodeId = request.StreetcodeId, Title = "Event 1" },
@@ -54,9 +54,9 @@ public class GetByStreetCodeIdTests
 
         _mockMapper.Setup(m => m.Map<IEnumerable<TimelineItemDTO>>(timelineItems))
             .Returns(timelineItemsDtos);
-        
+
         var result = await _handler.Handle(request, CancellationToken.None);
-        
+
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNullOrEmpty();
         result.Value.Should().HaveCount(2);
@@ -67,20 +67,21 @@ public class GetByStreetCodeIdTests
     public async Task Handle_GivenInvalidStreetCodeId_ShouldReturnNull()
     {
         var request = new GetTimelineItemsByStreetcodeIdQuery(1);
-        
+
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetAllAsync(
                 It.IsAny<Expression<Func<TimelineItem, bool>>?>(),
                 It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()))
             .ReturnsAsync((IEnumerable<TimelineItem>?)null);
-     
+
         var result = await _handler.Handle(request, CancellationToken.None);
-        
+
         result.IsSuccess.Should().BeFalse();
         result.Errors.Should().ContainSingle()
             .Which.Message.Should().Be($"Cannot find any timeline item by the streetcode id: {request.StreetcodeId}");
 
         _mockLoggerService.Verify(
-            logger => logger.LogError(It.IsAny<GetTimelineItemsByStreetcodeIdQuery>(),
+            logger => logger.LogError(
+                It.IsAny<GetTimelineItemsByStreetcodeIdQuery>(),
                 $"Cannot find any timeline item by the streetcode id: {request.StreetcodeId}"),
             Times.Once);
     }

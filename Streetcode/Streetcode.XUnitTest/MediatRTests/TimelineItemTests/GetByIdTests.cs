@@ -17,7 +17,7 @@ public class GetByIdTests
     private readonly Mock<IMapper> _mockMapper;
     private readonly Mock<ILoggerService> _mockLoggerService;
     private readonly GetTimelineItemByIdHandler _handler;
-    
+
     public GetByIdTests()
     {
         _mockRepositoryWrapper = new Mock<IRepositoryWrapper>();
@@ -69,7 +69,8 @@ public class GetByIdTests
             .Which.Message.Should().Be($"Cannot find a timeline item with corresponding id: {query.Id}");
 
         _mockLoggerService.Verify(
-            logger => logger.LogError(It.IsAny<GetTimelineItemByIdQuery>(),
+            logger => logger.LogError(
+                It.IsAny<GetTimelineItemByIdQuery>(),
                 $"Cannot find a timeline item with corresponding id: {query.Id}"),
             Times.Once);
     }

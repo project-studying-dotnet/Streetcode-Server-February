@@ -44,8 +44,7 @@ public class GetAllTimelineItemsHandlerTests
 
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetAllAsync(
                 It.IsAny<Expression<Func<TimelineItem, bool>>?>(),
-                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()
-            ))
+                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()))
             .ReturnsAsync(timelineItems);
 
         var timelineItemDtos = new List<TimelineItemDTO>
@@ -56,9 +55,9 @@ public class GetAllTimelineItemsHandlerTests
 
         _mockMapper.Setup(mapper => mapper.Map<IEnumerable<TimelineItemDTO>>(timelineItems))
             .Returns(timelineItemDtos);
-        
+
         var result = await _handler.Handle(query, CancellationToken.None);
-        
+
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().HaveCount(2);
         result.Value.Should().BeEquivalentTo(timelineItemDtos);
@@ -71,12 +70,11 @@ public class GetAllTimelineItemsHandlerTests
 
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetAllAsync(
                 It.IsAny<Expression<Func<TimelineItem, bool>>?>(),
-                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()
-            ))
+                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()))
             .ReturnsAsync((IEnumerable<TimelineItem>?)null);
-        
+
         var result = await _handler.Handle(query, CancellationToken.None);
-        
+
         result.IsSuccess.Should().BeFalse();
         result.Errors.Should().ContainSingle()
             .Which.Message.Should().Be("Cannot find any timelineItem");

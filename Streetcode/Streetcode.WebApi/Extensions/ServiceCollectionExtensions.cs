@@ -25,6 +25,34 @@ using Streetcode.BLL.Interfaces.Text;
 using Streetcode.BLL.Services.Text;
 using Serilog.Events;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Repositories.Interfaces;
+using Streetcode.DAL.Repositories.Interfaces.Newss;
+using Streetcode.DAL.Repositories.Interfaces.Streetcode.TextContent;
+using Streetcode.DAL.Repositories.Interfaces.Team;
+using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
+using Streetcode.DAL.Repositories.Interfaces.Media.Images;
+using Streetcode.DAL.Repositories.Interfaces.Partners;
+using Streetcode.DAL.Repositories.Interfaces.Source;
+using Streetcode.DAL.Repositories.Interfaces.Streetcode;
+using Streetcode.DAL.Repositories.Interfaces.Analytics;
+using Streetcode.DAL.Repositories.Interfaces.Timeline;
+using Streetcode.DAL.Repositories.Interfaces.Toponyms;
+using Streetcode.DAL.Repositories.Interfaces.Transactions;
+using Streetcode.DAL.Repositories.Interfaces.Users;
+using Streetcode.DAL.Repositories.Realizations.Newss;
+using Streetcode.DAL.Repositories.Realizations.Streetcode.TextContent;
+using Streetcode.DAL.Repositories.Realizations.Media.Images;
+using Streetcode.DAL.Repositories.Realizations.Team;
+using Streetcode.DAL.Repositories.Realizations.Media;
+using Streetcode.DAL.Repositories.Realizations.AdditionalContent;
+using Streetcode.DAL.Repositories.Realizations.Partners;
+using Streetcode.DAL.Repositories.Realizations.Source;
+using Streetcode.DAL.Repositories.Realizations.Streetcode;
+using Streetcode.DAL.Repositories.Realizations.Analytics;
+using Streetcode.DAL.Repositories.Realizations.Timeline;
+using Streetcode.DAL.Repositories.Realizations.Toponyms;
+using Streetcode.DAL.Repositories.Realizations.Transactions;
+using Streetcode.DAL.Repositories.Realizations.Users;
 
 namespace Streetcode.WebApi.Extensions;
 
@@ -33,6 +61,41 @@ public static class ServiceCollectionExtensions
     public static void AddRepositoryServices(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+        services.AddScoped<INewsRepository, NewsRepository>();
+        services.AddScoped<IFactRepository, FactRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
+        services.AddScoped<ITeamRepository, TeamRepository>();
+        services.AddScoped<ITeamPositionRepository, TeamPositionRepository>();
+        services.AddScoped<IAudioRepository, AudioRepository>();
+        services.AddScoped<IStreetcodeCoordinateRepository, StreetcodeCoordinateRepository>();
+        services.AddScoped<IVideoRepository, VideoRepository>();
+        services.AddScoped<IArtRepository, ArtRepository>();
+        services.AddScoped<IStreetcodeArtRepository, StreetcodeArtRepository>();
+        services.AddScoped<IPartnersRepository, PartnersRepository>();
+        services.AddScoped<ISourceCategoryRepository, SourceCategoryRepository>();
+        services.AddScoped<IStreetcodeCategoryContentRepository, StreetcodeCategoryContentRepository>();
+        services.AddScoped<IRelatedFigureRepository, RelatedFigureRepository>();
+        services.AddScoped<IStreetcodeRepository, StreetcodeRepository>();
+        services.AddScoped<ISubtitleRepository, SubtitleRepository>();
+        services.AddScoped<IStatisticRecordRepository, StatisticRecordsRepository>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<ITermRepository, TermRepository>();
+        services.AddScoped<ITextRepository, TextRepository>();
+        services.AddScoped<ITimelineRepository, TimelineRepository>();
+        services.AddScoped<IToponymRepository, ToponymRepository>();
+        services.AddScoped<ITransactLinksRepository, TransactLinksRepository>();
+        services.AddScoped<IHistoricalContextRepository, HistoricalContextRepository>();
+        services.AddScoped<IPartnerSourceLinkRepository, PartnerSourceLinkRepository>();
+        services.AddScoped<IRelatedTermRepository, RelatedTermRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IStreetcodeTagIndexRepository, StreetcodeTagIndexRepository>();
+        services.AddScoped<IPartnerStreetcodeRepository, PartnerStreetcodeRepository>();
+        services.AddScoped<IPositionRepository, PositionRepository>();
+        services.AddScoped<ITeamLinkRepository, TeamLinkRepository>();
+        services.AddScoped<IImageDetailsRepository, ImageDetailsRepository>();
+        services.AddScoped<IHistoricalContextTimelineRepository, HistoricalContextTimelineRepository>();
+        services.AddScoped<IStreetcodeToponymRepository, StreetcodeToponymRepository>();
+        services.AddScoped<IStreetcodeImageRepository, StreetcodeImageRepository>();
     }
 
     public static void AddCustomServices(this IServiceCollection services)

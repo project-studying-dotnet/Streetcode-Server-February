@@ -2,6 +2,7 @@
 using MediatR;
 using Streetcode.BLL.DTO.Sources;
 
-namespace Streetcode.BLL.MediatR.Sources.SourceLink.GetCategoriesByStreetcodeId;
+namespace Streetcode.BLL.MediatR.Sources.SourceLinkCategory.GetCategoriesByStreetcodeId;
 
-public record GetCategoriesByStreetcodeIdQuery(int StreetcodeId) : IRequest<Result<IEnumerable<SourceLinkCategoryDTO>>>;
+public record GetCategoriesByStreetcodeIdQuery(int StreetcodeId)
+    : IRequest<Result<IEnumerable<SourceLinkCategoryDTO>>>;

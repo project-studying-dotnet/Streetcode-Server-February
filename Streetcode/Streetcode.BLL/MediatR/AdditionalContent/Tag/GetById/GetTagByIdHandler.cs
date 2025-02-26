@@ -7,7 +7,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.AdditionalContent.Tag.GetById;
 
-public class GetTagByIdHandler : IRequestHandler<GetTagByIdQuery, Result<TagDTO>>
+public class GetTagByIdHandler
+    : IRequestHandler<GetTagByIdQuery, Result<TagDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -28,6 +29,7 @@ public class GetTagByIdHandler : IRequestHandler<GetTagByIdQuery, Result<TagDTO>
         {
             string errorMsg = $"Cannot find a Tag with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

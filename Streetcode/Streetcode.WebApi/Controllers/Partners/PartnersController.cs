@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Streetcode.BLL.DTO.Partners;
 using Streetcode.BLL.MediatR.Partners.Create;
 using Streetcode.BLL.MediatR.Partners.GetAll;
-using Streetcode.BLL.MediatR.Partners.GetAllPartnerShort;
+using Streetcode.BLL.MediatR.Partners.GetAllPartnersShort;
 using Streetcode.BLL.MediatR.Partners.GetById;
 using Streetcode.BLL.MediatR.Partners.GetByStreetcodeId;
 

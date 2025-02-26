@@ -4,32 +4,39 @@ using MediatR;
 using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.ResultVariations;
-using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetByStreetcodeId
+namespace Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetByStreetcodeId;
+
+public class GetSubtitlesByStreetcodeIdHandler
+            : IRequestHandler<GetSubtitlesByStreetcodeIdQuery, Result<SubtitleDTO>>
 {
-    public class GetSubtitlesByStreetcodeIdHandler : IRequestHandler<GetSubtitlesByStreetcodeIdQuery, Result<SubtitleDTO>>
+    private readonly IMapper _mapper;
+    private readonly IRepositoryWrapper _repositoryWrapper;
+    private readonly ILoggerService _logger;
+
+    public GetSubtitlesByStreetcodeIdHandler(IRepositoryWrapper repositoryWrapper, IMapper mapper, ILoggerService logger)
     {
-        private readonly IMapper _mapper;
-        private readonly IRepositoryWrapper _repositoryWrapper;
-        private readonly ILoggerService _logger;
+        _repositoryWrapper = repositoryWrapper;
+        _mapper = mapper;
+        _logger = logger;
+    }
 
-        public GetSubtitlesByStreetcodeIdHandler(IRepositoryWrapper repositoryWrapper, IMapper mapper, ILoggerService logger)
+    public async Task<Result<SubtitleDTO>> Handle(GetSubtitlesByStreetcodeIdQuery request, CancellationToken cancellationToken)
+    {
+        var subtitle = await _repositoryWrapper.SubtitleRepository
+            .GetFirstOrDefaultAsync(Subtitle => Subtitle.StreetcodeId == request.StreetcodeId);
+
+        if (subtitle == null)
         {
-            _repositoryWrapper = repositoryWrapper;
-            _mapper = mapper;
-            _logger = logger;
+            _logger.LogWarning($"No subtitle found for StreetcodeId: {request.StreetcodeId}");
+
+            // return Result.Fail("Subtitle not found");
         }
 
-        public async Task<Result<SubtitleDTO>> Handle(GetSubtitlesByStreetcodeIdQuery request, CancellationToken cancellationToken)
-        {
-            var subtitle = await _repositoryWrapper.SubtitleRepository
-                .GetFirstOrDefaultAsync(Subtitle => Subtitle.StreetcodeId == request.StreetcodeId);
+        NullResult<SubtitleDTO> result = new NullResult<SubtitleDTO>();
+        result.WithValue(_mapper.Map<SubtitleDTO>(subtitle));
 
-            NullResult<SubtitleDTO> result = new NullResult<SubtitleDTO>();
-            result.WithValue(_mapper.Map<SubtitleDTO>(subtitle));
-            return result;
-        }
+        return result;
     }
 }

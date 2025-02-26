@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Update;
 
-public class UpdateCoordinateHandler : IRequestHandler<UpdateCoordinateCommand, Result<Unit>>
+public class UpdateCoordinateHandler
+    : IRequestHandler<UpdateCoordinateCommand, Result<Unit>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -28,6 +29,7 @@ public class UpdateCoordinateHandler : IRequestHandler<UpdateCoordinateCommand, 
         _repositoryWrapper.StreetcodeCoordinateRepository.Update(streetcodeCoordinate);
 
         var resultIsSuccess = await _repositoryWrapper.SaveChangesAsync() > 0;
+
         return resultIsSuccess ? Result.Ok(Unit.Value) : Result.Fail(new Error("Failed to update a streetcodeCoordinate"));
     }
 }

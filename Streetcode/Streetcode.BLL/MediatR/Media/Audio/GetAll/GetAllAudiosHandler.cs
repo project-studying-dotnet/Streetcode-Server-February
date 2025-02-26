@@ -2,14 +2,14 @@
 using FluentResults;
 using MediatR;
 using Streetcode.BLL.DTO.Media.Audio;
-using Streetcode.BLL.DTO.Media;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Audio.GetAll;
 
-public class GetAllAudiosHandler : IRequestHandler<GetAllAudiosQuery, Result<IEnumerable<AudioDTO>>>
+public class GetAllAudiosHandler
+    : IRequestHandler<GetAllAudiosQuery, Result<IEnumerable<AudioDTO>>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -32,6 +32,7 @@ public class GetAllAudiosHandler : IRequestHandler<GetAllAudiosQuery, Result<IEn
         {
             const string errorMsg = "Cannot find any audios";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

@@ -8,7 +8,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Image.Create;
 
-public class CreateImageHandler : IRequestHandler<CreateImageCommand, Result<ImageDTO>>
+public class CreateImageHandler
+    : IRequestHandler<CreateImageCommand, Result<ImageDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -53,6 +54,7 @@ public class CreateImageHandler : IRequestHandler<CreateImageCommand, Result<Ima
         {
             const string errorMsg = "Failed to create an image";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
     }

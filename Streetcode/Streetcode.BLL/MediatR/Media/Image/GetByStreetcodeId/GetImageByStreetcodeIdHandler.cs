@@ -9,7 +9,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Image.GetByStreetcodeId;
 
-public class GetImageByStreetcodeIdHandler : IRequestHandler<GetImageByStreetcodeIdQuery, Result<IEnumerable<ImageDTO>>>
+public class GetImageByStreetcodeIdHandler
+    : IRequestHandler<GetImageByStreetcodeIdQuery, Result<IEnumerable<ImageDTO>>>
 {
     private readonly IBlobService _blobService;
     private readonly IMapper _mapper;
@@ -35,6 +36,7 @@ public class GetImageByStreetcodeIdHandler : IRequestHandler<GetImageByStreetcod
         {
             string errorMsg = $"Cannot find an image with the corresponding streetcode id: {request.StreetcodeId}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

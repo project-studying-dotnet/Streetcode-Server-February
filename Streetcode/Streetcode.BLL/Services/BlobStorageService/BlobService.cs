@@ -8,16 +8,16 @@ namespace Streetcode.BLL.Services.BlobStorageService;
 
 public class BlobService : IBlobService
 {
-    private readonly BlobEnvironmentVariables _envirovment;
+    private readonly BlobEnvironmentVariables _environment;
     private readonly string _keyCrypt;
     private readonly string _blobPath;
     private readonly IRepositoryWrapper _repositoryWrapper;
 
     public BlobService(IOptions<BlobEnvironmentVariables> environment, IRepositoryWrapper? repositoryWrapper = null)
     {
-        _envirovment = environment.Value;
-        _keyCrypt = _envirovment.BlobStoreKey;
-        _blobPath = _envirovment.BlobStorePath;
+        _environment = environment.Value;
+        _keyCrypt = _environment.BlobStoreKey;
+        _blobPath = _environment.BlobStorePath;
         _repositoryWrapper = repositoryWrapper;
     }
 
@@ -120,6 +120,7 @@ public class BlobService : IBlobService
         {
             Encoding enc = Encoding.UTF8;
             byte[] result = hash.ComputeHash(enc.GetBytes(createdFileName));
+
             return Convert.ToBase64String(result).Replace('/', '_');
         }
     }

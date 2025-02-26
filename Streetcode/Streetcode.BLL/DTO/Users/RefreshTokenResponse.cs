@@ -1,6 +1,7 @@
 ﻿namespace Streetcode.BLL.DTO.Users;
 
-public class RefreshTokenDTO
+public class RefreshTokenResponse
 {
     public string Token { get; set; }
+    public DateTime ExpireAt { get; set; }
 }

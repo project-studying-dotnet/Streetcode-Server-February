@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Streetcode.DAL.Persistence.Migrations
 {
-    public partial class Initial : Migration
+    /// <inheritdoc />
+    public partial class InitialCreate : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
@@ -211,7 +213,7 @@ namespace Streetcode.DAL.Persistence.Migrations
                     EventStartOrPersonBirthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EventEndOrPersonDeathDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AudioId = table.Column<int>(type: "int", nullable: true),
-                    StreetcodeType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StreetcodeType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     Rank = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
@@ -309,7 +311,7 @@ namespace Streetcode.DAL.Persistence.Migrations
                     LogoId = table.Column<int>(type: "int", nullable: false),
                     IsKeyPartner = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
                     IsVisibleEverywhere = table.Column<bool>(type: "bit", nullable: false),
-                    TargetUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    TargetUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     UrlTitle = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Description = table.Column<string>(type: "nvarchar(600)", maxLength: 600, nullable: true)
                 },
@@ -402,8 +404,8 @@ namespace Streetcode.DAL.Persistence.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Latitude = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    Longtitude = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
-                    CoordinateType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Longitude = table.Column<decimal>(type: "decimal(18,4)", nullable: false),
+                    CoordinateType = table.Column<string>(type: "nvarchar(21)", maxLength: 21, nullable: false),
                     StreetcodeId = table.Column<int>(type: "int", nullable: true),
                     ToponymId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -720,7 +722,6 @@ namespace Streetcode.DAL.Persistence.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     LogoType = table.Column<byte>(type: "tinyint", nullable: false),
                     TargetUrl = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     PartnerId = table.Column<int>(type: "int", nullable: false)
@@ -1119,6 +1120,7 @@ namespace Streetcode.DAL.Persistence.Migrations
                 column: "StreetcodeId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

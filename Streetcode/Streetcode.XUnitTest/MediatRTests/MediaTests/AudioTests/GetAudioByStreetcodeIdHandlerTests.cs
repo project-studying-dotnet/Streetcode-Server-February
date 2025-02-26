@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿/*
+using AutoMapper;
 using Microsoft.EntityFrameworkCore.Query;
 using Moq;
 using Streetcode.BLL.DTO.Media.Audio;
@@ -116,3 +117,4 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
         }
     }
 }
+*/

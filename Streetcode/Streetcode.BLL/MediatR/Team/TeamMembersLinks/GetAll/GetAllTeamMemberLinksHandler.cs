@@ -8,20 +8,20 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Team.TeamMembersLinks.GetAll
 {
-    public class GetAllTeamLinkHandler : IRequestHandler<GetAllTeamLinkQuery, Result<IEnumerable<TeamMemberLinkDTO>>>
+    public class GetAllTeamMemberLinksHandler : IRequestHandler<GetAllTeamMemberLinksQuery, Result<IEnumerable<TeamMemberLinkDTO>>>
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryWrapper _repositoryWrapper;
         private readonly ILoggerService _logger;
 
-        public GetAllTeamLinkHandler(IRepositoryWrapper repositoryWrapper, IMapper mapper, ILoggerService logger)
+        public GetAllTeamMemberLinksHandler(IRepositoryWrapper repositoryWrapper, IMapper mapper, ILoggerService logger)
         {
             _repositoryWrapper = repositoryWrapper;
             _mapper = mapper;
             _logger = logger;
         }
 
-        public async Task<Result<IEnumerable<TeamMemberLinkDTO>>> Handle(GetAllTeamLinkQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<TeamMemberLinkDTO>>> Handle(GetAllTeamMemberLinksQuery request, CancellationToken cancellationToken)
         {
             var teamLinks = await _repositoryWrapper
                 .TeamLinkRepository

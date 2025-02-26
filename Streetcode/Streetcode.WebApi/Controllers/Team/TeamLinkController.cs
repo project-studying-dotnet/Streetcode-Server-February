@@ -13,13 +13,13 @@ namespace Streetcode.WebApi.Controllers.Team
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            return HandleResult(await Mediator.Send(new GetAllTeamLinkQuery()));
+            return HandleResult(await Mediator.Send(new GetAllTeamMemberLinksQuery()));
         }
 
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] TeamMemberLinkDTO teamMemberLink)
         {
-            return HandleResult(await Mediator.Send(new CreateTeamLinkQuery(teamMemberLink)));
+            return HandleResult(await Mediator.Send(new CreateTeamMemberLinkCommand(teamMemberLink)));
         }
     }
 }

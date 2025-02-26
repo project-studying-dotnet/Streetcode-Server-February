@@ -8,20 +8,20 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Team.TeamMembersLinks.Create
 {
-    public class CreateTeamLinkHandler : IRequestHandler<CreateTeamLinkQuery, Result<TeamMemberLinkDTO>>
+    public class CreateTeamMemberLinkHandler : IRequestHandler<CreateTeamMemberLinkCommand, Result<TeamMemberLinkDTO>>
     {
         private readonly IMapper _mapper;
         private readonly IRepositoryWrapper _repository;
         private readonly ILoggerService _logger;
 
-        public CreateTeamLinkHandler(IMapper mapper, IRepositoryWrapper repository, ILoggerService logger)
+        public CreateTeamMemberLinkHandler(IMapper mapper, IRepositoryWrapper repository, ILoggerService logger)
         {
             _mapper = mapper;
             _repository = repository;
             _logger = logger;
         }
 
-        public async Task<Result<TeamMemberLinkDTO>> Handle(CreateTeamLinkQuery request, CancellationToken cancellationToken)
+        public async Task<Result<TeamMemberLinkDTO>> Handle(CreateTeamMemberLinkCommand request, CancellationToken cancellationToken)
         {
             var teamMemberLink = _mapper.Map<DAL.Entities.Team.TeamMemberLink>(request.teamMember);
 

@@ -76,7 +76,7 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
             // Assert
             Assert.True(result.IsSuccess);
             Assert.Equal(partnerDto, result.Value);
-            _mockRepo.Verify(r => r.SaveChanges(), Times.Exactly(2));
+            _mockRepo.Verify(r => r.SaveChangesAsync(), Times.Exactly(2));
         }
 
         [Fact]

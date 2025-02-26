@@ -1,7 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using FluentResults;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Moq;
 using Streetcode.BLL.DTO.Partners;
 using Streetcode.BLL.Interfaces.Logging;
@@ -34,26 +40,26 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAll
             // Arrange
             var partners = new List<Partner>
             {
-                new Partner
-                {
-                    Id = 1,
-                    Title = "Test Partner",
-                    PartnerSourceLinks = new List<PartnerSourceLink>(),
-                    Streetcodes = new List<StreetcodeContent>()
-                }
+                new Partner { Id = 1, Title = "Test Partner" }
             };
 
             var partnerDtos = new List<PartnerDTO>
             {
-                new PartnerDTO { Id = 1, Title = "Test Partner" }
+                new PartnerDTO
+                {
+                    Id = 1,
+                    Title = "Test Partner",
+                    Description = null,
+                    IsKeyPartner = false,
+                    IsVisibleEverywhere = false,
+                    LogoId = 0
+                }
             };
 
-            _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
-                    null,
-                    It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+            _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(null, null))
                 .ReturnsAsync(partners);
 
-            _mockMapper.Setup(m => m.Map<IEnumerable<PartnerDTO>>(partners))
+            _mockMapper.Setup(m => m.Map<IEnumerable<PartnerDTO>>(It.IsAny<IEnumerable<Partner>>()))
                 .Returns(partnerDtos);
 
             // Act

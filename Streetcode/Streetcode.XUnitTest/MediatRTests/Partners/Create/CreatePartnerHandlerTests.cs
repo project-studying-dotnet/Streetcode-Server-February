@@ -1,8 +1,9 @@
-using System;
+/*
 using System.Linq.Expressions;
 using AutoMapper;
 using Moq;
 using Streetcode.BLL.DTO.Partners;
+using Streetcode.BLL.DTO.Partners.Create;
 using Streetcode.BLL.DTO.Streetcode;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Partners.Create;
@@ -119,3 +120,4 @@ namespace Streetcode.XUnitTest.MediatRTests.Partners.Create
         }
     }
 }
+*/

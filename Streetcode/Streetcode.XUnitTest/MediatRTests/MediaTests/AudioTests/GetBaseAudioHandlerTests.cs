@@ -1,11 +1,11 @@
 ﻿using FluentAssertions;
 using Moq;
-using Repositories.Interfaces;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetBaseAudio;
 using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Streetcode.DAL.Repositories.Interfaces.Media;
 using System;
 using System.Collections.Generic;
 using System.Linq;

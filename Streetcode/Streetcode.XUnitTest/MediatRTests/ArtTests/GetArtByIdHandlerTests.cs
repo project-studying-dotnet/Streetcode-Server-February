@@ -11,8 +11,8 @@ using Streetcode.BLL.DTO.Media.Art;
 using Streetcode.BLL.MediatR.Media.Art.GetById;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.BLL.Interfaces.Logging;
-using Repositories.Interfaces;
 using Streetcode.DAL.Entities.Media.Images;
+using Streetcode.DAL.Repositories.Interfaces.Media.Images;
 
 public class GetArtByIdHandlerTests
 {

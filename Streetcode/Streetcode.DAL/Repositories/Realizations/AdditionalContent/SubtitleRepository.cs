@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Realizations.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.AdditionalContent;
 
-public class SubtitleRepository : RepositoryBase<Subtitle>, ISubtitleRepository
+public class SubtitleRepository
+    : RepositoryBase<Subtitle>, ISubtitleRepository
 {
     public SubtitleRepository(StreetcodeDbContext dbContext)
         : base(dbContext)

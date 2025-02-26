@@ -31,14 +31,14 @@ public class GetToponymsByStreetcodeIdHandler : IRequestHandler<GetToponymsByStr
                 include: scl => scl
                     .Include(sc => sc.Coordinate));
 
-        toponyms = toponyms.DistinctBy(x => x.StreetName).ToList();
-
-        if (toponyms is null)
+        if (toponyms == null || !toponyms.Any())
         {
             string errorMsg = $"Cannot find any toponym by the streetcode id: {request.StreetcodeId}";
             _logger.LogError(request, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
+
+        toponyms = toponyms.DistinctBy(x => x.StreetName).ToList();
 
         var toponymDto = toponyms.GroupBy(x => x.StreetName)
             .Select(group => group.First())

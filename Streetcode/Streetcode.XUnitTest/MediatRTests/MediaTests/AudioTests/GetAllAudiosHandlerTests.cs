@@ -6,12 +6,6 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetAll;
 using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
@@ -35,8 +29,7 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
                 _repositoryWrapperMock.Object,
                 _mapperMock.Object,
                 _blobServiceMock.Object,
-                _loggerMock.Object
-            );
+                _loggerMock.Object);
         }
 
         [Fact]
@@ -97,4 +90,3 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
         }
     }
 }
-

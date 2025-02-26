@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Linq.Expressions;
+using FluentAssertions;
 using Moq;
 using Repositories.Interfaces;
 using Streetcode.BLL.Interfaces.BlobStorage;
@@ -6,12 +7,6 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.Delete;
 using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
@@ -39,7 +34,7 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
         public async Task Handle_ShouldReturnFailure_WhenAudioNotFound()
         {
             // Arrange
-            var command = new DeleteAudioCommand ((int)Guid.NewGuid().GetHashCode());
+            var command = new DeleteAudioCommand((int)Guid.NewGuid().GetHashCode());
             _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
                 .ReturnsAsync((Audio)null);
 
@@ -55,7 +50,7 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
         public async Task Handle_ShouldDeleteAudioAndReturnSuccess_WhenAudioExists()
         {
             // Arrange
-            var command = new DeleteAudioCommand ((int)Guid.NewGuid().GetHashCode());
+            var command = new DeleteAudioCommand((int)Guid.NewGuid().GetHashCode());
             var audio = new Audio { Id = command.Id, BlobName = "test-blob" };
 
             _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
@@ -76,7 +71,7 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
         public async Task Handle_ShouldReturnFailure_WhenDeletionFails()
         {
             // Arrange
-            var command = new DeleteAudioCommand ((int)Guid.NewGuid().GetHashCode());
+            var command = new DeleteAudioCommand((int)Guid.NewGuid().GetHashCode());
             var audio = new Audio { Id = command.Id, BlobName = "test-blob" };
 
             _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
@@ -92,4 +87,3 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
         }
     }
 }
-

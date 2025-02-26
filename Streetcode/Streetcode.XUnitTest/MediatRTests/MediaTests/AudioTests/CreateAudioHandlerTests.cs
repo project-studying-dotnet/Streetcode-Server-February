@@ -6,16 +6,10 @@ using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.Create;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
 {
-    
     public class CreateAudioHandlerTests
     {
         private readonly Mock<IBlobService> _blobServiceMock;
@@ -35,8 +29,7 @@ namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests
                 _blobServiceMock.Object,
                 _repositoryWrapperMock.Object,
                 _mapperMock.Object,
-                _loggerMock.Object
-            );
+                _loggerMock.Object);
         }
 
         [Fact]

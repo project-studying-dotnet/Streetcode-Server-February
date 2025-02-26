@@ -19,20 +19,20 @@ using Xunit;
 /// </summary>
 public class GetAllHistoricalContextHandlerTests
 {
-    private readonly Mock<IRepositoryWrapper> repositoryWrapperMock;
-    private readonly Mock<IMapper> mapperMock;
-    private readonly Mock<ILoggerService> loggerMock;
-    private readonly GetAllHistoricalContextHandler sut;
+    private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock;
+    private readonly Mock<IMapper> _mapperMock;
+    private readonly Mock<ILoggerService> _loggerMock;
+    private readonly GetAllHistoricalContextHandler _sut;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="GetAllHistoricalContextHandlerTests"/> class.
     /// </summary>
     public GetAllHistoricalContextHandlerTests()
     {
-        this.repositoryWrapperMock = new Mock<IRepositoryWrapper>();
-        this.mapperMock = new Mock<IMapper>();
-        this.loggerMock = new Mock<ILoggerService>();
-        this.sut = new GetAllHistoricalContextHandler(this.repositoryWrapperMock.Object, this.mapperMock.Object, this.loggerMock.Object);
+        _repositoryWrapperMock = new Mock<IRepositoryWrapper>();
+        _mapperMock = new Mock<IMapper>();
+        _loggerMock = new Mock<ILoggerService>();
+        _sut = new GetAllHistoricalContextHandler(_repositoryWrapperMock.Object, _mapperMock.Object, _loggerMock.Object);
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class GetAllHistoricalContextHandlerTests
             new () { Id = 2, Title = "Title 2" },
         };
 
-        this.repositoryWrapperMock.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(
+        _repositoryWrapperMock.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(
             It.IsAny<Expression<Func<HistoricalContext, bool>>?>(),
             It.IsAny<Func<IQueryable<HistoricalContext>, IIncludableQueryable<HistoricalContext, object>>?>()))
         .ReturnsAsync(historicalContexts);
@@ -59,10 +59,10 @@ public class GetAllHistoricalContextHandlerTests
             new () { Id = 1, Title = "Title 2" },
         };
 
-        this.mapperMock.Setup(mapper => mapper.Map<IEnumerable<HistoricalContextDTO>>(historicalContexts))
+        _mapperMock.Setup(mapper => mapper.Map<IEnumerable<HistoricalContextDTO>>(historicalContexts))
             .Returns(historicalContextDtos);
 
-        var result = await this.sut.Handle(new GetAllHistoricalContextQuery(), CancellationToken.None);
+        var result = await _sut.Handle(new GetAllHistoricalContextQuery(), CancellationToken.None);
 
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().HaveCount(2);
@@ -81,17 +81,17 @@ public class GetAllHistoricalContextHandlerTests
         var query = new GetAllHistoricalContextQuery();
         var errorMsg = "Cannot find any historical contexts";
 
-        this.repositoryWrapperMock.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(
+        _repositoryWrapperMock.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(
             It.IsAny<Expression<Func<HistoricalContext, bool>>?>(),
             It.IsAny<Func<IQueryable<HistoricalContext>, IIncludableQueryable<HistoricalContext, object>>?>()))
         .ReturnsAsync(Enumerable.Empty<HistoricalContext>);
 
-        var result = await this.sut.Handle(query, CancellationToken.None);
+        var result = await _sut.Handle(query, CancellationToken.None);
 
         result.IsSuccess.Should().BeFalse();
         result.Errors.Should().ContainSingle()
             .Which.Message.Should().Be(errorMsg);
-        this.loggerMock.Verify(
+        _loggerMock.Verify(
             logger => logger.LogError(query, errorMsg), Times.Once);
     }
 }

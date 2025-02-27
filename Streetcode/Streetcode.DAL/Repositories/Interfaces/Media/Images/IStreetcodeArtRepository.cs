@@ -3,6 +3,7 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.DAL.Repositories.Interfaces.Media.Images;
 
-public interface IStreetcodeArtRepository : IRepositoryBase<StreetcodeArt>
+public interface IStreetcodeArtRepository
+    : IRepositoryBase<StreetcodeArt>
 {
 }

@@ -3,6 +3,7 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
 
-public interface IStreetcodeCoordinateRepository : IRepositoryBase<StreetcodeCoordinate>
+public interface IStreetcodeCoordinateRepository
+    : IRepositoryBase<StreetcodeCoordinate>
 {
 }

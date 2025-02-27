@@ -7,7 +7,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Text.GetById;
 
-public class GetTextByIdHandler : IRequestHandler<GetTextByIdQuery, Result<TextDTO>>
+public class GetTextByIdHandler
+    : IRequestHandler<GetTextByIdQuery, Result<TextDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -28,6 +29,7 @@ public class GetTextByIdHandler : IRequestHandler<GetTextByIdQuery, Result<TextD
         {
             string errorMsg = $"Cannot find any text with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

@@ -16,5 +16,5 @@ public class Coordinate
 
     [Required]
     [Column(TypeName = "decimal(18,4)")]
-    public decimal Longtitude { get; set; }
+    public decimal Longitude { get; set; }
 }

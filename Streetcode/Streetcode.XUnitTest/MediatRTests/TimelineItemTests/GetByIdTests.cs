@@ -1,13 +1,13 @@
+using Xunit;
+using Moq;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore.Query;
-using Moq;
 using Streetcode.BLL.DTO.Timeline;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetById;
 using Streetcode.DAL.Entities.Timeline;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.TimelineItemTests;
 

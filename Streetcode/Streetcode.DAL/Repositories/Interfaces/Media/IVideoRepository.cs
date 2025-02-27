@@ -1,8 +1,9 @@
 ﻿using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Repositories.Interfaces;
+namespace Streetcode.DAL.Repositories.Interfaces.Media;
 
-public interface IVideoRepository : IRepositoryBase<Video>
+public interface IVideoRepository
+    : IRepositoryBase<Video>
 {
 }

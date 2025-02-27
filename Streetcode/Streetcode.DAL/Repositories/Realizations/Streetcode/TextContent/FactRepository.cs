@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Realizations.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.Streetcode.TextContent;
 
-public class FactRepository : RepositoryBase<Fact>, IFactRepository
+public class FactRepository
+    : RepositoryBase<Fact>, IFactRepository
 {
     public FactRepository(StreetcodeDbContext streetcodeDbContext)
         : base(streetcodeDbContext)

@@ -1,6 +1,7 @@
 ﻿using Streetcode.DAL.Enums;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Microsoft.EntityFrameworkCore;
+
 namespace Streetcode.WebApi.Utils;
 
 public class SoftDeletingUtils

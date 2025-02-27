@@ -3,6 +3,7 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.DAL.Repositories.Interfaces.Streetcode.TextContent;
 
-public interface ITextRepository : IRepositoryBase<Text>
+public interface ITextRepository
+    : IRepositoryBase<Text>
 {
 }

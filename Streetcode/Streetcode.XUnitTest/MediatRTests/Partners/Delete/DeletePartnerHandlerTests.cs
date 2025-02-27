@@ -8,7 +8,7 @@ using Streetcode.BLL.MediatR.Partners.Delete;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete
+namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete;
 
 public class DeletePartnerHandlerTests
 {
@@ -41,7 +41,7 @@ public class DeletePartnerHandlerTests
             .Returns(partnerDto);
 
         // Act
-        var result = await _handler.Handle(new DeletePartnerQuery(partnerId), CancellationToken.None);
+        var result = await _handler.Handle(new DeletePartnerCommand(partnerId), CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -59,7 +59,7 @@ public class DeletePartnerHandlerTests
             .ReturnsAsync((Partner)null);
 
         // Act
-        var result = await _handler.Handle(new DeletePartnerQuery(partnerId), CancellationToken.None);
+        var result = await _handler.Handle(new DeletePartnerCommand(partnerId), CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);

@@ -7,7 +7,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Toponyms.GetById;
 
-public class GetToponymByIdHandler : IRequestHandler<GetToponymByIdQuery, Result<ToponymDTO>>
+public class GetToponymByIdHandler
+    : IRequestHandler<GetToponymByIdQuery, Result<ToponymDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -29,6 +30,7 @@ public class GetToponymByIdHandler : IRequestHandler<GetToponymByIdQuery, Result
         {
             string errorMsg = $"Cannot find any toponym with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

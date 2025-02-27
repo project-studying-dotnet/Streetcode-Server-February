@@ -1,6 +1,6 @@
 using Streetcode.BLL.DTO.Streetcode;
 
-namespace Streetcode.BLL.DTO.AdditionalContent;
+namespace Streetcode.BLL.DTO.AdditionalContent.Tag;
 
 public class TagDTO
 {

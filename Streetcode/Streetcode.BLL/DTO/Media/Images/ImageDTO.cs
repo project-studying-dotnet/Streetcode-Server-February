@@ -1,5 +1,3 @@
-using Streetcode.BLL.DTO.Streetcode;
-
 namespace Streetcode.BLL.DTO.Media.Images;
 
 public class ImageDTO
@@ -9,5 +7,5 @@ public class ImageDTO
     public string? BlobName { get; set; }
     public string? Base64 { get; set; }
     public string? MimeType { get; set; }
-    public ImageDetailsDto? ImageDetails { get; set; }
+    public ImageDetailsDTO? ImageDetails { get; set; }
 }

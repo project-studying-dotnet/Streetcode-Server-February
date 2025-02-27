@@ -6,7 +6,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Image.GetBaseImage;
 
-public class GetBaseImageHandler : IRequestHandler<GetBaseImageQuery, Result<MemoryStream>>
+public class GetBaseImageHandler
+    : IRequestHandler<GetBaseImageQuery, Result<MemoryStream>>
 {
     private readonly IBlobService _blobStorage;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -27,6 +28,7 @@ public class GetBaseImageHandler : IRequestHandler<GetBaseImageQuery, Result<Mem
         {
             string errorMsg = $"Cannot find an image with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

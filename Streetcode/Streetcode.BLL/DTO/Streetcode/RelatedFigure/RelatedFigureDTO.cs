@@ -1,4 +1,4 @@
-using Streetcode.BLL.DTO.AdditionalContent;
+using Streetcode.BLL.DTO.AdditionalContent.Tag;
 
 namespace Streetcode.BLL.DTO.Streetcode.RelatedFigure;
 

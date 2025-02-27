@@ -9,7 +9,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Image.GetById;
 
-public class GetImageByIdHandler : IRequestHandler<GetImageByIdQuery, Result<ImageDTO>>
+public class GetImageByIdHandler
+    : IRequestHandler<GetImageByIdQuery, Result<ImageDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -34,6 +35,7 @@ public class GetImageByIdHandler : IRequestHandler<GetImageByIdQuery, Result<Ima
         {
             string errorMsg = $"Cannot find a image with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

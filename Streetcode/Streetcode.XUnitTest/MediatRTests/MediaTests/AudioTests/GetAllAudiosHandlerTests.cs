@@ -6,7 +6,7 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetAll;
 using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-﻿using Xunit;
+using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
 

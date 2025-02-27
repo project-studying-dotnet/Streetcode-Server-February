@@ -6,7 +6,7 @@ using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.Create;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-﻿using Xunit;
+using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
 

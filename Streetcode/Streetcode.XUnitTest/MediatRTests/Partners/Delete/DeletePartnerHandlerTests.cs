@@ -1,72 +1,67 @@
-using System;
 using System.Linq.Expressions;
-using System.Threading;
-using System.Threading.Tasks;
 using AutoMapper;
-using FluentResults;
+using Xunit;
 using Moq;
 using Streetcode.BLL.DTO.Partners;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Partners.Delete;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.Partners.Delete
+
+public class DeletePartnerHandlerTests
 {
-    public class DeletePartnerHandlerTests
+    private readonly Mock<IRepositoryWrapper> _mockRepo;
+    private readonly Mock<IMapper> _mockMapper;
+    private readonly Mock<ILoggerService> _mockLogger;
+    private readonly DeletePartnerHandler _handler;
+
+    public DeletePartnerHandlerTests()
     {
-        private readonly Mock<IRepositoryWrapper> _mockRepo;
-        private readonly Mock<IMapper> _mockMapper;
-        private readonly Mock<ILoggerService> _mockLogger;
-        private readonly DeletePartnerHandler _handler;
+        _mockRepo = new Mock<IRepositoryWrapper>();
+        _mockMapper = new Mock<IMapper>();
+        _mockLogger = new Mock<ILoggerService>();
+        _handler = new DeletePartnerHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+    }
 
-        public DeletePartnerHandlerTests()
-        {
-            _mockRepo = new Mock<IRepositoryWrapper>();
-            _mockMapper = new Mock<IMapper>();
-            _mockLogger = new Mock<ILoggerService>();
-            _handler = new DeletePartnerHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
-        }
+    [Fact]
+    public async Task Handle_WhenPartnerExists_ReturnsSuccessResult()
+    {
+        // Arrange
+        var partnerId = 1;
+        var partner = new Partner { Id = partnerId };
+        var partnerDto = new PartnerDTO { Id = partnerId };
 
-        [Fact]
-        public async Task Handle_WhenPartnerExists_ReturnsSuccessResult()
-        {
-            // Arrange
-            var partnerId = 1;
-            var partner = new Partner { Id = partnerId };
-            var partnerDto = new PartnerDTO { Id = partnerId };
+        _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
+            It.IsAny<Expression<Func<Partner, bool>>>(), null))
+            .ReturnsAsync(partner);
 
-            _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Partner, bool>>>(), null))
-                .ReturnsAsync(partner);
+        _mockMapper.Setup(m => m.Map<PartnerDTO>(partner))
+            .Returns(partnerDto);
 
-            _mockMapper.Setup(m => m.Map<PartnerDTO>(partner))
-                .Returns(partnerDto);
+        // Act
+        var result = await _handler.Handle(new DeletePartnerQuery(partnerId), CancellationToken.None);
 
-            // Act
-            var result = await _handler.Handle(new DeletePartnerQuery(partnerId), CancellationToken.None);
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal(partnerDto, result.Value);
+    }
 
-            // Assert
-            Assert.True(result.IsSuccess);
-            Assert.Equal(partnerDto, result.Value);
-        }
+    [Fact]
+    public async Task Handle_WhenPartnerNotFound_ReturnsFailure()
+    {
+        // Arrange
+        var partnerId = 1;
 
-        [Fact]
-        public async Task Handle_WhenPartnerNotFound_ReturnsFailure()
-        {
-            // Arrange
-            var partnerId = 1;
+        _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
+            It.IsAny<Expression<Func<Partner, bool>>>(), null))
+            .ReturnsAsync((Partner)null);
 
-            _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Partner, bool>>>(), null))
-                .ReturnsAsync((Partner)null);
+        // Act
+        var result = await _handler.Handle(new DeletePartnerQuery(partnerId), CancellationToken.None);
 
-            // Act
-            var result = await _handler.Handle(new DeletePartnerQuery(partnerId), CancellationToken.None);
-
-            // Assert
-            Assert.True(result.IsFailed);
-        }
+        // Assert
+        Assert.True(result.IsFailed);
     }
 }

@@ -1,4 +1,3 @@
-﻿using Xunit;
 using Moq;
 using AutoMapper;
 using Streetcode.BLL.DTO.Media.Audio;
@@ -7,6 +6,7 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetAll;
 using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
 
@@ -24,7 +24,6 @@ public class GetAllAudiosHandlerTests
         _mapperMock = new Mock<IMapper>();
         _blobServiceMock = new Mock<IBlobService>();
         _loggerMock = new Mock<ILoggerService>();
-
         _handler = new GetAllAudiosHandler(
             _repositoryWrapperMock.Object,
             _mapperMock.Object,

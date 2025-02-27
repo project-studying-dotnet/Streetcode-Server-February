@@ -1,8 +1,7 @@
 ﻿using System.Linq.Expressions;
-using Xunit;
-using Moq;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore.Query;
+using Moq;
 using Streetcode.BLL.DTO.Media.Audio;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
@@ -11,6 +10,7 @@ using Streetcode.BLL.MediatR.ResultVariations;
 using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
 
@@ -28,7 +28,6 @@ public class GetAudioByStreetcodeIdHandlerTests
         _mapperMock = new Mock<IMapper>();
         _blobServiceMock = new Mock<IBlobService>();
         _loggerMock = new Mock<ILoggerService>();
-
         _handler = new GetAudioByStreetcodeIdQueryHandler(
             _repositoryWrapperMock.Object,
             _mapperMock.Object,

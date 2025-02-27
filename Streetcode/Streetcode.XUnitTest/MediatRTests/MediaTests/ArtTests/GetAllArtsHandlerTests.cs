@@ -9,7 +9,7 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Entities.Media.Images;
 
-namespace Streetcode.XUnitTest.MediatRTests.ArtTests;
+namespace Streetcode.XUnitTest.MediatRTests.MediaTests.ArtTests;
 
 public class GetAllArtsHandlerTests
 {

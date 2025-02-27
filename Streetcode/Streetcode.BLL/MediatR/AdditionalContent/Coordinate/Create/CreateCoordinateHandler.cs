@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
 
-public class CreateCoordinateHandler : IRequestHandler<CreateCoordinateCommand, Result<Unit>>
+public class CreateCoordinateHandler
+    : IRequestHandler<CreateCoordinateCommand, Result<Unit>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -28,6 +29,7 @@ public class CreateCoordinateHandler : IRequestHandler<CreateCoordinateCommand, 
         _repositoryWrapper.StreetcodeCoordinateRepository.Create(streetcodeCoordinate);
 
         var resultIsSuccess = await _repositoryWrapper.SaveChangesAsync() > 0;
+
         return resultIsSuccess ? Result.Ok(Unit.Value) : Result.Fail(new Error("Failed to create a streetcodeCoordinate"));
     }
 }

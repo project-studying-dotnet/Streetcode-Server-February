@@ -7,7 +7,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Term.GetById;
 
-public class GetTermByIdHandler : IRequestHandler<GetTermByIdQuery, Result<TermDTO>>
+public class GetTermByIdHandler
+    : IRequestHandler<GetTermByIdQuery, Result<TermDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -28,6 +29,7 @@ public class GetTermByIdHandler : IRequestHandler<GetTermByIdQuery, Result<TermD
         {
             string errorMsg = $"Cannot find any term with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

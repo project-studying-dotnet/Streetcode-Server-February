@@ -3,6 +3,7 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.DAL.Repositories.Interfaces.Toponyms;
 
-public interface IToponymRepository : IRepositoryBase<Toponym>
+public interface IToponymRepository
+    : IRepositoryBase<Toponym>
 {
 }

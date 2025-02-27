@@ -1,20 +1,15 @@
-﻿namespace Streetcode.XUnitTest.MediatRTests.ArtTests;
+﻿using System.Linq.Expressions;
 using Xunit;
 using Moq;
 using AutoMapper;
-using FluentResults;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using Streetcode.DAL.Entities.Media;
+using Microsoft.EntityFrameworkCore.Query;
 using Streetcode.BLL.DTO.Media.Art;
 using Streetcode.BLL.MediatR.Media.Art.GetAll;
-using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.BLL.Interfaces.Logging;
-using Repositories.Interfaces;
+using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Entities.Media.Images;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Linq.Expressions;
+
+namespace Streetcode.XUnitTest.MediatRTests.ArtTests;
 
 public class GetAllArtsHandlerTests
 {

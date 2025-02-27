@@ -15,7 +15,7 @@ public static class WebApplicationExtensions
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "An error occured during startup migration");
+            logger.LogError(ex, "An error occurred during startup migration");
         }
     }
 }

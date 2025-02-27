@@ -6,7 +6,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Audio.Delete;
 
-public class DeleteAudioHandler : IRequestHandler<DeleteAudioCommand, Result<Unit>>
+public class DeleteAudioHandler
+    : IRequestHandler<DeleteAudioCommand, Result<Unit>>
 {
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly IBlobService _blobService;
@@ -27,6 +28,7 @@ public class DeleteAudioHandler : IRequestHandler<DeleteAudioCommand, Result<Uni
         {
             string errorMsg = $"Cannot find an audio with corresponding categoryId: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 
@@ -42,12 +44,14 @@ public class DeleteAudioHandler : IRequestHandler<DeleteAudioCommand, Result<Uni
         if (resultIsSuccess)
         {
             _logger?.LogInformation($"DeleteAudioCommand handled successfully");
+
             return Result.Ok(Unit.Value);
         }
         else
         {
             string errorMsg = $"Failed to delete an audio";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
     }

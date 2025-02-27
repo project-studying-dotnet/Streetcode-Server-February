@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Realizations.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.Transactions;
 
-public class TransactLinksRepository : RepositoryBase<TransactionLink>, ITransactLinksRepository
+public class TransactLinksRepository
+    : RepositoryBase<TransactionLink>, ITransactLinksRepository
 {
     public TransactLinksRepository(StreetcodeDbContext dbContext)
         : base(dbContext)

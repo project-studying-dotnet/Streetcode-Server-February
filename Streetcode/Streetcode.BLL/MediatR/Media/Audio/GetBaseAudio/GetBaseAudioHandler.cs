@@ -6,7 +6,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Audio.GetBaseAudio;
 
-public class GetBaseAudioHandler : IRequestHandler<GetBaseAudioQuery, Result<MemoryStream>>
+public class GetBaseAudioHandler
+    : IRequestHandler<GetBaseAudioQuery, Result<MemoryStream>>
 {
     private readonly IBlobService _blobStorage;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -27,6 +28,7 @@ public class GetBaseAudioHandler : IRequestHandler<GetBaseAudioQuery, Result<Mem
         {
             string errorMsg = $"Cannot find an audio with corresponding id: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

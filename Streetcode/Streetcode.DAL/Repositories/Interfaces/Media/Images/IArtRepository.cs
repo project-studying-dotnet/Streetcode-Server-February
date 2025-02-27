@@ -1,8 +1,9 @@
 ﻿using Streetcode.DAL.Entities.Media.Images;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Repositories.Interfaces;
+namespace Streetcode.DAL.Repositories.Interfaces.Media.Images;
 
-public interface IArtRepository : IRepositoryBase<Art>
+public interface IArtRepository
+    : IRepositoryBase<Art>
 {
 }

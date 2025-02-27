@@ -255,7 +255,7 @@ public class WebParsingUtils
                     Coordinate = new ToponymCoordinate
                     {
                         Latitude = decimal.Parse(row[LatitudeColumn], CultureInfo.InvariantCulture),
-                        Longtitude = decimal.Parse(row[LongitudeColumn], CultureInfo.InvariantCulture)
+                        Longitude = decimal.Parse(row[LongitudeColumn], CultureInfo.InvariantCulture)
                     }
                 });
             }

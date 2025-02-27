@@ -1,11 +1,11 @@
 using System.Transactions;
-using Repositories.Interfaces;
 using Streetcode.DAL.Persistence;
 using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
 using Streetcode.DAL.Repositories.Interfaces.Analytics;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Streetcode.DAL.Repositories.Interfaces.Media;
 using Streetcode.DAL.Repositories.Interfaces.Media.Images;
-using Streetcode.DAL.Repositories.Interfaces.Newss;
+using Streetcode.DAL.Repositories.Interfaces.News;
 using Streetcode.DAL.Repositories.Interfaces.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Source;
 using Streetcode.DAL.Repositories.Interfaces.Streetcode;
@@ -19,7 +19,7 @@ using Streetcode.DAL.Repositories.Realizations.AdditionalContent;
 using Streetcode.DAL.Repositories.Realizations.Analytics;
 using Streetcode.DAL.Repositories.Realizations.Media;
 using Streetcode.DAL.Repositories.Realizations.Media.Images;
-using Streetcode.DAL.Repositories.Realizations.Newss;
+using Streetcode.DAL.Repositories.Realizations.News;
 using Streetcode.DAL.Repositories.Realizations.Partners;
 using Streetcode.DAL.Repositories.Realizations.Source;
 using Streetcode.DAL.Repositories.Realizations.Streetcode;
@@ -429,7 +429,7 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             if (_partnerSourceLinkRepository is null)
             {
-                _partnerSourceLinkRepository = new PartnersourceLinksRepository(_streetcodeDbContext);
+                _partnerSourceLinkRepository = new PartnerSourceLinksRepository(_streetcodeDbContext);
             }
 
             return _partnerSourceLinkRepository;
@@ -481,7 +481,7 @@ public class RepositoryWrapper : IRepositoryWrapper
         {
             if(_partnerStreetcodeRepository is null)
             {
-                _partnerStreetcodeRepository = new PartnerStreetodeRepository(_streetcodeDbContext);
+                _partnerStreetcodeRepository = new PartnerStreetcodeRepository(_streetcodeDbContext);
             }
 
             return _partnerStreetcodeRepository;

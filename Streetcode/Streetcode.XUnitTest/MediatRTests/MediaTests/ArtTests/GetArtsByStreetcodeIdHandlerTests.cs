@@ -12,7 +12,7 @@ using Streetcode.DAL.Entities.Media.Images;
 using Microsoft.EntityFrameworkCore.Query;
 using Streetcode.DAL.Repositories.Interfaces.Media.Images;
 
-namespace Streetcode.XUnitTest.MediatRTests.ArtTests;
+namespace Streetcode.XUnitTest.MediatRTests.MediaTests.ArtTests;
 
 public class GetArtsByStreetcodeIdHandlerTests
 {

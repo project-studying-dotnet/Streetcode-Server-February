@@ -55,6 +55,7 @@ public static class ServiceCollectionExtensions
     public static void AddRepositoryServices(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+
         services.AddScoped<INewsRepository, NewsRepository>();
         services.AddScoped<IFactRepository, FactRepository>();
         services.AddScoped<IImageRepository, ImageRepository>();

@@ -8,7 +8,7 @@ public class MerchantPaymentInfo
     // public string Reference { get; set; }
 
     [JsonProperty("destination")]
-    public string Destination { get; set; }
+    required public string Destination { get; set; }
 
     // [JsonProperty("basketOrder")]
     // public List<BasketOrder> BasketOrder { get; set; }

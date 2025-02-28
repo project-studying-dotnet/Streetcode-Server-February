@@ -2,6 +2,6 @@
 
 public class InstagramEnvironmentVariables
 {
-    public string InstagramID { get; set; }
-    public string InstagramToken { get; set; }
+    required public string InstagramID { get; set; }
+    required public string InstagramToken { get; set; }
 }

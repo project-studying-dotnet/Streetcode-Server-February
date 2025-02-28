@@ -2,5 +2,5 @@
 
 public class InstagramPostResponse
 {
-    public IEnumerable<InstagramPost> Data { get; set; }
+    required public IEnumerable<InstagramPost> Data { get; set; }
 }

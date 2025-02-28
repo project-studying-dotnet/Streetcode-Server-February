@@ -2,6 +2,6 @@
 
 public class RefreshTokenResponse
 {
-    public string Token { get; set; }
+    required public string Token { get; set; }
     public DateTime ExpireAt { get; set; }
 }

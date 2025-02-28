@@ -5,7 +5,7 @@ using Streetcode.DAL.Repositories.Realizations.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.Streetcode;
 
-internal class RelatedFigureRepository
+public class RelatedFigureRepository
     : RepositoryBase<RelatedFigure>, IRelatedFigureRepository
 {
     public RelatedFigureRepository(StreetcodeDbContext context)

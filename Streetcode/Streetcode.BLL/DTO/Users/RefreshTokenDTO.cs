@@ -2,5 +2,5 @@
 
 public class RefreshTokenDTO
 {
-    public string Token { get; set; }
+    required public string Token { get; set; }
 }

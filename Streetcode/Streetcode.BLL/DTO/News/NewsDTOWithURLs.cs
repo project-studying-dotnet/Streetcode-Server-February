@@ -2,7 +2,7 @@
 
 public class NewsDTOWithURLs
 {
-    public NewsDTO News { get; set; } = new NewsDTO();
+    public NewsDTO? News { get; set; }
 
     public string? PrevNewsUrl { get; set; }
 

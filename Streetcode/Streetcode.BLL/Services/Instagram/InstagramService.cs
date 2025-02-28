@@ -13,10 +13,10 @@ public class InstagramService : IInstagramService
     private readonly string _accessToken;
     private static int postLimit = 10;
 
-    public InstagramService(IOptions<InstagramEnvironmentVariables> instagramEnvirovment)
+    public InstagramService(IOptions<InstagramEnvironmentVariables> instagramEnvironment)
     {
         _httpClient = new HttpClient();
-        _environment = instagramEnvirovment.Value;
+        _environment = instagramEnvironment.Value;
         _userId = _environment.InstagramID;
         _accessToken = _environment.InstagramToken;
     }

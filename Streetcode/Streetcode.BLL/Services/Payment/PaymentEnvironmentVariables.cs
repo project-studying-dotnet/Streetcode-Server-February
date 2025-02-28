@@ -2,5 +2,5 @@
 
 public class PaymentEnvironmentVariables
 {
-    public string Token { get; set; }
+    required public string Token { get; set; }
 }

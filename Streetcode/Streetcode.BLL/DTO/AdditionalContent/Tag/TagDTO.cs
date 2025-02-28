@@ -5,6 +5,6 @@ namespace Streetcode.BLL.DTO.AdditionalContent.Tag;
 public class TagDTO
 {
     public int Id { get; set; }
-    public string Title { get; set; }
-    public IEnumerable<StreetcodeDTO> Streetcodes { get; set; }
+    required public string Title { get; set; }
+    public IEnumerable<StreetcodeDTO>? Streetcodes { get; set; }
 }

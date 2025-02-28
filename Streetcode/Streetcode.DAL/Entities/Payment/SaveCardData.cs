@@ -8,5 +8,5 @@ public class SaveCardData
     public bool SaveCard { get; set; }
 
     [JsonProperty("walletId")]
-    public string WalletId { get; set; }
+    required public string WalletId { get; set; }
 }

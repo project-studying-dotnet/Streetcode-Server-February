@@ -3,6 +3,6 @@
 public class RelatedTermDTO
 {
     public int Id { get; set; }
-    public string Word { get; set; }
+    public string? Word { get; set; }
     public int TermId { get; set; }
 }

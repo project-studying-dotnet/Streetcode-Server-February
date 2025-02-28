@@ -15,11 +15,11 @@ public class StatisticRecord
     public int Count { get; set; }
 
     [MaxLength(150)]
-    public string Address { get; set; }
+    required public string Address { get; set; }
 
     public int StreetcodeId { get; set; }
     public StreetcodeContent? Streetcode { get; set; }
 
     public int StreetcodeCoordinateId { get; set; }
-    public StreetcodeCoordinate StreetcodeCoordinate { get; set; }
+    required public StreetcodeCoordinate StreetcodeCoordinate { get; set; }
  }

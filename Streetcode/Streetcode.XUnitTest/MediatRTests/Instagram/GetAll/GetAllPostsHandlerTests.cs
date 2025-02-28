@@ -4,6 +4,7 @@ using Streetcode.BLL.MediatR.Instagram.GetAll;
 using Streetcode.BLL.Interfaces.Instagram;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Entities.Instagram;
+using Streetcode.BLL.DTO.Media.Audio;
 
 namespace Streetcode.XUnitTest.MediatRTests.InstagramTests;
 
@@ -19,7 +20,18 @@ public class GetAllPostsHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnSuccess_WhenPostsRetrieved()
     {
-        var posts = new List<InstagramPost> { new() };
+        var posts = new List<InstagramPost>
+        {
+            new()
+            {
+                Id = "01",
+                MediaType = "VIDEO",
+                MediaUrl = "https://mediaUrl.test",
+                Permalink = "https://permalink.test",
+                ThumbnailUrl = "https://thumbnailUrl.test"
+            }
+        };
+
         _instagramServiceMock.Setup(s => s.GetPostsAsync())
             .ReturnsAsync(posts);
 
@@ -32,7 +44,18 @@ public class GetAllPostsHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnCorrectPosts_WhenPostsRetrieved()
     {
-        var posts = new List<InstagramPost> { new() };
+        var posts = new List<InstagramPost>
+        {
+            new()
+            {
+                Id = "01",
+                MediaType = "VIDEO",
+                MediaUrl = "https://mediaUrl.test",
+                Permalink = "https://permalink.test",
+                ThumbnailUrl = "https://thumbnailUrl.test"
+            }
+        };
+
         _instagramServiceMock.Setup(s => s.GetPostsAsync())
             .ReturnsAsync(posts);
 

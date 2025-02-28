@@ -1,9 +1,7 @@
-﻿using Serilog.Events;
-using Serilog;
+﻿using Serilog;
 using Streetcode.BLL.Services.BlobStorageService;
 using Streetcode.BLL.Services.Instagram;
 using Streetcode.BLL.Services.Payment;
-using Serilog.Sinks.SystemConsole.Themes;
 
 namespace Streetcode.WebApi.Extensions;
 
@@ -26,12 +24,12 @@ public static class ConfigureHostBuilderExtensions
 
     public static void ConfigurePayment(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        services.Configure<PaymentEnvirovmentVariables>(builder.Configuration.GetSection("Payment"));
+        services.Configure<PaymentEnvironmentVariables>(builder.Configuration.GetSection("Payment"));
     }
 
     public static void ConfigureInstagram(this IServiceCollection services, WebApplicationBuilder builder)
     {
-        services.Configure<InstagramEnvirovmentVariables>(builder.Configuration.GetSection("Instagram"));
+        services.Configure<InstagramEnvironmentVariables>(builder.Configuration.GetSection("Instagram"));
     }
 
     public static void ConfigureSerilog(this IServiceCollection services, WebApplicationBuilder builder)

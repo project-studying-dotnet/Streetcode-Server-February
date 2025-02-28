@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Streetcode.DeleteSoft;
 
-public class DeleteSoftStreetcodeHandler : IRequestHandler<DeleteSoftStreetcodeCommand, Result<Unit>>
+public class DeleteSoftStreetcodeHandler
+    : IRequestHandler<DeleteSoftStreetcodeCommand, Result<Unit>>
 {
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ILoggerService _logger;
@@ -25,6 +26,7 @@ public class DeleteSoftStreetcodeHandler : IRequestHandler<DeleteSoftStreetcodeC
         {
             string errorMsg = $"Cannot find a streetcode with corresponding categoryId: {request.Id}";
             _logger.LogError(request, errorMsg);
+
             throw new ArgumentNullException(errorMsg);
         }
 
@@ -33,9 +35,9 @@ public class DeleteSoftStreetcodeHandler : IRequestHandler<DeleteSoftStreetcodeC
 
         _repositoryWrapper.StreetcodeRepository.Update(streetcode);
 
-        var resultIsDeleteSucces = await _repositoryWrapper.SaveChangesAsync() > 0;
+        var resultIsDeleteSuccess = await _repositoryWrapper.SaveChangesAsync() > 0;
 
-        if(resultIsDeleteSucces)
+        if(resultIsDeleteSuccess)
         {
             return Result.Ok(Unit.Value);
         }
@@ -43,6 +45,7 @@ public class DeleteSoftStreetcodeHandler : IRequestHandler<DeleteSoftStreetcodeC
         {
             const string errorMsg = "Failed to change status of streetcode to deleted";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
     }

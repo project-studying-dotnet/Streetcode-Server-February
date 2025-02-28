@@ -4,7 +4,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Delete;
 
-public class DeleteCoordinateHandler : IRequestHandler<DeleteCoordinateCommand, Result<Unit>>
+public class DeleteCoordinateHandler
+    : IRequestHandler<DeleteCoordinateCommand, Result<Unit>>
 {
     private readonly IRepositoryWrapper _repositoryWrapper;
 
@@ -25,6 +26,7 @@ public class DeleteCoordinateHandler : IRequestHandler<DeleteCoordinateCommand, 
         _repositoryWrapper.StreetcodeCoordinateRepository.Delete(streetcodeCoordinate);
 
         var resultIsSuccess = await _repositoryWrapper.SaveChangesAsync() > 0;
+
         return resultIsSuccess ? Result.Ok(Unit.Value) : Result.Fail(new Error("Failed to delete a coordinate"));
     }
 }

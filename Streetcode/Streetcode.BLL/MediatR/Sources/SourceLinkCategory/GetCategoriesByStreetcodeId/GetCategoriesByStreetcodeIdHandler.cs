@@ -2,15 +2,15 @@
 using FluentResults;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
 using Streetcode.BLL.DTO.Sources;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Streetcode.BLL.MediatR.Sources.SourceLink.GetCategoriesByStreetcodeId;
+namespace Streetcode.BLL.MediatR.Sources.SourceLinkCategory.GetCategoriesByStreetcodeId;
 
-public class GetCategoriesByStreetcodeIdHandler : IRequestHandler<GetCategoriesByStreetcodeIdQuery, Result<IEnumerable<SourceLinkCategoryDTO>>>
+public class GetCategoriesByStreetcodeIdHandler
+    : IRequestHandler<GetCategoriesByStreetcodeIdQuery, Result<IEnumerable<SourceLinkCategoryDTO>>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -31,12 +31,13 @@ public class GetCategoriesByStreetcodeIdHandler : IRequestHandler<GetCategoriesB
             .SourceCategoryRepository
             .GetAllAsync(
                 predicate: sc => sc.Streetcodes.Any(s => s.Id == request.StreetcodeId),
-                include: scl => scl.Include(sc => sc.Image) !);
+                include: scl => scl.Include(sc => sc.Image)!);
 
         if (srcCategories is null)
         {
             string errorMsg = $"Cant find any source category with the streetcode id {request.StreetcodeId}";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
 

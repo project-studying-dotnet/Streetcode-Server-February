@@ -8,8 +8,8 @@ using Streetcode.BLL.Interfaces.Logging;
 
 namespace Streetcode.BLL.MediatR.Toponyms.GetAll;
 
-public class GetAllToponymsHandler : IRequestHandler<GetAllToponymsQuery,
-    Result<GetAllToponymsResponseDTO>>
+public class GetAllToponymsHandler
+    : IRequestHandler<GetAllToponymsQuery, Result<GetAllToponymsResponseDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -24,7 +24,7 @@ public class GetAllToponymsHandler : IRequestHandler<GetAllToponymsQuery,
 
     public async Task<Result<GetAllToponymsResponseDTO>> Handle(GetAllToponymsQuery query, CancellationToken cancellationToken)
     {
-        var filterRequest = query.request;
+        var filterRequest = query.Request;
 
         var toponyms = _repositoryWrapper.ToponymRepository
              .FindAll();

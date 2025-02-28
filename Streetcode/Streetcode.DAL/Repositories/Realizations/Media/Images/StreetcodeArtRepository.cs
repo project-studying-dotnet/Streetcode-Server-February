@@ -5,7 +5,8 @@ using Streetcode.DAL.Repositories.Realizations.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.Media.Images;
 
-public class StreetcodeArtRepository : RepositoryBase<StreetcodeArt>, IStreetcodeArtRepository
+public class StreetcodeArtRepository
+    : RepositoryBase<StreetcodeArt>, IStreetcodeArtRepository
 {
     public StreetcodeArtRepository(StreetcodeDbContext dbContext)
         : base(dbContext)

@@ -8,7 +8,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Media.Audio.Create;
 
-public class CreateAudioHandler : IRequestHandler<CreateAudioCommand, Result<AudioDTO>>
+public class CreateAudioHandler
+    : IRequestHandler<CreateAudioCommand, Result<AudioDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -52,6 +53,7 @@ public class CreateAudioHandler : IRequestHandler<CreateAudioCommand, Result<Aud
         {
             const string errorMsg = $"Failed to create an audio";
             _logger.LogError(request, errorMsg);
+
             return Result.Fail(new Error(errorMsg));
         }
     }

@@ -19,8 +19,7 @@ using Streetcode.BLL.Services.Instagram;
 using Streetcode.BLL.Interfaces.Text;
 using Streetcode.BLL.Services.Text;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Repositories.Interfaces;
-using Streetcode.DAL.Repositories.Interfaces.Newss;
+using Streetcode.DAL.Repositories.Interfaces.News;
 using Streetcode.DAL.Repositories.Interfaces.Streetcode.TextContent;
 using Streetcode.DAL.Repositories.Interfaces.Team;
 using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
@@ -33,7 +32,7 @@ using Streetcode.DAL.Repositories.Interfaces.Timeline;
 using Streetcode.DAL.Repositories.Interfaces.Toponyms;
 using Streetcode.DAL.Repositories.Interfaces.Transactions;
 using Streetcode.DAL.Repositories.Interfaces.Users;
-using Streetcode.DAL.Repositories.Realizations.Newss;
+using Streetcode.DAL.Repositories.Realizations.News;
 using Streetcode.DAL.Repositories.Realizations.Streetcode.TextContent;
 using Streetcode.DAL.Repositories.Realizations.Media.Images;
 using Streetcode.DAL.Repositories.Realizations.Team;
@@ -47,6 +46,7 @@ using Streetcode.DAL.Repositories.Realizations.Timeline;
 using Streetcode.DAL.Repositories.Realizations.Toponyms;
 using Streetcode.DAL.Repositories.Realizations.Transactions;
 using Streetcode.DAL.Repositories.Realizations.Users;
+using Streetcode.DAL.Repositories.Interfaces.Media;
 
 namespace Streetcode.WebApi.Extensions;
 

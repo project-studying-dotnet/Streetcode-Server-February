@@ -8,7 +8,7 @@ using Streetcode.BLL.MediatR.Media.Audio.Create;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
+namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Create;
 
 public class CreateAudioHandlerTests
 {

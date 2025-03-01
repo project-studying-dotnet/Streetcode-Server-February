@@ -4,12 +4,13 @@ using Moq;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetBaseAudio;
-using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Repositories.Interfaces.Media;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
+using AudioEntity = Streetcode.DAL.Entities.Media.Audio;
+
+namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetBaseAudio;
 
 public class GetBaseAudioHandlerTests
 {
@@ -36,11 +37,11 @@ public class GetBaseAudioHandlerTests
     {
         // Arrange
         var request = new GetBaseAudioQuery(1);
-        var audio = new Audio { Id = 1, BlobName = "audio-file.mp3" };
+        var audio = new AudioEntity { Id = 1, BlobName = "audio-file.mp3" };
         var memoryStream = new MemoryStream();
 
         _audioRepositoryMock
-            .Setup(repo => repo.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
+            .Setup(repo => repo.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<AudioEntity, bool>>>(), null))
             .ReturnsAsync(audio);
 
         _blobServiceMock
@@ -62,8 +63,8 @@ public class GetBaseAudioHandlerTests
         var request = new GetBaseAudioQuery(99);
 
         _audioRepositoryMock
-            .Setup(repo => repo.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
-            .ReturnsAsync((Audio)null);
+            .Setup(repo => repo.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<AudioEntity, bool>>>(), null))
+            .ReturnsAsync((AudioEntity?)null);
 
         // Act
         var result = await _handler.Handle(request, CancellationToken.None);

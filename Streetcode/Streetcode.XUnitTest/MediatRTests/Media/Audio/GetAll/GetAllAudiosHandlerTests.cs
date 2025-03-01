@@ -4,11 +4,12 @@ using Streetcode.BLL.DTO.Media.Audio;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetAll;
-using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
+using AudioEntity = Streetcode.DAL.Entities.Media.Audio;
+
+namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetAll;
 
 public class GetAllAudiosHandlerTests
 {
@@ -53,10 +54,10 @@ public class GetAllAudiosHandlerTests
     {
         // Arrange
         var query = new GetAllAudiosQuery();
-        var audios = new List<Audio>
+        var audios = new List<AudioEntity>
         {
-            new Audio { Id = 1, BlobName = "audio1.mp3" },
-            new Audio { Id = 2, BlobName = "audio2.mp3" }
+            new AudioEntity { Id = 1, BlobName = "audio1.mp3" },
+            new AudioEntity { Id = 2, BlobName = "audio2.mp3" }
         };
         var audioDtos = new List<AudioDTO>
         {

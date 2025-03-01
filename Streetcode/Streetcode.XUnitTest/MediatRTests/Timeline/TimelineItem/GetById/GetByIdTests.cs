@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore.Query;
 using Streetcode.BLL.DTO.Timeline;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetById;
-using Streetcode.DAL.Entities.Timeline;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Streetcode.XUnitTest.MediatRTests.TimelineItemTests;
+using TimelineItemEntity = Streetcode.DAL.Entities.Timeline.TimelineItem;
+
+namespace Streetcode.XUnitTest.MediatRTests.Timeline.TimelineItem.GetById;
 
 public class GetByIdTests
 {
@@ -34,11 +35,11 @@ public class GetByIdTests
     {
         var query = new GetTimelineItemByIdQuery(1);
 
-        var timelineItemById = new TimelineItem { Id = 1, Title = "Event 1" };
+        var timelineItemById = new TimelineItemEntity { Id = 1, Title = "Event 1" };
 
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetFirstOrDefaultAsync(
                 x => x.Id == query.Id,
-                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()))
+                It.IsAny<Func<IQueryable<TimelineItemEntity>, IIncludableQueryable<TimelineItemEntity, object>>?>()))
             .ReturnsAsync(timelineItemById);
 
         var timelineItemByIdDto = new TimelineItemDTO() { Id = 1, Title = "Event 1" };
@@ -59,8 +60,8 @@ public class GetByIdTests
 
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetFirstOrDefaultAsync(
                 x => x.Id == query.Id,
-                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()))
-            .ReturnsAsync((TimelineItem?)null);
+                It.IsAny<Func<IQueryable<TimelineItemEntity>, IIncludableQueryable<TimelineItemEntity, object>>?>()))
+            .ReturnsAsync((TimelineItemEntity?)null);
 
         var result = await _handler.Handle(query, CancellationToken.None);
 

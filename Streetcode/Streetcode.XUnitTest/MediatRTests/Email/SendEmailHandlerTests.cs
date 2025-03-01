@@ -6,7 +6,7 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.DTO.Email;
 using Streetcode.DAL.Entities.AdditionalContent.Email;
 
-namespace Streetcode.XUnitTest.MediatRTests.EmailTests;
+namespace Streetcode.XUnitTest.MediatRTests.Email;
 
 public class SendEmailHandlerTests
 {

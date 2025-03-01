@@ -4,9 +4,8 @@ using Streetcode.BLL.MediatR.Instagram.GetAll;
 using Streetcode.BLL.Interfaces.Instagram;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Entities.Instagram;
-using Streetcode.BLL.DTO.Media.Audio;
 
-namespace Streetcode.XUnitTest.MediatRTests.InstagramTests;
+namespace Streetcode.XUnitTest.MediatRTests.Instagram.GetAll;
 
 public class GetAllPostsHandlerTests
 {

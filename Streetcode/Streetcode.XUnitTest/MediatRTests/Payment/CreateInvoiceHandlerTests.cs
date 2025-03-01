@@ -7,7 +7,7 @@ using Streetcode.BLL.DTO.Payment;
 using Streetcode.DAL.Entities.Payment;
 using Streetcode.BLL.Services.Payment.Exceptions;
 
-namespace Streetcode.XUnitTest.MediatRTests.PaymentTests;
+namespace Streetcode.XUnitTest.MediatRTests.Payment;
 
 public class CreateInvoiceHandlerTests
 {
@@ -78,7 +78,7 @@ public class CreateInvoiceHandlerTests
     public async Task Handle_ShouldThrowNotSupportedException_WhenUnexpectedError()
     {
         _paymentServiceMock.Setup(s => s.CreateInvoiceAsync(It.IsAny<Invoice>()))
-            .ThrowsAsync(new System.NotSupportedException());
+            .ThrowsAsync(new NotSupportedException());
 
         var command = new CreateInvoiceCommand(
             new PaymentDTO { Amount = 100, RedirectUrl = "https://test.com" });

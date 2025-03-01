@@ -7,10 +7,11 @@ using Microsoft.EntityFrameworkCore.Query;
 using Streetcode.BLL.DTO.Timeline;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetByStreetcodeId;
-using Streetcode.DAL.Entities.Timeline;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
-namespace Streetcode.XUnitTest.MediatRTests.TimelineItemTests;
+using TimelineItemEntity = Streetcode.DAL.Entities.Timeline.TimelineItem;
+
+namespace Streetcode.XUnitTest.MediatRTests.Timeline.TimelineItem.GetByStreetcodeId;
 
 public class GetByStreetCodeIdTests
 {
@@ -35,7 +36,7 @@ public class GetByStreetCodeIdTests
     {
         var request = new GetTimelineItemsByStreetcodeIdQuery(1);
 
-        var timelineItems = new List<TimelineItem>
+        var timelineItems = new List<TimelineItemEntity>
         {
             new() { Id = 1, StreetcodeId = request.StreetcodeId, Title = "Event 1" },
             new() { Id = 2, StreetcodeId = request.StreetcodeId, Title = "Event 2" }
@@ -48,8 +49,8 @@ public class GetByStreetCodeIdTests
         };
 
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetAllAsync(
-                It.IsAny<Expression<Func<TimelineItem, bool>>>(),
-                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>>()))
+                It.IsAny<Expression<Func<TimelineItemEntity, bool>>>(),
+                It.IsAny<Func<IQueryable<TimelineItemEntity>, IIncludableQueryable<TimelineItemEntity, object>>>()))
             .ReturnsAsync(timelineItems);
 
         _mockMapper.Setup(m => m.Map<IEnumerable<TimelineItemDTO>>(timelineItems))
@@ -69,9 +70,9 @@ public class GetByStreetCodeIdTests
         var request = new GetTimelineItemsByStreetcodeIdQuery(1);
 
         _mockRepositoryWrapper.Setup(repo => repo.TimelineRepository.GetAllAsync(
-                It.IsAny<Expression<Func<TimelineItem, bool>>?>(),
-                It.IsAny<Func<IQueryable<TimelineItem>, IIncludableQueryable<TimelineItem, object>>?>()))
-            .ReturnsAsync((IEnumerable<TimelineItem>?)null);
+                It.IsAny<Expression<Func<TimelineItemEntity, bool>>?>(),
+                It.IsAny<Func<IQueryable<TimelineItemEntity>, IIncludableQueryable<TimelineItemEntity, object>>?>()))
+            .ReturnsAsync((IEnumerable<TimelineItemEntity>?)null);
 
         var result = await _handler.Handle(request, CancellationToken.None);
 

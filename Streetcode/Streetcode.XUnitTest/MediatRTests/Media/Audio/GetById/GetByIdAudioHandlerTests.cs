@@ -9,9 +9,9 @@ using Streetcode.BLL.MediatR.Media.Audio.GetById;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
+namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetById;
 
-public class GetByIDAudioHandlerTests
+public class GetByIdAudioHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock;
     private readonly Mock<IMapper> _mapperMock;
@@ -19,7 +19,7 @@ public class GetByIDAudioHandlerTests
     private readonly Mock<ILoggerService> _loggerMock;
     private readonly GetAudioByIdHandler _handler;
 
-    public GetByIDAudioHandlerTests()
+    public GetByIdAudioHandlerTests()
     {
         _repositoryWrapperMock = new Mock<IRepositoryWrapper>();
         _mapperMock = new Mock<IMapper>();
@@ -74,7 +74,7 @@ public class GetByIDAudioHandlerTests
             .Setup(rw => rw.AudioRepository.GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<DAL.Entities.Media.Audio, bool>>>(),
                 null))
-            .ReturnsAsync((DAL.Entities.Media.Audio)null);
+            .ReturnsAsync((DAL.Entities.Media.Audio?)null);
 
         _loggerMock
             .Setup(l => l.LogError(query, It.IsAny<string>()));

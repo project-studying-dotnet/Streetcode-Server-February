@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.Streetcode.TextContent;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class RelatedTermConfiguration : IEntityTypeConfiguration<RelatedTerm>
+    public class RelatedTermConfiguration :
+        IEntityTypeConfiguration<RelatedTerm>
     {
         public void Configure(EntityTypeBuilder<RelatedTerm> builder)
         {

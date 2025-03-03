@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.Streetcode;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class RelatedFigureConfiguration : IEntityTypeConfiguration<RelatedFigure>
+    public class RelatedFigureConfiguration :
+        IEntityTypeConfiguration<RelatedFigure>
     {
         public void Configure(EntityTypeBuilder<RelatedFigure> builder)
         {

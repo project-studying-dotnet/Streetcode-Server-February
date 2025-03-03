@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.AdditionalContent;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class StreetcodeTagIndexConfiguration : IEntityTypeConfiguration<StreetcodeTagIndex>
+    public class StreetcodeTagIndexConfiguration :
+        IEntityTypeConfiguration<StreetcodeTagIndex>
     {
         public void Configure(EntityTypeBuilder<StreetcodeTagIndex> builder)
         {

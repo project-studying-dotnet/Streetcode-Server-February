@@ -13,7 +13,8 @@ using Streetcode.DAL.Enums;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class StreetcodeContentConfiguration : IEntityTypeConfiguration<StreetcodeContent>
+    public class StreetcodeContentConfiguration :
+        IEntityTypeConfiguration<StreetcodeContent>
     {
         public void Configure(EntityTypeBuilder<StreetcodeContent> builder)
         {

@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.Sources;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class SourceLinkCategoryConfiguration : IEntityTypeConfiguration<SourceLinkCategory>
+    public class SourceLinkCategoryConfiguration :
+        IEntityTypeConfiguration<SourceLinkCategory>
     {
         public void Configure(EntityTypeBuilder<SourceLinkCategory> builder)
         {

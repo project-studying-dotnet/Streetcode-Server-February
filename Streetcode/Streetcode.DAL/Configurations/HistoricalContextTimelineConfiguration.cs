@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.Timeline;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class HistoricalContextTimelineConfiguration : IEntityTypeConfiguration<HistoricalContextTimeline>
+    public class HistoricalContextTimelineConfiguration :
+        IEntityTypeConfiguration<HistoricalContextTimeline>
     {
         public void Configure(EntityTypeBuilder<HistoricalContextTimeline> builder)
         {

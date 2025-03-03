@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.Team;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class TeamMemberPositionsConfiguration : IEntityTypeConfiguration<TeamMemberPositions>
+    public class TeamMemberPositionsConfiguration :
+        IEntityTypeConfiguration<TeamMemberPositions>
     {
         public void Configure(EntityTypeBuilder<TeamMemberPositions> builder)
         {

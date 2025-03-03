@@ -4,7 +4,8 @@ using Streetcode.DAL.Entities.Team;
 
 namespace Streetcode.DAL.Configurations
 {
-    public class TeamMemberConfiguration : IEntityTypeConfiguration<TeamMember>
+    public class TeamMemberConfiguration :
+        IEntityTypeConfiguration<TeamMember>
     {
         public void Configure(EntityTypeBuilder<TeamMember> builder)
         {
@@ -17,8 +18,12 @@ namespace Streetcode.DAL.Configurations
                 .HasMany(x => x.Positions)
                 .WithMany(x => x.TeamMembers)
                 .UsingEntity<TeamMemberPositions>(
-                tp => tp.HasOne(x => x.Positions).WithMany().HasForeignKey(x => x.PositionsId),
-                tp => tp.HasOne(x => x.TeamMember).WithMany().HasForeignKey(x => x.TeamMemberId));
+                tp => tp.HasOne(x => x.Positions)
+                        .WithMany()
+                        .HasForeignKey(x => x.PositionsId),
+                tp => tp.HasOne(x => x.TeamMember)
+                        .WithMany()
+                        .HasForeignKey(x => x.TeamMemberId));
 
             builder
                 .HasMany(x => x.TeamMemberLinks)

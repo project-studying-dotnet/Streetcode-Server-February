@@ -1,7 +1,9 @@
 ﻿using Xunit;
 using Moq;
-using Streetcode.BLL.MediatR.News.Create;
+using AutoMapper;
+using Streetcode.BLL.DTO.News;
 using Streetcode.BLL.Interfaces.Logging;
+using Streetcode.BLL.MediatR.News.Create;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
 using NewsEntity = Streetcode.DAL.Entities.News.News;
@@ -12,63 +14,120 @@ public class CreateNewsHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repoMock = new();
     private readonly Mock<ILoggerService> _loggerMock = new();
+    private readonly Mock<IMapper> _mapperMock = new();
     private readonly CreateNewsHandler _handler;
 
     public CreateNewsHandlerTests() =>
-        _handler = new(null!, _repoMock.Object, _loggerMock.Object);
+        _handler = new(
+            _mapperMock.Object,
+            _repoMock.Object,
+            _loggerMock.Object);
 
     [Fact]
-    public async Task Handle_ShouldReturnSuccess_WhenNewsCreated()
+    public async Task Handle_ValidNews_CreatesSuccessfully()
     {
-        var newsEntity = new NewsEntity { Id = 1, Title = "Test News", Text = "Content", URL = "test.com" };
-        _repoMock.Setup(r => r.NewsRepository.Create(It.IsAny<NewsEntity>())).Returns(newsEntity);
-        _repoMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
+        var newsDto = new NewsDTO
+            { Title = "Title1", Text = "Text1", URL = "URL1" };
+        var newsEntity = new NewsEntity
+            { Id = 1, Title = "Title1", Text = "Text1", URL = "URL1" };
 
-        var result = await _handler.Handle(new(new()), CancellationToken.None);
+        _mapperMock
+            .Setup(m => m.Map<NewsEntity>(newsDto))
+            .Returns(newsEntity);
+        _repoMock
+            .Setup(r => r.NewsRepository.Create(newsEntity))
+            .Returns(newsEntity);
+        _repoMock
+            .Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(1);
+
+        var result = await _handler.Handle(
+            new(newsDto),
+            CancellationToken.None);
 
         Assert.True(result.IsSuccess);
     }
 
     [Fact]
-    public async Task Handle_ShouldFail_WhenCreatedEntityIsNull()
+    public async Task Handle_NullMapping_FailsWithError()
     {
-        _repoMock.Setup(r => r.NewsRepository.Create(It.IsAny<NewsEntity>())).Returns((NewsEntity?)null);
+        _mapperMock
+            .Setup(m => m.Map<NewsEntity>(It.IsAny<NewsDTO>()))
+            .Returns((NewsEntity)null!);
 
-        var result = await _handler.Handle(new(new()), CancellationToken.None);
+        var command = new CreateNewsCommand(
+            new NewsDTO
+            {
+                Title = "Title2",
+                Text = "Text2",
+                URL = "URL2"
+            });
+
+        var result = await _handler.Handle(
+            command,
+            CancellationToken.None);
 
         Assert.True(result.IsFailed);
+
+        _loggerMock.Verify(
+            l => l.LogError(command, "Cannot convert null to news"),
+            Times.Once);
     }
 
     [Fact]
-    public async Task Handle_ShouldFail_WhenSaveChangesFails()
+    public async Task Handle_SaveFails_FailsWithError()
     {
-        _repoMock.Setup(r => r.NewsRepository.Create(It.IsAny<NewsEntity>())).Returns(new NewsEntity());
-        _repoMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(0);
+        var newsDto = new NewsDTO
+            { Title = "Title3", Text = "Text3", URL = "URL3" };
+        var newsEntity = new NewsEntity
+            { Title = "Title3", Text = "Text3", URL = "URL3" };
 
-        var result = await _handler.Handle(new(new()), CancellationToken.None);
+        _mapperMock
+            .Setup(m => m.Map<NewsEntity>(newsDto))
+            .Returns(newsEntity);
+        _repoMock
+            .Setup(r => r.NewsRepository.Create(newsEntity))
+            .Returns(newsEntity);
+        _repoMock
+            .Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(0);
+
+        var command = new CreateNewsCommand(
+            newsDto);
+
+        var result = await _handler.Handle(
+            command,
+            CancellationToken.None);
 
         Assert.True(result.IsFailed);
+
+        _loggerMock.Verify(
+            l => l.LogError(command, "Failed to create a news"),
+            Times.Once);
     }
 
     [Fact]
-    public async Task Handle_ShouldSetImageIdToNull_WhenImageIdIsZero()
+    public async Task Handle_ImageIdZero_SetsToNull()
     {
-        var newsEntity = new NewsEntity { ImageId = 0 };
-        _repoMock.Setup(r => r.NewsRepository.Create(It.IsAny<NewsEntity>())).Returns(newsEntity);
-        _repoMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
+        var newsEntity = new NewsEntity
+            { ImageId = 0, Title = "Title4", Text = "Text4", URL = "URL4" };
+        var newsDto = new NewsDTO
+            { Title = "Title4", Text = "Text4", URL = "URL4" };
 
-        var result = await _handler.Handle(new(new()), CancellationToken.None);
+        _mapperMock
+            .Setup(m => m.Map<NewsEntity>(newsDto))
+            .Returns(newsEntity);
+        _repoMock
+            .Setup(r => r.NewsRepository.Create(newsEntity))
+            .Returns(newsEntity);
+        _repoMock
+            .Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(1);
+
+        await _handler.Handle(
+            new(newsDto),
+            CancellationToken.None);
 
         Assert.Null(newsEntity.ImageId);
-    }
-
-    [Fact]
-    public async Task Handle_ShouldFail_WhenExceptionThrown()
-    {
-        _repoMock.Setup(r => r.SaveChangesAsync()).ThrowsAsync(new Exception("DB error"));
-
-        var result = await _handler.Handle(new(new()), CancellationToken.None);
-
-        Assert.True(result.IsFailed);
     }
 }

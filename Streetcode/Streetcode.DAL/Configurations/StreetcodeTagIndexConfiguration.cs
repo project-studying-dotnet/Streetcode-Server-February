@@ -2,17 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Streetcode.DAL.Entities.AdditionalContent;
 
-namespace Streetcode.DAL.Configurations
+namespace Streetcode.DAL.Configurations;
+
+public class StreetcodeTagIndexConfiguration
+    : IEntityTypeConfiguration<StreetcodeTagIndex>
 {
-    public class StreetcodeTagIndexConfiguration :
-        IEntityTypeConfiguration<StreetcodeTagIndex>
+    public void Configure(EntityTypeBuilder<StreetcodeTagIndex> builder)
     {
-        public void Configure(EntityTypeBuilder<StreetcodeTagIndex> builder)
-        {
-            builder
-                .HasKey(
+        builder
+            .HasKey(
                 nameof(StreetcodeTagIndex.StreetcodeId),
                 nameof(StreetcodeTagIndex.TagId));
-        }
     }
 }

@@ -2,16 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Streetcode.DAL.Entities.Toponyms;
 
-namespace Streetcode.DAL.Configurations
+namespace Streetcode.DAL.Configurations;
+
+public class ToponymConfiguration
+    : IEntityTypeConfiguration<Toponym>
 {
-    public class ToponymConfiguration : IEntityTypeConfiguration<Toponym>
+    public void Configure(EntityTypeBuilder<Toponym> builder)
     {
-        public void Configure(EntityTypeBuilder<Toponym> builder)
-        {
-            builder
-                .HasOne(d => d.Coordinate)
-                .WithOne(p => p.Toponym)
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+        builder
+            .HasOne(d => d.Coordinate)
+            .WithOne(p => p.Toponym)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

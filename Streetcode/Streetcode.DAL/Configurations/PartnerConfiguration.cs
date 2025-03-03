@@ -2,21 +2,21 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Streetcode.DAL.Entities.Partners;
 
-namespace Streetcode.DAL.Configurations
-{
-    public class PartnerConfiguration : IEntityTypeConfiguration<Partner>
-    {
-        public void Configure(EntityTypeBuilder<Partner> builder)
-        {
-            builder
-                .HasMany(d => d.PartnerSourceLinks)
-                .WithOne(p => p.Partner)
-                .HasForeignKey(d => d.PartnerId)
-                .OnDelete(DeleteBehavior.Cascade);
+namespace Streetcode.DAL.Configurations;
 
-            builder
-                .Property(p => p.IsKeyPartner)
-                .HasDefaultValue("false");
-        }
+public class PartnerConfiguration
+    : IEntityTypeConfiguration<Partner>
+{
+    public void Configure(EntityTypeBuilder<Partner> builder)
+    {
+        builder
+            .HasMany(d => d.PartnerSourceLinks)
+            .WithOne(p => p.Partner)
+            .HasForeignKey(d => d.PartnerId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .Property(p => p.IsKeyPartner)
+            .HasDefaultValue("false");
     }
 }

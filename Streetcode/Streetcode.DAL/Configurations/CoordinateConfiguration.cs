@@ -5,7 +5,8 @@ using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
 
 namespace Streetcode.DAL.Configurations;
 
-public class CoordinateConfiguration : IEntityTypeConfiguration<Coordinate>
+public class CoordinateConfiguration
+    : IEntityTypeConfiguration<Coordinate>
 {
     public void Configure(EntityTypeBuilder<Coordinate> builder)
     {

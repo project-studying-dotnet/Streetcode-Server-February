@@ -4,8 +4,8 @@ using Streetcode.DAL.Entities.Analytics;
 
 namespace Streetcode.DAL.Configurations;
 
-public class StaticRecordConfiguration :
-    IEntityTypeConfiguration<StatisticRecord>
+public class StaticRecordConfiguration
+    : IEntityTypeConfiguration<StatisticRecord>
 {
     public void Configure(EntityTypeBuilder<StatisticRecord> builder)
     {

@@ -2,17 +2,16 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Streetcode.DAL.Entities.Team;
 
-namespace Streetcode.DAL.Configurations
+namespace Streetcode.DAL.Configurations;
+
+public class TeamMemberPositionsConfiguration
+    : IEntityTypeConfiguration<TeamMemberPositions>
 {
-    public class TeamMemberPositionsConfiguration :
-        IEntityTypeConfiguration<TeamMemberPositions>
+    public void Configure(EntityTypeBuilder<TeamMemberPositions> builder)
     {
-        public void Configure(EntityTypeBuilder<TeamMemberPositions> builder)
-        {
-            builder
-                .HasKey(
+        builder
+            .HasKey(
                 nameof(TeamMemberPositions.TeamMemberId),
                 nameof(TeamMemberPositions.PositionsId));
-        }
     }
 }

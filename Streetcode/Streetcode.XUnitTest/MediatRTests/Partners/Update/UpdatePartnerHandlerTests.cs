@@ -10,8 +10,6 @@ using Streetcode.BLL.MediatR.Partners.Update;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using FluentResults;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Streetcode.XUnitTest.MediatRTests.Partners.Update;
@@ -28,7 +26,10 @@ public class UpdatePartnerHandlerTests
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerService>();
-        _handler = new UpdatePartnerHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+        _handler = new UpdatePartnerHandler(
+            _mockRepo.Object,
+            _mockMapper.Object,
+            _mockLogger.Object);
     }
 
     [Fact]
@@ -54,26 +55,37 @@ public class UpdatePartnerHandlerTests
         var oldLinks = new List<PartnerSourceLink>();
         var oldStreetcodes = new List<StreetcodePartner>();
 
-        _mockMapper.Setup(m => m.Map<Partner>(partnerDto))
+        _mockMapper
+            .Setup(m => m.Map<Partner>(partnerDto))
             .Returns(partner);
-        _mockMapper.Setup(m => m.Map<PartnerDTO>(partner))
+        _mockMapper
+            .Setup(m => m.Map<PartnerDTO>(partner))
             .Returns(new PartnerDTO { Id = 1, Title = "Test" });
 
-        _mockRepo.Setup(r => r.PartnerSourceLinkRepository.GetAllAsync(
-            It.IsAny<Expression<Func<PartnerSourceLink, bool>>>(),
-            It.IsAny<Func<IQueryable<PartnerSourceLink>, IIncludableQueryable<PartnerSourceLink, object>>>()))
+        _mockRepo
+            .Setup(r => r.PartnerSourceLinkRepository.GetAllAsync(
+                It.IsAny<Expression<Func<PartnerSourceLink, bool>>>(),
+                It.IsAny<Func<IQueryable<PartnerSourceLink>,
+                    IIncludableQueryable<PartnerSourceLink, object>>>()))
             .ReturnsAsync(oldLinks);
 
-        _mockRepo.Setup(r => r.PartnerStreetcodeRepository.GetAllAsync(
-            It.IsAny<Expression<Func<StreetcodePartner, bool>>>(),
-            It.IsAny<Func<IQueryable<StreetcodePartner>, IIncludableQueryable<StreetcodePartner, object>>>()))
+        _mockRepo
+            .Setup(r => r.PartnerStreetcodeRepository.GetAllAsync(
+                It.IsAny<Expression<Func<StreetcodePartner, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodePartner>,
+                    IIncludableQueryable<StreetcodePartner, object>>>()))
             .ReturnsAsync(oldStreetcodes);
 
-        _mockRepo.Setup(r => r.PartnersRepository.Update(It.IsAny<Partner>()));
-        _mockRepo.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
+        _mockRepo
+            .Setup(r => r.PartnersRepository.Update(It.IsAny<Partner>()));
+        _mockRepo
+            .Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(1);
 
         // Act
-        var result = await _handler.Handle(new UpdatePartnerCommand(partnerDto), CancellationToken.None);
+        var result = await _handler.Handle(
+            new UpdatePartnerCommand(partnerDto),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -86,16 +98,21 @@ public class UpdatePartnerHandlerTests
         var partnerDto = new CreatePartnerDTO { Id = 1, Title = "Test" };
         var partner = new Partner { Id = 1, Title = "Test" };
 
-        _mockMapper.Setup(m => m.Map<Partner>(partnerDto))
+        _mockMapper
+            .Setup(m => m.Map<Partner>(partnerDto))
             .Returns(partner);
 
-        _mockRepo.Setup(r => r.PartnerSourceLinkRepository.GetAllAsync(
-            It.IsAny<Expression<Func<PartnerSourceLink, bool>>>(),
-            It.IsAny<Func<IQueryable<PartnerSourceLink>, IIncludableQueryable<PartnerSourceLink, object>>>()))
+        _mockRepo
+            .Setup(r => r.PartnerSourceLinkRepository.GetAllAsync(
+                It.IsAny<Expression<Func<PartnerSourceLink, bool>>>(),
+                It.IsAny<Func<IQueryable<PartnerSourceLink>,
+                    IIncludableQueryable<PartnerSourceLink, object>>>()))
             .ThrowsAsync(new Exception("Test exception"));
 
         // Act
-        var result = await _handler.Handle(new UpdatePartnerCommand(partnerDto), CancellationToken.None);
+        var result = await _handler.Handle(
+            new UpdatePartnerCommand(partnerDto),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);

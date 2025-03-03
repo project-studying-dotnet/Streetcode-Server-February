@@ -1,14 +1,14 @@
 using System.Linq.Expressions;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Query;
 using Moq;
-using Xunit;
 using Streetcode.BLL.DTO.Partners;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Partners.GetByStreetcodeId;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Microsoft.EntityFrameworkCore.Query;
+using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.Partners.GetByStreetcodeId;
 

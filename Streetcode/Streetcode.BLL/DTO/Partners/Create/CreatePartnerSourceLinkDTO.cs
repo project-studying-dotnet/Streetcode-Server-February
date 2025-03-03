@@ -8,5 +8,5 @@ public class CreatePartnerSourceLinkDTO
 
     public LogoType LogoType { get; set; }
 
-    public string TargetUrl { get; set; }
+    public string? TargetUrl { get; set; }
 }

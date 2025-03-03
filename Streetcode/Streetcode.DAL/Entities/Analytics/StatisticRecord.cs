@@ -21,5 +21,5 @@ public class StatisticRecord
     public StreetcodeContent? Streetcode { get; set; }
 
     public int StreetcodeCoordinateId { get; set; }
-    required public StreetcodeCoordinate StreetcodeCoordinate { get; set; }
+    public StreetcodeCoordinate? StreetcodeCoordinate { get; set; }
  }

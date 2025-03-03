@@ -29,9 +29,10 @@ public class DeletePartnerHandlerTests
     public async Task Handle_WhenPartnerExists_ReturnsSuccessResult()
     {
         // Arrange
+        Partner? partner = null!;
         var partnerId = 1;
         var partnerTitle = "testTitle";
-        var partner = new Partner { Id = partnerId, Title = partnerTitle };
+        partner = new Partner { Id = partnerId, Title = partnerTitle };
         var partnerDto = new PartnerDTO { Id = partnerId, Title = partnerTitle };
 
         _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
@@ -57,7 +58,7 @@ public class DeletePartnerHandlerTests
 
         _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(), null))
-            .ReturnsAsync((Partner)null);
+            .ReturnsAsync((Partner?)null);
 
         // Act
         var result = await _handler.Handle(new DeletePartnerCommand(partnerId), CancellationToken.None);

@@ -7,6 +7,7 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Partners.GetAllPartnersShort;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Streetcode.XUnitTest.MediatRTests.Partners.GetAllPartnersShort;
 
@@ -41,8 +42,7 @@ public class GetAllPartnersShortHandlerTests
         _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),
             It.IsAny<Func<IQueryable<Partner>,
-                Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Partner,
-                object>>>()))
+                IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partners);
 
         _mockMapper.Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
@@ -67,7 +67,7 @@ public class GetAllPartnersShortHandlerTests
 
         _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Partner, object>>>()))
+            It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partners);
 
         _mockMapper.Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
@@ -89,7 +89,7 @@ public class GetAllPartnersShortHandlerTests
 
         _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Partner, object>>>()))
+            It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partners);
 
         // Act

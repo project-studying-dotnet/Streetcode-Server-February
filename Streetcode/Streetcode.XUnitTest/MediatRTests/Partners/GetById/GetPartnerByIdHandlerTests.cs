@@ -7,8 +7,6 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Partners.GetById;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using FluentResults;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 
 namespace Streetcode.XUnitTest.MediatRTests.Partners.GetById;
@@ -25,7 +23,10 @@ public class GetPartnerByIdHandlerTests
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerService>();
-        _handler = new GetPartnerByIdHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+        _handler = new GetPartnerByIdHandler(
+            _mockRepo.Object,
+            _mockMapper.Object,
+            _mockLogger.Object);
     }
 
     [Fact]
@@ -37,14 +38,17 @@ public class GetPartnerByIdHandlerTests
 
         _mockRepo.Setup(r => r.PartnersRepository.GetSingleOrDefaultAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+            It.IsAny<Func<IQueryable<Partner>,
+                IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partner);
 
         _mockMapper.Setup(m => m.Map<PartnerDTO>(partner))
             .Returns(partnerDto);
 
         // Act
-        var result = await _handler.Handle(new GetPartnerByIdQuery(1), CancellationToken.None);
+        var result = await _handler.Handle(
+            new GetPartnerByIdQuery(1),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -55,15 +59,18 @@ public class GetPartnerByIdHandlerTests
     public async Task Handle_WhenPartnerNotFound_ReturnsFailure()
     {
         // Arrange
-        Partner partner = null;
+        Partner? partner = null!;
 
         _mockRepo.Setup(r => r.PartnersRepository.GetSingleOrDefaultAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+            It.IsAny<Func<IQueryable<Partner>,
+                IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partner);
 
         // Act
-        var result = await _handler.Handle(new GetPartnerByIdQuery(1), CancellationToken.None);
+        var result = await _handler.Handle(
+            new GetPartnerByIdQuery(1),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);

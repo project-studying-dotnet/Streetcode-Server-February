@@ -14,7 +14,7 @@ public class Partner
 
     [Required]
     [MaxLength(255)]
-    public string Title { get; set; }
+    required public string Title { get; set; }
 
     [Required]
     public int LogoId { get; set; }

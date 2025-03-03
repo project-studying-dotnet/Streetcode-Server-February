@@ -1,18 +1,17 @@
-﻿namespace Streetcode.XUnitTest.MediatRTests.GetAllHistoricalContextHandlerTests;
-
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿using System.Linq.Expressions;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore.Query;
 using Moq;
+using Xunit;
 using Streetcode.BLL.DTO.Timeline;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.HistoricalContext.GetAll;
-using Streetcode.DAL.Entities.Timeline;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Xunit;
+
+using HistoricalContextEntity = Streetcode.DAL.Entities.Timeline.HistoricalContext;
+
+namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.GetAll;
 
 /// <summary>
 /// Tests for <see cref="GetAllHistoricalContextHandler"/> class.
@@ -42,15 +41,15 @@ public class GetAllHistoricalContextHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnHistoricalContexts_WhenHistoricalContextsExist()
     {
-        var historicalContexts = new List<HistoricalContext>
+        var historicalContexts = new List<HistoricalContextEntity>
         {
             new () { Id = 1, Title = "Title 1" },
             new () { Id = 2, Title = "Title 2" },
         };
 
         _repositoryWrapperMock.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(
-            It.IsAny<Expression<Func<HistoricalContext, bool>>?>(),
-            It.IsAny<Func<IQueryable<HistoricalContext>, IIncludableQueryable<HistoricalContext, object>>?>()))
+            It.IsAny<Expression<Func<HistoricalContextEntity, bool>>?>(),
+            It.IsAny<Func<IQueryable<HistoricalContextEntity>, IIncludableQueryable<HistoricalContextEntity, object>>?>()))
         .ReturnsAsync(historicalContexts);
 
         var historicalContextDtos = new List<HistoricalContextDTO>
@@ -82,9 +81,9 @@ public class GetAllHistoricalContextHandlerTests
         var errorMsg = "Cannot find any historical contexts";
 
         _repositoryWrapperMock.Setup(repo => repo.HistoricalContextRepository.GetAllAsync(
-            It.IsAny<Expression<Func<HistoricalContext, bool>>?>(),
-            It.IsAny<Func<IQueryable<HistoricalContext>, IIncludableQueryable<HistoricalContext, object>>?>()))
-        .ReturnsAsync(Enumerable.Empty<HistoricalContext>);
+            It.IsAny<Expression<Func<HistoricalContextEntity, bool>>?>(),
+            It.IsAny<Func<IQueryable<HistoricalContextEntity>, IIncludableQueryable<HistoricalContextEntity, object>>?>()))
+        .ReturnsAsync(Enumerable.Empty<HistoricalContextEntity>);
 
         var result = await _sut.Handle(query, CancellationToken.None);
 

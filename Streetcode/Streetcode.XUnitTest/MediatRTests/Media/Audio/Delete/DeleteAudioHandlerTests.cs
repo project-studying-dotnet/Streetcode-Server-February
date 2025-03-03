@@ -4,12 +4,13 @@ using Moq;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.Delete;
-using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Repositories.Interfaces.Media;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
+using AudioEntity = Streetcode.DAL.Entities.Media.Audio;
+
+namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.Delete;
 
 public class DeleteAudioHandlerTests
 {
@@ -34,9 +35,9 @@ public class DeleteAudioHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenAudioNotFound()
     {
         // Arrange
-        var command = new DeleteAudioCommand((int)Guid.NewGuid().GetHashCode());
-        _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
-            .ReturnsAsync((Audio)null);
+        var command = new DeleteAudioCommand(Guid.NewGuid().GetHashCode());
+        _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<AudioEntity, bool>>>(), null))
+            .ReturnsAsync((AudioEntity?)null);
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
@@ -50,10 +51,10 @@ public class DeleteAudioHandlerTests
     public async Task Handle_ShouldDeleteAudioAndReturnSuccess_WhenAudioExists()
     {
         // Arrange
-        var command = new DeleteAudioCommand((int)Guid.NewGuid().GetHashCode());
-        var audio = new Audio { Id = command.Id, BlobName = "test-blob" };
+        var command = new DeleteAudioCommand(Guid.NewGuid().GetHashCode());
+        var audio = new AudioEntity { Id = command.Id, BlobName = "test-blob" };
 
-        _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
+        _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<AudioEntity, bool>>>(), null))
             .ReturnsAsync(audio);
         _repositoryWrapperMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
 
@@ -71,10 +72,10 @@ public class DeleteAudioHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenDeletionFails()
     {
         // Arrange
-        var command = new DeleteAudioCommand((int)Guid.NewGuid().GetHashCode());
-        var audio = new Audio { Id = command.Id, BlobName = "test-blob" };
+        var command = new DeleteAudioCommand(Guid.NewGuid().GetHashCode());
+        var audio = new AudioEntity { Id = command.Id, BlobName = "test-blob" };
 
-        _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Audio, bool>>>(), null))
+        _audioRepositoryMock.Setup(r => r.GetFirstOrDefaultAsync(It.IsAny<Expression<Func<AudioEntity, bool>>>(), null))
             .ReturnsAsync(audio);
         _repositoryWrapperMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(0);
 

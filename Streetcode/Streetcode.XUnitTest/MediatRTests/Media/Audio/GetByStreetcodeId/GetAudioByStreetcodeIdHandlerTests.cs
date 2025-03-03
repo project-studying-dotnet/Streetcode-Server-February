@@ -7,12 +7,13 @@ using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Media.Audio.GetByStreetcodeId;
 using Streetcode.BLL.MediatR.ResultVariations;
-using Streetcode.DAL.Entities.Media;
 using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.MediaTests.AudioTests;
+using AudioEntity = Streetcode.DAL.Entities.Media.Audio;
+
+namespace Streetcode.XUnitTest.MediatRTests.Media.Audio.GetByStreetcodeId;
 
 public class GetAudioByStreetcodeIdHandlerTests
 {
@@ -42,9 +43,9 @@ public class GetAudioByStreetcodeIdHandlerTests
         var query = new GetAudioByStreetcodeIdQuery(1);
         _repositoryWrapperMock
             .Setup(repo => repo.StreetcodeRepository.GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Streetcode.DAL.Entities.Streetcode.StreetcodeContent, bool>>>(),
-                It.IsAny<Func<IQueryable<Streetcode.DAL.Entities.Streetcode.StreetcodeContent>, IIncludableQueryable<Streetcode.DAL.Entities.Streetcode.StreetcodeContent, object>>>()))
-            .ReturnsAsync((StreetcodeContent)null);
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
+            .ReturnsAsync((StreetcodeContent?)null);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -63,8 +64,8 @@ public class GetAudioByStreetcodeIdHandlerTests
 
         _repositoryWrapperMock
             .Setup(repo => repo.StreetcodeRepository.GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Streetcode.DAL.Entities.Streetcode.StreetcodeContent, bool>>>(),
-                It.IsAny<Func<IQueryable<Streetcode.DAL.Entities.Streetcode.StreetcodeContent>, IIncludableQueryable<Streetcode.DAL.Entities.Streetcode.StreetcodeContent, object>>>()))
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
             .ReturnsAsync(streetcode);
 
         // Act
@@ -83,14 +84,14 @@ public class GetAudioByStreetcodeIdHandlerTests
         var streetcode = new StreetcodeContent
         {
             Id = 1,
-            Audio = new Audio { Id = 100, BlobName = "test.mp3" }
+            Audio = new AudioEntity { Id = 100, BlobName = "test.mp3" }
         };
         var audioDto = new AudioDTO { BlobName = "test.mp3" };
 
         _repositoryWrapperMock
             .Setup(repo => repo.StreetcodeRepository.GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Streetcode.DAL.Entities.Streetcode.StreetcodeContent, bool>>>(),
-                It.IsAny<Func<IQueryable<Streetcode.DAL.Entities.Streetcode.StreetcodeContent>, IIncludableQueryable<Streetcode.DAL.Entities.Streetcode.StreetcodeContent, object>>>()))
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
+                It.IsAny<Func<IQueryable<StreetcodeContent>, IIncludableQueryable<StreetcodeContent, object>>>()))
             .ReturnsAsync(streetcode);
 
         _mapperMock.Setup(mapper => mapper.Map<AudioDTO>(streetcode.Audio)).Returns(audioDto);

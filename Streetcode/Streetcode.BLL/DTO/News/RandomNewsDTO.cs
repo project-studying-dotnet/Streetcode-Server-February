@@ -2,7 +2,7 @@
 
 public class RandomNewsDTO
 {
-    public string Title { get; set; }
+    public string? Title { get; set; }
 
-    public string RandomNewsUrl { get; set; }
+    public string? RandomNewsUrl { get; set; }
 }

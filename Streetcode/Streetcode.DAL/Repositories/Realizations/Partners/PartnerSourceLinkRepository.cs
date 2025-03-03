@@ -5,10 +5,10 @@ using Streetcode.DAL.Repositories.Realizations.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.Partners;
 
-public class PartnerSourceLinksRepository
+public class PartnerSourceLinkRepository
     : RepositoryBase<PartnerSourceLink>, IPartnerSourceLinkRepository
 {
-    public PartnerSourceLinksRepository(StreetcodeDbContext context)
+    public PartnerSourceLinkRepository(StreetcodeDbContext context)
         : base(context)
     {
     }

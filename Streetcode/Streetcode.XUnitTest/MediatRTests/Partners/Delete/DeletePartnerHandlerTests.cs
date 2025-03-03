@@ -30,8 +30,9 @@ public class DeletePartnerHandlerTests
     {
         // Arrange
         var partnerId = 1;
-        var partner = new Partner { Id = partnerId };
-        var partnerDto = new PartnerDTO { Id = partnerId };
+        var partnerTitle = "testTitle";
+        var partner = new Partner { Id = partnerId, Title = partnerTitle };
+        var partnerDto = new PartnerDTO { Id = partnerId, Title = partnerTitle };
 
         _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(), null))

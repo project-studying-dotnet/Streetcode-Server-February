@@ -22,7 +22,10 @@ public class GetAllPartnersShortHandlerTests
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerService>();
-        _handler = new GetAllPartnersShortHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+        _handler = new GetAllPartnersShortHandler(
+            _mockRepo.Object,
+            _mockMapper.Object,
+            _mockLogger.Object);
     }
 
     [Fact]
@@ -30,18 +33,25 @@ public class GetAllPartnersShortHandlerTests
     {
         // Arrange
         var partners = new List<Partner> { new Partner { Title = "Test" } };
-        var partnersDto = new List<PartnerShortDTO> { new PartnerShortDTO { Title = "Test" } };
+        var partnersDto = new List<PartnerShortDTO>
+        {
+            new PartnerShortDTO { Title = "Test" }
+        };
 
         _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Partner, object>>>()))
+            It.IsAny<Func<IQueryable<Partner>,
+                Microsoft.EntityFrameworkCore.Query.IIncludableQueryable<Partner,
+                object>>>()))
             .ReturnsAsync(partners);
 
         _mockMapper.Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
             .Returns(partnersDto);
 
         // Act
-        var result = await _handler.Handle(new GetAllPartnersShortQuery(), CancellationToken.None);
+        var result = await _handler.Handle(
+            new GetAllPartnersShortQuery(),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -75,7 +85,7 @@ public class GetAllPartnersShortHandlerTests
     public async Task Handle_WhenPartnersNull_ReturnsFailure()
     {
         // Arrange
-        List<Partner> partners = null;
+        List<Partner> partners = null!;
 
         _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
             It.IsAny<Expression<Func<Partner, bool>>>(),

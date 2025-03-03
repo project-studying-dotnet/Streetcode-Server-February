@@ -39,13 +39,15 @@ public class GetAllPartnersShortHandlerTests
             new PartnerShortDTO { Title = "Test" }
         };
 
-        _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
-            It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>,
+        _mockRepo
+            .Setup(r => r.PartnersRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Partner, bool>>>(),
+                It.IsAny<Func<IQueryable<Partner>,
                 IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partners);
 
-        _mockMapper.Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
+        _mockMapper
+            .Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
             .Returns(partnersDto);
 
         // Act
@@ -65,16 +67,21 @@ public class GetAllPartnersShortHandlerTests
         var partners = new List<Partner>();
         var partnersDto = new List<PartnerShortDTO>();
 
-        _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
-            It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+        _mockRepo
+            .Setup(r => r.PartnersRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Partner, bool>>>(),
+                It.IsAny<Func<IQueryable<Partner>,
+                IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partners);
 
-        _mockMapper.Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
+        _mockMapper
+            .Setup(m => m.Map<IEnumerable<PartnerShortDTO>>(partners))
             .Returns(partnersDto);
 
         // Act
-        var result = await _handler.Handle(new GetAllPartnersShortQuery(), CancellationToken.None);
+        var result = await _handler.Handle(
+            new GetAllPartnersShortQuery(),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -87,13 +94,17 @@ public class GetAllPartnersShortHandlerTests
         // Arrange
         List<Partner> partners = null!;
 
-        _mockRepo.Setup(r => r.PartnersRepository.GetAllAsync(
-            It.IsAny<Expression<Func<Partner, bool>>>(),
-            It.IsAny<Func<IQueryable<Partner>, IIncludableQueryable<Partner, object>>>()))
+        _mockRepo
+            .Setup(r => r.PartnersRepository.GetAllAsync(
+                It.IsAny<Expression<Func<Partner, bool>>>(),
+                It.IsAny<Func<IQueryable<Partner>,
+                IIncludableQueryable<Partner, object>>>()))
             .ReturnsAsync(partners);
 
         // Act
-        var result = await _handler.Handle(new GetAllPartnersShortQuery(), CancellationToken.None);
+        var result = await _handler.Handle(
+            new GetAllPartnersShortQuery(),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);

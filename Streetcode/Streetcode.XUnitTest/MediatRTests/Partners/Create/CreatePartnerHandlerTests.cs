@@ -25,7 +25,10 @@ public class CreatePartnerHandlerTests
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerService>();
-        _handler = new CreatePartnerHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+        _handler = new CreatePartnerHandler(
+            _mockRepo.Object,
+            _mockMapper.Object,
+            _mockLogger.Object);
     }
 
     [Fact]
@@ -56,22 +59,27 @@ public class CreatePartnerHandlerTests
 
         var partnerDto = new PartnerDTO { Id = 1, Title = "Test Partner" };
 
-        _mockMapper.Setup(m => m.Map<Partner>(createPartnerDto))
+        _mockMapper
+            .Setup(m => m.Map<Partner>(createPartnerDto))
             .Returns(partner);
 
-        _mockRepo.Setup(r => r.PartnersRepository.CreateAsync(partner))
+        _mockRepo
+            .Setup(r => r.PartnersRepository.CreateAsync(partner))
             .ReturnsAsync(partner);
 
-        _mockRepo.Setup(r => r.StreetcodeRepository.GetAllAsync(
-                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(),
-                null))
+        _mockRepo
+            .Setup(r => r.StreetcodeRepository.GetAllAsync(
+                It.IsAny<Expression<Func<StreetcodeContent, bool>>>(), null))
             .ReturnsAsync(streetcodes);
 
-        _mockMapper.Setup(m => m.Map<PartnerDTO>(partner))
+        _mockMapper
+            .Setup(m => m.Map<PartnerDTO>(partner))
             .Returns(partnerDto);
 
         // Act
-        var result = await _handler.Handle(new CreatePartnerCommand(createPartnerDto), CancellationToken.None);
+        var result = await _handler.Handle(
+            new CreatePartnerCommand(createPartnerDto),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -99,14 +107,18 @@ public class CreatePartnerHandlerTests
 
         var exceptionMessage = "Test exception";
 
-        _mockMapper.Setup(m => m.Map<Partner>(createPartnerDto))
+        _mockMapper
+            .Setup(m => m.Map<Partner>(createPartnerDto))
             .Returns(partner);
 
-        _mockRepo.Setup(r => r.PartnersRepository.CreateAsync(partner))
+        _mockRepo
+            .Setup(r => r.PartnersRepository.CreateAsync(partner))
             .ThrowsAsync(new Exception(exceptionMessage));
 
         // Act
-        var result = await _handler.Handle(new CreatePartnerCommand(createPartnerDto), CancellationToken.None);
+        var result = await _handler.Handle(
+            new CreatePartnerCommand(createPartnerDto),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);

@@ -22,7 +22,10 @@ public class DeletePartnerHandlerTests
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerService>();
-        _handler = new DeletePartnerHandler(_mockRepo.Object, _mockMapper.Object, _mockLogger.Object);
+        _handler = new DeletePartnerHandler(
+            _mockRepo.Object,
+            _mockMapper.Object,
+            _mockLogger.Object);
     }
 
     [Fact]
@@ -33,17 +36,22 @@ public class DeletePartnerHandlerTests
         var partnerId = 1;
         var partnerTitle = "testTitle";
         partner = new Partner { Id = partnerId, Title = partnerTitle };
-        var partnerDto = new PartnerDTO { Id = partnerId, Title = partnerTitle };
+        var partnerDto =
+            new PartnerDTO { Id = partnerId, Title = partnerTitle };
 
-        _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<Partner, bool>>>(), null))
+        _mockRepo
+            .Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Partner, bool>>>(), null))
             .ReturnsAsync(partner);
 
-        _mockMapper.Setup(m => m.Map<PartnerDTO>(partner))
+        _mockMapper
+            .Setup(m => m.Map<PartnerDTO>(partner))
             .Returns(partnerDto);
 
         // Act
-        var result = await _handler.Handle(new DeletePartnerCommand(partnerId), CancellationToken.None);
+        var result = await _handler.Handle(
+            new DeletePartnerCommand(partnerId),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsSuccess);
@@ -56,12 +64,15 @@ public class DeletePartnerHandlerTests
         // Arrange
         var partnerId = 1;
 
-        _mockRepo.Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<Partner, bool>>>(), null))
+        _mockRepo
+            .Setup(r => r.PartnersRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Partner, bool>>>(), null))
             .ReturnsAsync((Partner?)null);
 
         // Act
-        var result = await _handler.Handle(new DeletePartnerCommand(partnerId), CancellationToken.None);
+        var result = await _handler.Handle(
+            new DeletePartnerCommand(partnerId),
+            CancellationToken.None);
 
         // Assert
         Assert.True(result.IsFailed);

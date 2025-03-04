@@ -1,0 +1,10 @@
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+# C# files
+[*.cs]
+end_of_line = crlf
+insert_final_newline = true
+
+# Code-block preferences
+csharp_style_namespace_declarations = file_scoped:error

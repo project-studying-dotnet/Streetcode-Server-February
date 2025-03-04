@@ -2,6 +2,6 @@
 
 public class PaymentResponseDTO
 {
-    public string InvoiceId { get; set; }
-    public string PageUrl { get; set; }
+    required public string InvoiceId { get; set; }
+    required public string PageUrl { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.IO.Compression;
 using System.Net;
+using System.Net.Security;
 using System.Text;
 using Newtonsoft.Json;
 using Polly;
@@ -28,9 +29,9 @@ public class WebParsingUtils
     private readonly IRepositoryWrapper _repository;
     private readonly StreetcodeDbContext _streetcodeContext;
 
-    public WebParsingUtils(StreetcodeDbContext streetcodeContext)
+    public WebParsingUtils(IRepositoryWrapper repository, StreetcodeDbContext streetcodeContext)
     {
-        _repository = new RepositoryWrapper(streetcodeContext);
+        _repository = repository;
         _streetcodeContext = streetcodeContext;
     }
 
@@ -57,7 +58,10 @@ public class WebParsingUtils
 
         var clientHandler = new HttpClientHandler();
         clientHandler.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-        clientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true;
+        clientHandler.ServerCertificateCustomValidationCallback = (message, cert, chain, errors) =>
+        {
+            return errors == SslPolicyErrors.None;
+        };
 
         var retryPolicy = Policy.Handle<Exception>().WaitAndRetryAsync(
             3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));

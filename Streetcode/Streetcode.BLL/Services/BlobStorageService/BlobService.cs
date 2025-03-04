@@ -11,7 +11,7 @@ public class BlobService : IBlobService
     private readonly BlobEnvironmentVariables _environment;
     private readonly string _keyCrypt;
     private readonly string _blobPath;
-    private readonly IRepositoryWrapper _repositoryWrapper;
+    private readonly IRepositoryWrapper? _repositoryWrapper;
 
     public BlobService(IOptions<BlobEnvironmentVariables> environment, IRepositoryWrapper? repositoryWrapper = null)
     {
@@ -23,9 +23,9 @@ public class BlobService : IBlobService
 
     public MemoryStream FindFileInStorageAsMemoryStream(string name)
     {
-        string[] splitedName = name.Split('.');
+        string[] splittedName = name.Split('.');
 
-        byte[] decodedBytes = DecryptFile(splitedName[0], splitedName[1]);
+        byte[] decodedBytes = DecryptFile(splittedName[0], splittedName[1]);
 
         var image = new MemoryStream(decodedBytes);
 
@@ -34,9 +34,9 @@ public class BlobService : IBlobService
 
     public string FindFileInStorageAsBase64(string name)
     {
-        string[] splitedName = name.Split('.');
+        string[] splittedName = name.Split('.');
 
-        byte[] decodedBytes = DecryptFile(splitedName[0], splitedName[1]);
+        byte[] decodedBytes = DecryptFile(splittedName[0], splittedName[1]);
 
         string base64 = Convert.ToBase64String(decodedBytes);
 

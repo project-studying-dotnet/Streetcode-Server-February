@@ -1,4 +1,7 @@
+using System.Reflection;
+using FluentValidation;
 using Hangfire;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using Streetcode.BLL.Interfaces.Logging;
@@ -19,11 +22,15 @@ using Streetcode.BLL.Services.Instagram;
 using Streetcode.BLL.Interfaces.Text;
 using Streetcode.BLL.Services.Text;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Streetcode.BLL.Behaviors;
+using Streetcode.WebApi.ExceptionHandlers;
 
 namespace Streetcode.WebApi.Extensions;
 
 public static class ServiceCollectionExtensions
 {
+    private static Assembly[] _currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+
     public static void AddRepositoryServices(this IServiceCollection services)
     {
         services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
@@ -33,10 +40,8 @@ public static class ServiceCollectionExtensions
     {
         services.AddRepositoryServices();
         services.AddFeatureManagement();
-        var currentAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-        services.AddAutoMapper(currentAssemblies);
-        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(currentAssemblies));
-
+        services.AddAutoMapper(_currentAssemblies);
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(_currentAssemblies));
         services.AddScoped<IBlobService, BlobService>();
         services.AddScoped<ILoggerService, LoggerService>();
         services.AddScoped<IEmailService, EmailService>();
@@ -99,6 +104,20 @@ public static class ServiceCollectionExtensions
             opt.SwaggerDoc("v1", new OpenApiInfo { Title = "MyApi", Version = "v1" });
             opt.CustomSchemaIds(x => x.FullName);
         });
+    }
+
+    public static void AddValidationPipeline(this IServiceCollection services)
+    {
+        services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+        var bllAssembly = _currentAssemblies.FirstOrDefault(a => a.GetName().Name == "Streetcode.BLL");
+        services.AddValidatorsFromAssembly(bllAssembly, includeInternalTypes: true);
+    }
+
+    public static void AddExceptionHandler(this IServiceCollection services)
+    {
+        services.AddExceptionHandler<ValidationExceptionHandler>();
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
     }
 
     public class CorsConfiguration

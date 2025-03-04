@@ -9,11 +9,14 @@ builder.Host.ConfigureApplication();
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddSwaggerServices();
 builder.Services.AddCustomServices();
+builder.Services.AddValidationPipeline();
+builder.Services.AddExceptionHandler();
 builder.Services.ConfigureBlob(builder);
 builder.Services.ConfigurePayment(builder);
 builder.Services.ConfigureInstagram(builder);
 builder.Services.ConfigureSerilog(builder);
 var app = builder.Build();
+app.UseExceptionHandler();
 
 if (app.Environment.EnvironmentName == "Local")
 {

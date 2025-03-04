@@ -4,10 +4,7 @@ namespace Streetcode.BLL.DTO.Email;
 
 public class EmailDTO
 {
-    [MaxLength(80)]
-    required public string From { get; set; }
+    public string From { get; set; }
 
-    [Required]
-    [StringLength(500, MinimumLength = 1)]
-    required public string Content { get; set; }
+    public string Content { get; set; }
 }

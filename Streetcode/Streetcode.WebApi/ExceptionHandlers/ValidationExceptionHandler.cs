@@ -14,7 +14,7 @@ public class ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logg
             return false;
         }
 
-        logger.LogError(exception, "Exception occured: {exception}");
+        logger.LogError(exception, "Exception occured:");
 
         var problemDetails = new ProblemDetails
         {

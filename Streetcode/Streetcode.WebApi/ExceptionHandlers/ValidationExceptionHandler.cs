@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Streetcode.WebApi.ExceptionHandlers;
 
-public class ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logger) : IExceptionHandler
+public class ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logger)
+    : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {

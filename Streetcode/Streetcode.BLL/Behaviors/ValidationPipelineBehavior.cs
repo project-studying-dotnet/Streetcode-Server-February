@@ -27,7 +27,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse>
             .Where(x => x != null)
             .ToList();
 
-        if (errors.Any())
+        if (errors.Count != 0)
         {
             throw new ValidationException(errors);
         }

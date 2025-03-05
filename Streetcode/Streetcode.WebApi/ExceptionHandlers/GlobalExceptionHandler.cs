@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Streetcode.WebApi.ExceptionHandlers;
 
-public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
+public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
+    : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        logger.LogError("Exception occured: {exception}", exception);
+        logger.LogError(exception, "An exception occurred while processing the request.");
 
         var problemDetails = new ProblemDetails
         {

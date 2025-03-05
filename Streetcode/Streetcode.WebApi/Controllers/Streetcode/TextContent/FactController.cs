@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Streetcode.BLL.MediatR.Streetcode.Fact.GetAll;
 using Streetcode.BLL.MediatR.Streetcode.Fact.GetById;
 using Streetcode.BLL.MediatR.Streetcode.Fact.GetByStreetcodeId;
+using Streetcode.BLL.MediatR.Streetcode.Fact.Delete;
 
 namespace Streetcode.WebApi.Controllers.Streetcode.TextContent;
 
@@ -23,5 +24,11 @@ public class FactController : BaseApiController
     public async Task<IActionResult> GetByStreetcodeId([FromRoute] int streetcodeId)
     {
         return HandleResult(await Mediator.Send(new GetFactByStreetcodeIdQuery(streetcodeId)));
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteFact([FromRoute] int id)
+    {
+        return HandleResult(await Mediator.Send(new DeleteFactCommand(id)));
     }
 }

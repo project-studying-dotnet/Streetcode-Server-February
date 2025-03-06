@@ -19,4 +19,7 @@ public class FactUpdateCreateDTO
     public ImageDTO? Image { get; set; }
 
     public int StreetcodeId { get; set; }
+
+    [StringLength(200)]
+    public string? ImageDescription { get; set; }
 }

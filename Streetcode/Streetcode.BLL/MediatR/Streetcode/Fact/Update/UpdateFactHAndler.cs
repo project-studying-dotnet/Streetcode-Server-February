@@ -36,17 +36,8 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
             return Result.Fail(new Error(errorMsg));
         }
 
-        var fact = _mapper.Map<DAL.Entities.Streetcode.TextContent.Fact>(request.FactDTO);
-        if (fact is null)
-        {
-            const string errorMsg = "Cannot convert null to fact";
-            _logger.LogError(request, errorMsg);
-            return Result.Fail(new Error(errorMsg));
-        }
-
         var existingFact = await _repositoryWrapper.FactRepository
             .GetFirstOrDefaultAsync(f => f.Id == request.FactDTO.Id);
-
         if (existingFact is null)
         {
             var errorMsg = $"Cannot find fact with id: {request.FactDTO.Id} to update";
@@ -54,27 +45,45 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
             return Result.Fail(new Error(errorMsg));
         }
 
-        _mapper.Map(request.FactDTO, existingFact);
-        var response = _mapper.Map<FactDTO>(existingFact);
-
-        if (fact.Image is not null && !string.IsNullOrEmpty(response.Image?.BlobName))
+        if (!string.IsNullOrEmpty(request.FactDTO.Title))
         {
-            response.Image.Base64 = _blobService.FindFileInStorageAsBase64(response.Image.BlobName);
+            existingFact.Title = request.FactDTO.Title;
         }
-        else if (fact.ImageId != existingFact.ImageId && existingFact.ImageId.HasValue)
+
+        if (!string.IsNullOrEmpty(request.FactDTO.FactContent))
         {
-            var img = await _repositoryWrapper.ImageRepository.GetFirstOrDefaultAsync(x => x.Id == existingFact.ImageId);
-            if (img != null)
+            existingFact.FactContent = request.FactDTO.FactContent;
+        }
+
+        if (!string.IsNullOrEmpty(request.FactDTO.ImageDescription))
+        {
+            _logger.LogInformation($"ImageDescription: {request.FactDTO.ImageDescription}");
+        }
+
+        if (request.FactDTO.ImageId.HasValue && request.FactDTO.ImageId != existingFact.ImageId)
+        {
+            if (existingFact.ImageId.HasValue && _repositoryWrapper.ImageRepository != null)
             {
-                _repositoryWrapper.ImageRepository.Delete(img);
+                var oldImage = await _repositoryWrapper.ImageRepository.GetFirstOrDefaultAsync(x => x.Id == existingFact.ImageId);
+                if (oldImage != null)
+                {
+                    _repositoryWrapper.ImageRepository.Delete(oldImage);
+                }
             }
+
+            existingFact.ImageId = request.FactDTO.ImageId;
         }
 
         _repositoryWrapper.FactRepository.Update(existingFact);
         var resultIsSuccess = await _repositoryWrapper.SaveChangesAsync() > 0;
-
         if (resultIsSuccess)
         {
+            var response = _mapper.Map<FactDTO>(existingFact);
+            if (response.Image is not null && !string.IsNullOrEmpty(response.Image.BlobName))
+            {
+                response.Image.Base64 = _blobService.FindFileInStorageAsBase64(response.Image.BlobName);
+            }
+
             return Result.Ok(response);
         }
         else

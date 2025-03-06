@@ -35,6 +35,90 @@ public class UpdateFactHandlerTests
     }
 
     [Fact]
+    public async Task Handle_WhenTitleIsUpdated_ReturnsSuccessResult()
+    {
+        // Arrange
+        var factId = 1;
+        var factDto = new FactUpdateCreateDTO
+        {
+            Id = factId,
+            Title = "Updated Title",
+            FactContent = "Updated content",
+            StreetcodeId = 1
+        };
+
+        var existingFact = new Fact { Id = factId };
+        var mappedFact = new Fact { Id = factId };
+        var responseDto = new FactDTO { Id = factId };
+
+        _mockRepo.Setup(r => r.FactRepository
+            .GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                null))
+            .ReturnsAsync(existingFact);
+
+        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+            .Returns(mappedFact);
+
+        _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
+            .Returns(responseDto);
+
+        _mockRepo.Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(1);
+
+        // Act
+        var result = await _handler.Handle(
+            new UpdateFactCommand(factDto),
+            CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal("Updated Title", existingFact.Title);
+    }
+
+    [Fact]
+    public async Task Handle_WhenFactContentIsUpdated_ReturnsSuccessResult()
+    {
+        // Arrange
+        var factId = 1;
+        var factDto = new FactUpdateCreateDTO
+        {
+            Id = factId,
+            Title = "Updated Title",
+            FactContent = "Updated content",
+            StreetcodeId = 1
+        };
+
+        var existingFact = new Fact { Id = factId };
+        var mappedFact = new Fact { Id = factId };
+        var responseDto = new FactDTO { Id = factId };
+
+        _mockRepo.Setup(r => r.FactRepository
+            .GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                null))
+            .ReturnsAsync(existingFact);
+
+        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+            .Returns(mappedFact);
+
+        _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
+            .Returns(responseDto);
+
+        _mockRepo.Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(1);
+
+        // Act
+        var result = await _handler.Handle(
+            new UpdateFactCommand(factDto),
+            CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal("Updated content", existingFact.FactContent);
+    }
+
+    [Fact]
     public async Task Handle_WhenFactExists_ReturnsSuccessResult()
     {
         // Arrange
@@ -52,7 +136,9 @@ public class UpdateFactHandlerTests
         var responseDto = new FactDTO { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
-            .GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Fact, bool>>>(), null))
+            .GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                null))
             .ReturnsAsync(existingFact);
 
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
@@ -87,7 +173,9 @@ public class UpdateFactHandlerTests
             .Returns(mappedFact);
 
         _mockRepo.Setup(r => r.FactRepository
-            .GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Fact, bool>>>(), null))
+            .GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                null))
             .ReturnsAsync((Fact?)null);
 
         // Act
@@ -105,6 +193,47 @@ public class UpdateFactHandlerTests
     }
 
     [Fact]
+    public async Task Handle_WhenImageDescriptionIsUpdatedWithoutImage_ReturnsSuccessResult()
+    {
+        // Arrange
+        var factId = 1;
+        var factDto = new FactUpdateCreateDTO
+        {
+            Id = factId,
+            ImageDescription = "Updated image description",
+            StreetcodeId = 1
+        };
+
+        var existingFact = new Fact { Id = factId };
+        var mappedFact = new Fact { Id = factId };
+        var responseDto = new FactDTO { Id = factId };
+
+        _mockRepo.Setup(r => r.FactRepository
+            .GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                null))
+            .ReturnsAsync(existingFact);
+
+        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+            .Returns(mappedFact);
+
+        _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
+            .Returns(responseDto);
+
+        _mockRepo.Setup(r => r.SaveChangesAsync())
+            .ReturnsAsync(1);
+
+        // Act
+        var result = await _handler.Handle(
+            new UpdateFactCommand(factDto),
+            CancellationToken.None);
+
+        // Assert
+        Assert.True(result.IsSuccess);
+        Assert.Equal("Updated image description", factDto.ImageDescription);
+    }
+
+    [Fact]
     public async Task Handle_WithImageUpdate_HandlesImageCorrectly()
     {
         // Arrange
@@ -116,19 +245,34 @@ public class UpdateFactHandlerTests
         {
             Id = factId,
             ImageId = newImageId,
-            Image = new ImageDTO { Id = newImageId, BlobName = "new-image.jpg" }
+            Image = new ImageDTO
+            {
+                Id = newImageId,
+                BlobName = "new-image.jpg"
+            }
         };
 
         var existingFact = new Fact { Id = factId, ImageId = oldImageId };
-        var mappedFact = new Fact { Id = factId, ImageId = newImageId, Image = new DAL.Entities.Media.Images.Image { Id = newImageId } };
+        var mappedFact = new Fact
+        {
+            Id = factId,
+            ImageId = newImageId,
+            Image = new DAL.Entities.Media.Images.Image { Id = newImageId }
+        };
         var responseDto = new FactDTO
         {
             Id = factId,
-            Image = new ImageDTO { Id = newImageId, BlobName = "new-image.jpg" }
+            Image = new ImageDTO
+            {
+                Id = newImageId,
+                BlobName = "new-image.jpg"
+            }
         };
 
         _mockRepo.Setup(r => r.FactRepository
-            .GetFirstOrDefaultAsync(It.IsAny<Expression<Func<Fact, bool>>>(), null))
+            .GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<Fact, bool>>>(),
+                null))
             .ReturnsAsync(existingFact);
 
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
@@ -137,7 +281,8 @@ public class UpdateFactHandlerTests
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
 
-        _mockBlobService.Setup(b => b.FindFileInStorageAsBase64(It.IsAny<string>()))
+        _mockBlobService.Setup(
+                b => b.FindFileInStorageAsBase64(It.IsAny<string>()))
             .Returns("base64-image-data");
 
         _mockRepo.Setup(r => r.SaveChangesAsync())
@@ -150,6 +295,8 @@ public class UpdateFactHandlerTests
 
         // Assert
         Assert.True(result.IsSuccess);
-        _mockBlobService.Verify(b => b.FindFileInStorageAsBase64(It.IsAny<string>()), Times.Once);
+        _mockBlobService.Verify(
+            b => b.FindFileInStorageAsBase64(It.IsAny<string>()),
+            Times.Once);
     }
 }

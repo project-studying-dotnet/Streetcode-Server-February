@@ -5,6 +5,7 @@ using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
 using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
 using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
 using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Create;
@@ -32,38 +33,29 @@ public class CreateCoordinateHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnFailure_WhenMappingReturnsNull()
     {
-        // Arrange
         var streetcodeCoordinateDTO = new StreetcodeCoordinateDTO();
         var command = new CreateCoordinateCommand(streetcodeCoordinateDTO);
-        _mapperMock.Setup(m => m.Map<DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate>(It.IsAny<StreetcodeCoordinateDTO>()))
-            .Returns((DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate)null);
+        _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(
+            It.IsAny<StreetcodeCoordinateDTO>()))
+            .Returns((StreetcodeCoordinate)null);
 
-        // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Assert
         result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
     public async Task Handle_ShouldCallCreate_WhenMappingIsSuccessful()
     {
-        // Arrange
         var streetcodeCoordinateDTO = new StreetcodeCoordinateDTO();
         var command = new CreateCoordinateCommand(streetcodeCoordinateDTO);
-        var mappedEntity = new DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate();
+        var mappedEntity = new StreetcodeCoordinate();
 
-        _mapperMock.Setup(m => m.Map<DAL.Entities.AdditionalContent
-            .Coordinates.Types.StreetcodeCoordinate>(
+        _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(
             It.IsAny<StreetcodeCoordinateDTO>())).Returns(mappedEntity);
 
-        // Act
         await _handler.Handle(command, CancellationToken.None);
 
-        // Assert
         _repositoryWrapperMock.Verify(
             r => r.StreetcodeCoordinateRepository
                 .Create(mappedEntity), Times.Once);
@@ -72,42 +64,34 @@ public class CreateCoordinateHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnSuccess_WhenSaveChangeReturnPositive()
     {
-        // Arrange
         var streetcodeCoordinateDTO = new StreetcodeCoordinateDTO();
         var command = new CreateCoordinateCommand(streetcodeCoordinateDTO);
-        var mappedEntity = new DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate();
-        _mapperMock.Setup(m => m.Map<DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate>(It.IsAny<StreetcodeCoordinateDTO>()))
+        var mappedEntity = new StreetcodeCoordinate();
+        _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(
+            It.IsAny<StreetcodeCoordinateDTO>()))
             .Returns(mappedEntity);
         _repositoryWrapperMock.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(1);
 
-        // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Assert
         result.IsSuccess.Should().BeTrue();
     }
 
     [Fact]
     public async Task Handle_ShouldReturnFailure_WhenSaveChangesReturnsZero()
     {
-        // Arrange
         var streetcodeCoordinateDTO = new StreetcodeCoordinateDTO();
         var command = new CreateCoordinateCommand(streetcodeCoordinateDTO);
-        var mappedEntity = new DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate();
-        _mapperMock.Setup(m => m.Map<DAL.Entities.AdditionalContent.Coordinates
-            .Types.StreetcodeCoordinate>(It.IsAny<StreetcodeCoordinateDTO>()))
+        var mappedEntity = new StreetcodeCoordinate();
+        _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(
+            It.IsAny<StreetcodeCoordinateDTO>()))
             .Returns(mappedEntity);
         _repositoryWrapperMock.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(0);
 
-        // Act
         var result = await _handler.Handle(command, CancellationToken.None);
 
-        // Assert
         result.IsSuccess.Should().BeFalse();
     }
 }

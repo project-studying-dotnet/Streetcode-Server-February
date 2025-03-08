@@ -37,7 +37,7 @@ public class CreateCoordinateHandlerTests
         var command = new CreateCoordinateCommand(streetcodeCoordinateDTO);
         _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(
             It.IsAny<StreetcodeCoordinateDTO>()))
-            .Returns((StreetcodeCoordinate)null);
+            .Returns((StreetcodeCoordinate)null!);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 

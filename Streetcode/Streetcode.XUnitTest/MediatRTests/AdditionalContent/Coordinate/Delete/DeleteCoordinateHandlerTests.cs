@@ -27,7 +27,7 @@ public class DeleteCoordinateHandlerTests
             .GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(),
                 null))
-            .ReturnsAsync((StreetcodeCoordinate)null);
+            .ReturnsAsync((StreetcodeCoordinate)null!);
 
         var result = await _handler.Handle(request, CancellationToken.None);
 

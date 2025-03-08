@@ -32,7 +32,7 @@ public class GetCoordinatesByStreetcodeIdHandlerTests
         _repositoryWrapperMock.Setup(r => r.StreetcodeRepository
         .GetFirstOrDefaultAsync(
             It.IsAny<Expression<Func<StreetcodeContent, bool>>>(), null))
-            .ReturnsAsync((StreetcodeContent)null);
+            .ReturnsAsync((StreetcodeContent)null!);
 
         var query = new GetCoordinatesByStreetcodeIdQuery(1);
 
@@ -47,7 +47,7 @@ public class GetCoordinatesByStreetcodeIdHandlerTests
         _repositoryWrapperMock.Setup(r => r.StreetcodeRepository
         .GetFirstOrDefaultAsync(
             It.IsAny<Expression<Func<StreetcodeContent, bool>>>(), null))
-            .ReturnsAsync((StreetcodeContent)null);
+            .ReturnsAsync((StreetcodeContent)null!);
 
         var query = new GetCoordinatesByStreetcodeIdQuery(1);
 
@@ -68,7 +68,7 @@ public class GetCoordinatesByStreetcodeIdHandlerTests
         _repositoryWrapperMock.Setup(r => r
         .StreetcodeCoordinateRepository.GetAllAsync(
             It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(), null))
-            .ReturnsAsync((IEnumerable<StreetcodeCoordinate>)null);
+            .ReturnsAsync((IEnumerable<StreetcodeCoordinate>)null!);
 
         var query = new GetCoordinatesByStreetcodeIdQuery(1);
 
@@ -88,7 +88,7 @@ public class GetCoordinatesByStreetcodeIdHandlerTests
         _repositoryWrapperMock.Setup(r => r
         .StreetcodeCoordinateRepository.GetAllAsync(
             It.IsAny<Expression<Func<StreetcodeCoordinate, bool>>>(), null))
-            .ReturnsAsync((IEnumerable<StreetcodeCoordinate>)null);
+            .ReturnsAsync((IEnumerable<StreetcodeCoordinate>)null!);
 
         var query = new GetCoordinatesByStreetcodeIdQuery(1);
 
@@ -102,9 +102,9 @@ public class GetCoordinatesByStreetcodeIdHandlerTests
     public async Task Handle_ShouldReturnMappedCoordinate_WhenCoordinateExist()
     {
         var coordinates = new List<StreetcodeCoordinate>
-        { new StreetcodeCoordinate() };
+        { new() };
         var mappedCoordinates = new List<StreetcodeCoordinateDTO>
-        { new StreetcodeCoordinateDTO() };
+        { new() };
 
         _repositoryWrapperMock.Setup(r => r.StreetcodeRepository
         .GetFirstOrDefaultAsync(

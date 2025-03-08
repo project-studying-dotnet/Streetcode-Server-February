@@ -28,9 +28,9 @@ public class UpdateCoordinateHandlerTests
     [Fact]
     public async Task Handle_Return_Fail_When_StreetcodeCoordinate_Is_Null()
     {
-        var command = new UpdateCoordinateCommand(null);
+        var command = new UpdateCoordinateCommand(null!);
         _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(null))
-                   .Returns((StreetcodeCoordinate)null);
+                   .Returns((StreetcodeCoordinate)null!);
 
         var result = await _handler.Handle(command, CancellationToken.None);
 

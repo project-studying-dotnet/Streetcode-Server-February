@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using FluentResults;
 using Moq;
 using Xunit;
 using Streetcode.BLL.Interfaces.Logging;
@@ -28,7 +27,7 @@ public class DeleteFactHandlerTests
     public async Task Handle_WhenFactExists_ReturnsSuccessResult()
     {
         // Arrange
-        var factId = 1;
+        const int factId = 1;
         var fact = new Fact { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
@@ -53,7 +52,7 @@ public class DeleteFactHandlerTests
     public async Task Handle_WhenFactNotFound_ReturnsFailure()
     {
         // Arrange
-        var factId = 1;
+        const int factId = 1;
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(

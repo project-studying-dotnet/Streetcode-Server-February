@@ -1,14 +1,15 @@
 ﻿using AutoMapper;
 using Moq;
-using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Update;
-using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
-using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
+using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Update;
 using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
+using Streetcode.DAL.Repositories.Interfaces.Base;
+using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
 using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
 
 namespace Streetcode.XUnitTest.MediatRTests
     .AdditionalContent.Coordinate.Update;
+
 public class UpdateCoordinateHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock;
@@ -26,7 +27,7 @@ public class UpdateCoordinateHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Return_Fail_When_StreetcodeCoordinate_Is_Null()
+    public async Task Handle_ReturnFail_WhenStreetcodeCoordinateIsNull()
     {
         var command = new UpdateCoordinateCommand(null!);
         _mapperMock.Setup(m => m.Map<StreetcodeCoordinate>(null))
@@ -38,7 +39,7 @@ public class UpdateCoordinateHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Should_Call_Update_Method_Once()
+    public async Task Handle_ShouldCall_UpdateMethodOnce()
     {
         var streetcodeCoordinate = new StreetcodeCoordinate();
         var command = new UpdateCoordinateCommand(
@@ -55,7 +56,7 @@ public class UpdateCoordinateHandlerTests
     }
 
     [Fact]
-    public async Task Handle_Should_Return_Fail_When_SaveChangesAsync_Fails()
+    public async Task Handle_ShouldReturnFail_WhenSaveChangesAsyncFails()
     {
         var streetcodeCoordinate = new StreetcodeCoordinate();
         var command = new UpdateCoordinateCommand(
@@ -72,7 +73,7 @@ public class UpdateCoordinateHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ReturnSuccess_When_SaveChangesAsync_Greater_Zero()
+    public async Task Handle_ReturnSuccess_WhenSaveChangesAsyncGreaterZero()
     {
         var streetcodeCoordinate = new StreetcodeCoordinate();
         var command = new UpdateCoordinateCommand(

@@ -1,14 +1,16 @@
 ﻿using AutoMapper;
 using FluentAssertions;
 using Moq;
+using Xunit;
 using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
 using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Create;
 using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
-using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Coordinate.Create;
+namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent
+    .Coordinate.Create;
+
 public class CreateCoordinateHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock;
@@ -25,7 +27,6 @@ public class CreateCoordinateHandlerTests
         _repositoryWrapperMock.Setup(r => r.StreetcodeCoordinateRepository)
             .Returns(_coordinateRepMock.Object);
 
-        _mapperMock = new Mock<IMapper>();
         _handler = new CreateCoordinateHandler(
             _repositoryWrapperMock.Object, _mapperMock.Object);
     }

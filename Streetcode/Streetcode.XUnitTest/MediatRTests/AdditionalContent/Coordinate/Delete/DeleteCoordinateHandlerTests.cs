@@ -1,12 +1,13 @@
 ﻿using System.Linq.Expressions;
 using Moq;
+using Xunit;
 using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.Delete;
 using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests
     .AdditionalContent.Coordinate.Delete;
+
 public class DeleteCoordinateHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock;

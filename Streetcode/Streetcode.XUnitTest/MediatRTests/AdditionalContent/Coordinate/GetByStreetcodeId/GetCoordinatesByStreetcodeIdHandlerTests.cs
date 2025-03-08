@@ -2,16 +2,17 @@
 using AutoMapper;
 using FluentAssertions;
 using Moq;
+using Xunit;
 using Streetcode.BLL.DTO.AdditionalContent.Coordinates.Types;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.AdditionalContent.Coordinate.GetByStreetcodeId;
 using Streetcode.DAL.Entities.AdditionalContent.Coordinates.Types;
 using Streetcode.DAL.Entities.Streetcode;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Xunit;
 
 namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent
     .Coordinate.GetByStreetcodeId;
+
 public class GetCoordinatesByStreetcodeIdHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock = new();
@@ -42,7 +43,7 @@ public class GetCoordinatesByStreetcodeIdHandlerTests
     }
 
     [Fact]
-    public async Task Handle_ShouldReturnErrorMess_WhenStreetcodeDoesNotExist()
+    public async Task Handle_ShouldReturnErrorMsg_WhenStreetcodeDoesNotExist()
     {
         _repositoryWrapperMock.Setup(r => r.StreetcodeRepository
         .GetFirstOrDefaultAsync(

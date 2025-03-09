@@ -46,7 +46,6 @@ public class UpdateFactHandlerTests
             FactContent = "Updated content",
             StreetcodeId = 1
         };
-
         var existingFact = new Fact { Id = factId };
         var mappedFact = new Fact { Id = factId };
         var responseDto = new FactDTO { Id = factId };
@@ -56,13 +55,10 @@ public class UpdateFactHandlerTests
                 It.IsAny<Expression<Func<Fact, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
             .Returns(mappedFact);
-
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
-
         _mockRepo.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(1);
 
@@ -88,7 +84,6 @@ public class UpdateFactHandlerTests
             FactContent = "Updated content",
             StreetcodeId = 1
         };
-
         var existingFact = new Fact { Id = factId };
         var mappedFact = new Fact { Id = factId };
         var responseDto = new FactDTO { Id = factId };
@@ -98,13 +93,10 @@ public class UpdateFactHandlerTests
                 It.IsAny<Expression<Func<Fact, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
             .Returns(mappedFact);
-
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
-
         _mockRepo.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(1);
 
@@ -130,7 +122,6 @@ public class UpdateFactHandlerTests
             FactContent = "Updated content",
             StreetcodeId = 1
         };
-
         var existingFact = new Fact { Id = factId };
         var mappedFact = new Fact { Id = factId };
         var responseDto = new FactDTO { Id = factId };
@@ -140,13 +131,10 @@ public class UpdateFactHandlerTests
                 It.IsAny<Expression<Func<Fact, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
             .Returns(mappedFact);
-
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
-
         _mockRepo.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(1);
 
@@ -171,7 +159,6 @@ public class UpdateFactHandlerTests
 
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
             .Returns(mappedFact);
-
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<Fact, bool>>>(),
@@ -203,7 +190,6 @@ public class UpdateFactHandlerTests
             ImageDescription = "Updated image description",
             StreetcodeId = 1
         };
-
         var existingFact = new Fact { Id = factId };
         var mappedFact = new Fact { Id = factId };
         var responseDto = new FactDTO { Id = factId };
@@ -213,13 +199,10 @@ public class UpdateFactHandlerTests
                 It.IsAny<Expression<Func<Fact, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
             .Returns(mappedFact);
-
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
-
         _mockRepo.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(1);
 
@@ -251,7 +234,6 @@ public class UpdateFactHandlerTests
                 BlobName = "new-image.jpg"
             }
         };
-
         var existingFact = new Fact { Id = factId, ImageId = oldImageId };
         var mappedFact = new Fact
         {
@@ -274,17 +256,13 @@ public class UpdateFactHandlerTests
                 It.IsAny<Expression<Func<Fact, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-
         _mockMapper.Setup(m => m.Map<Fact>(factDto))
             .Returns(mappedFact);
-
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
-
         _mockBlobService.Setup(
                 b => b.FindFileInStorageAsBase64(It.IsAny<string>()))
             .Returns("base64-image-data");
-
         _mockRepo.Setup(r => r.SaveChangesAsync())
             .ReturnsAsync(1);
 

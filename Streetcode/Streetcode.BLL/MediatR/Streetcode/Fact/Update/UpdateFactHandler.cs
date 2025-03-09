@@ -16,10 +16,10 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
     private readonly ILoggerService _logger;
 
     public UpdateFactHandler(
-                         IRepositoryWrapper repositoryWrapper,
-                         IMapper mapper,
-                         IBlobService blobService,
-                         ILoggerService logger)
+        IRepositoryWrapper repositoryWrapper,
+        IMapper mapper,
+        IBlobService blobService,
+        ILoggerService logger)
     {
         _repositoryWrapper = repositoryWrapper;
         _mapper = mapper;
@@ -27,7 +27,9 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
         _logger = logger;
     }
 
-    public async Task<Result<FactDTO>> Handle(UpdateFactCommand request, CancellationToken cancellationToken)
+    public async Task<Result<FactDTO>> Handle(
+        UpdateFactCommand request,
+        CancellationToken cancellationToken)
     {
         if (request.FactDTO.Id <= 0)
         {
@@ -57,14 +59,18 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
 
         if (!string.IsNullOrEmpty(request.FactDTO.ImageDescription))
         {
-            _logger.LogInformation($"ImageDescription: {request.FactDTO.ImageDescription}");
+            _logger.LogInformation(
+                $"ImageDescription: {request.FactDTO.ImageDescription}");
         }
 
-        if (request.FactDTO.ImageId.HasValue && request.FactDTO.ImageId != existingFact.ImageId)
+        if (request.FactDTO.ImageId.HasValue &&
+            request.FactDTO.ImageId != existingFact.ImageId)
         {
-            if (existingFact.ImageId.HasValue && _repositoryWrapper.ImageRepository != null)
+            if (existingFact.ImageId.HasValue &&
+                _repositoryWrapper.ImageRepository != null)
             {
-                var oldImage = await _repositoryWrapper.ImageRepository.GetFirstOrDefaultAsync(x => x.Id == existingFact.ImageId);
+                var oldImage = await _repositoryWrapper.ImageRepository
+                    .GetFirstOrDefaultAsync(x => x.Id == existingFact.ImageId);
                 if (oldImage != null)
                 {
                     _repositoryWrapper.ImageRepository.Delete(oldImage);
@@ -79,9 +85,11 @@ public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactD
         if (resultIsSuccess)
         {
             var response = _mapper.Map<FactDTO>(existingFact);
-            if (response.Image is not null && !string.IsNullOrEmpty(response.Image.BlobName))
+            if (response.Image is not null &&
+                !string.IsNullOrEmpty(response.Image.BlobName))
             {
-                response.Image.Base64 = _blobService.FindFileInStorageAsBase64(response.Image.BlobName);
+                response.Image.Base64 = _blobService
+                    .FindFileInStorageAsBase64(response.Image.BlobName);
             }
 
             return Result.Ok(response);

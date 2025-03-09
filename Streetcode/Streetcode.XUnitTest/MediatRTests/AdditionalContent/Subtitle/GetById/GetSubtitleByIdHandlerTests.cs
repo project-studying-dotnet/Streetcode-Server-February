@@ -6,7 +6,7 @@ using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetById;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using SubtitleEntity = Streetcode.DAL.Entities.AdditionalContent;
+using SubtitleEntity = Streetcode.DAL.Entities.AdditionalContent.Subtitle;
 
 namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Subtitle.GetById;
 
@@ -32,12 +32,12 @@ public class GetSubtitleByIdHandlerTests
     [Fact]
     public async Task Handle_SubtitleExists_ReturnsOkResult()
     {
-        var subtitle = new SubtitleEntity.Subtitle { Id = 1 };
+        var subtitle = new SubtitleEntity { Id = 1 };
         var query = new GetSubtitleByIdQuery(1);
 
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
             .ReturnsAsync(subtitle);
 
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -48,13 +48,13 @@ public class GetSubtitleByIdHandlerTests
     [Fact]
     public async Task Handle_SubtitleExists_ReturnsMappedSubtitle()
     {
-        var subtitle = new SubtitleEntity.Subtitle { Id = 1 };
+        var subtitle = new SubtitleEntity { Id = 1 };
         var query = new GetSubtitleByIdQuery(1);
         var subtitleDTO = new SubtitleDTO();
 
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
             .ReturnsAsync(subtitle);
 
         _mapperMock.Setup(m => m.Map<SubtitleDTO>(subtitle))
@@ -72,8 +72,8 @@ public class GetSubtitleByIdHandlerTests
 
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
-            .ReturnsAsync((SubtitleEntity.Subtitle)null!);
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
+            .ReturnsAsync((SubtitleEntity)null!);
 
         var result = await _handler.Handle(query, CancellationToken.None);
 
@@ -87,8 +87,8 @@ public class GetSubtitleByIdHandlerTests
 
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
-            .ReturnsAsync((SubtitleEntity.Subtitle)null!);
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
+            .ReturnsAsync((SubtitleEntity)null!);
 
         await _handler.Handle(query, CancellationToken.None);
 

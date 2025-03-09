@@ -6,7 +6,7 @@ using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetByStreetcodeId;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using SubtitleEntity = Streetcode.DAL.Entities.AdditionalContent;
+using SubtitleEntity = Streetcode.DAL.Entities.AdditionalContent.Subtitle;
 
 namespace Streetcode.XUnitTest.MediatRTests
     .AdditionalContent.Subtitle.GetByStreetcodeId;
@@ -33,8 +33,8 @@ public class GetSubtitlesByStreetcodeIdHandlerTests
     public async Task Handle_ShouldReturnNullResult_WhenSubtitleNotFound()
     {
         _repositoryMock.Setup(r => r.SubtitleRepository.GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
-            .ReturnsAsync((SubtitleEntity.Subtitle)null!);
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
+            .ReturnsAsync((SubtitleEntity)null!);
 
         var query = new GetSubtitlesByStreetcodeIdQuery(1);
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -45,11 +45,11 @@ public class GetSubtitlesByStreetcodeIdHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnMappedSubtitle_WhenSubtitleExists()
     {
-        var subtitle = new SubtitleEntity.Subtitle { StreetcodeId = 1 };
+        var subtitle = new SubtitleEntity { StreetcodeId = 1 };
         var subtitleDto = new SubtitleDTO();
 
         _repositoryMock.Setup(r => r.SubtitleRepository.GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
             .ReturnsAsync(subtitle);
 
         _mapperMock.Setup(m => m.Map<SubtitleDTO>(subtitle))
@@ -65,8 +65,8 @@ public class GetSubtitlesByStreetcodeIdHandlerTests
     public async Task Handle_ShouldLogWarning_WhenSubtitleNotFound()
     {
         _repositoryMock.Setup(r => r.SubtitleRepository.GetFirstOrDefaultAsync(
-            It.IsAny<Expression<Func<SubtitleEntity.Subtitle, bool>>>(), null))
-            .ReturnsAsync((SubtitleEntity.Subtitle)null!);
+            It.IsAny<Expression<Func<SubtitleEntity, bool>>>(), null))
+            .ReturnsAsync((SubtitleEntity)null!);
 
         var query = new GetSubtitlesByStreetcodeIdQuery(1);
         await _handler.Handle(query, CancellationToken.None);

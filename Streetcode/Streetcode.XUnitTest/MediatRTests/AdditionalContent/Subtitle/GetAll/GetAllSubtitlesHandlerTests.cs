@@ -5,7 +5,7 @@ using Streetcode.BLL.DTO.AdditionalContent.Subtitles;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.AdditionalContent.Subtitle.GetAll;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using SubtitleEntity = Streetcode.DAL.Entities.AdditionalContent;
+using SubtitleEntity = Streetcode.DAL.Entities.AdditionalContent.Subtitle;
 
 namespace Streetcode.XUnitTest.MediatRTests.AdditionalContent.Subtitle.GetAll;
 
@@ -30,7 +30,7 @@ public class GetAllSubtitlesHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnSubtitles_WhenSubtitlesExist()
     {
-        var subtitles = new List<SubtitleEntity.Subtitle> { new(), new() };
+        var subtitles = new List<SubtitleEntity> { new(), new() };
 
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetAllAsync(null, null))
@@ -46,7 +46,7 @@ public class GetAllSubtitlesHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnMappedSubtitles_WhenSubtitlesExist()
     {
-        var subtitles = new List<SubtitleEntity.Subtitle> { new(), new() };
+        var subtitles = new List<SubtitleEntity> { new(), new() };
         var subtitleDTOs = new List<SubtitleDTO> { new(), new() };
 
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
@@ -67,7 +67,7 @@ public class GetAllSubtitlesHandlerTests
     {
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetAllAsync(null, null))
-            .ReturnsAsync((IEnumerable<SubtitleEntity.Subtitle>)null!);
+            .ReturnsAsync((IEnumerable<SubtitleEntity>)null!);
 
         var query = new GetAllSubtitlesQuery();
 
@@ -81,7 +81,7 @@ public class GetAllSubtitlesHandlerTests
     {
         _repositoryWrapperMock.Setup(r => r.SubtitleRepository
             .GetAllAsync(null, null))
-            .ReturnsAsync((IEnumerable<SubtitleEntity.Subtitle>)null!);
+            .ReturnsAsync((IEnumerable<SubtitleEntity>)null!);
 
         var query = new GetAllSubtitlesQuery();
 

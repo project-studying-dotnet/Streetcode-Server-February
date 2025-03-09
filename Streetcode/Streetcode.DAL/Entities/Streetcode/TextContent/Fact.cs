@@ -26,4 +26,6 @@ public class Fact
     public int StreetcodeId { get; set; }
 
     public StreetcodeContent? Streetcode { get; set; }
+
+    public int Index { get; set; }
 }

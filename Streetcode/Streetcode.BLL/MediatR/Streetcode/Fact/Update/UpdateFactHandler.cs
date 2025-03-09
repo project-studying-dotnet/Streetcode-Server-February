@@ -8,7 +8,8 @@ using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Fact.Update;
 
-public class UpdateFactHandler : IRequestHandler<UpdateFactCommand, Result<FactDTO>>
+public class UpdateFactHandler
+    : IRequestHandler<UpdateFactCommand, Result<FactDTO>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;

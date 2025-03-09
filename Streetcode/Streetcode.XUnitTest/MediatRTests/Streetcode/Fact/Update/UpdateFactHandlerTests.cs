@@ -7,10 +7,10 @@ using Streetcode.BLL.DTO.Streetcode.TextContent.Fact;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Streetcode.Fact.Update;
-using Streetcode.DAL.Entities.Streetcode.TextContent;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using FactEntity = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
-namespace Streetcode.XUnitTest.MediatRTests.Facts.Update;
+namespace Streetcode.XUnitTest.MediatRTests.Streetcode.Fact.Update;
 
 public class UpdateFactHandlerTests
 {
@@ -46,16 +46,16 @@ public class UpdateFactHandlerTests
             FactContent = "Updated content",
             StreetcodeId = 1
         };
-        var existingFact = new Fact { Id = factId };
-        var mappedFact = new Fact { Id = factId };
+        var existingFact = new FactEntity { Id = factId };
+        var mappedFact = new FactEntity { Id = factId };
         var responseDto = new FactDTO { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<FactEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+        _mockMapper.Setup(m => m.Map<FactEntity>(factDto))
             .Returns(mappedFact);
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
@@ -84,16 +84,16 @@ public class UpdateFactHandlerTests
             FactContent = "Updated content",
             StreetcodeId = 1
         };
-        var existingFact = new Fact { Id = factId };
-        var mappedFact = new Fact { Id = factId };
+        var existingFact = new FactEntity { Id = factId };
+        var mappedFact = new FactEntity { Id = factId };
         var responseDto = new FactDTO { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<FactEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+        _mockMapper.Setup(m => m.Map<FactEntity>(factDto))
             .Returns(mappedFact);
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
@@ -122,16 +122,16 @@ public class UpdateFactHandlerTests
             FactContent = "Updated content",
             StreetcodeId = 1
         };
-        var existingFact = new Fact { Id = factId };
-        var mappedFact = new Fact { Id = factId };
+        var existingFact = new FactEntity { Id = factId };
+        var mappedFact = new FactEntity { Id = factId };
         var responseDto = new FactDTO { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<FactEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+        _mockMapper.Setup(m => m.Map<FactEntity>(factDto))
             .Returns(mappedFact);
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
@@ -155,15 +155,15 @@ public class UpdateFactHandlerTests
         // Arrange
         var factId = 1;
         var factDto = new FactUpdateCreateDTO { Id = factId };
-        var mappedFact = new Fact { Id = factId };
+        var mappedFact = new FactEntity { Id = factId };
 
-        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+        _mockMapper.Setup(m => m.Map<FactEntity>(factDto))
             .Returns(mappedFact);
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<FactEntity, bool>>>(),
                 null))
-            .ReturnsAsync((Fact?)null);
+            .ReturnsAsync((FactEntity?)null);
 
         // Act
         var result = await _handler.Handle(
@@ -190,16 +190,16 @@ public class UpdateFactHandlerTests
             ImageDescription = "Updated image description",
             StreetcodeId = 1
         };
-        var existingFact = new Fact { Id = factId };
-        var mappedFact = new Fact { Id = factId };
+        var existingFact = new FactEntity { Id = factId };
+        var mappedFact = new FactEntity { Id = factId };
         var responseDto = new FactDTO { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<FactEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+        _mockMapper.Setup(m => m.Map<FactEntity>(factDto))
             .Returns(mappedFact);
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);
@@ -234,8 +234,8 @@ public class UpdateFactHandlerTests
                 BlobName = "new-image.jpg"
             }
         };
-        var existingFact = new Fact { Id = factId, ImageId = oldImageId };
-        var mappedFact = new Fact
+        var existingFact = new FactEntity { Id = factId, ImageId = oldImageId };
+        var mappedFact = new FactEntity
         {
             Id = factId,
             ImageId = newImageId,
@@ -250,13 +250,12 @@ public class UpdateFactHandlerTests
                 BlobName = "new-image.jpg"
             }
         };
-
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<FactEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingFact);
-        _mockMapper.Setup(m => m.Map<Fact>(factDto))
+        _mockMapper.Setup(m => m.Map<FactEntity>(factDto))
             .Returns(mappedFact);
         _mockMapper.Setup(m => m.Map<FactDTO>(existingFact))
             .Returns(responseDto);

@@ -18,7 +18,7 @@ public class UpdateFactHandlerTests
     private readonly Mock<IMapper> _mockMapper;
     private readonly Mock<IBlobService> _mockBlobService;
     private readonly Mock<ILoggerService> _mockLogger;
-    private readonly UpdateFactHandler _handler;
+    private readonly UpdateFactHandlerr _handler;
 
     public UpdateFactHandlerTests()
     {
@@ -27,7 +27,7 @@ public class UpdateFactHandlerTests
         _mockBlobService = new Mock<IBlobService>();
         _mockLogger = new Mock<ILoggerService>();
 
-        _handler = new UpdateFactHandler(
+        _handler = new UpdateFactHandlerr(
             _mockRepo.Object,
             _mockMapper.Object,
             _mockBlobService.Object,

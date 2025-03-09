@@ -112,7 +112,7 @@ public class ReorderFactsHandlerTests
 
         // Assert
         _mockMapper.Verify(
-            m => m.Map<Fact>(It.IsAny<ReorderFactDTO>()),
+            m => m.Map<Fact>(It.IsAny<ReorderFactDto>()),
             Times.Exactly(3));
     }
 
@@ -120,7 +120,7 @@ public class ReorderFactsHandlerTests
     public async Task Handle_WhenInputIsEmpty_ReturnsFailure()
     {
         // Arrange
-        var facts = new List<ReorderFactDTO>();
+        var facts = new List<ReorderFactDto>();
 
         // Act
         var result = await _handler.Handle(
@@ -131,7 +131,7 @@ public class ReorderFactsHandlerTests
         Assert.True(result.IsFailed);
         _mockLogger.Verify(
             l => l.LogError(
-                It.IsAny<ReorderFactsCommand>(),
+                It.Is<object>(o => true),
                 It.IsAny<string>()),
             Times.Once);
     }
@@ -140,7 +140,7 @@ public class ReorderFactsHandlerTests
     public async Task Handle_WhenIndexIsNegative_ReturnsFailure()
     {
         // Arrange
-        var facts = new List<ReorderFactDTO>
+        var facts = new List<ReorderFactDto>
         {
             new() { Id = 1, Index = -1 }
         };
@@ -154,14 +154,14 @@ public class ReorderFactsHandlerTests
         Assert.True(result.IsFailed);
         _mockLogger.Verify(
             l => l.LogError(
-                It.IsAny<ReorderFactsCommand>(),
+                It.Is<object>(o => true),
                 It.IsAny<string>()),
             Times.Once);
     }
 
-    private List<ReorderFactDTO> GetTestFacts()
+    private List<ReorderFactDto> GetTestFacts()
     {
-        return new List<ReorderFactDTO>
+        return new List<ReorderFactDto>
         {
             new() { Id = 1, Index = 2 },
             new() { Id = 2, Index = 0 },
@@ -175,8 +175,8 @@ public class ReorderFactsHandlerTests
         var fact2 = new Fact { Id = 2, Index = 1 };
         var fact3 = new Fact { Id = 3, Index = 2 };
 
-        _mockMapper.Setup(m => m.Map<Fact>(It.IsAny<ReorderFactDTO>()))
-            .Returns<ReorderFactDTO>(dto => new Fact { Id = dto.Id, Index = dto.Index });
+        _mockMapper.Setup(m => m.Map<Fact>(It.IsAny<ReorderFactDto>()))
+            .Returns<ReorderFactDto>(dto => new Fact { Id = dto.Id, Index = dto.Index });
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(

@@ -31,28 +31,28 @@ public class ReorderFactsHandler
         if (request is null)
         {
             const string errorMsg = "Request is null";
-            _logger.LogError(null, errorMsg);
+            _logger.LogError(new { Message = "Request is null" }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
         if (request.Facts is null)
         {
             const string errorMsg = "Facts collection is null";
-            _logger.LogError(request, errorMsg);
+            _logger.LogError(new { Message = "Facts collection is null" }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
         if (!request.Facts.Any())
         {
             const string errorMsg = "Facts list is empty";
-            _logger.LogError(request, errorMsg);
+            _logger.LogError(new { Message = "Facts list is empty" }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
         if (request.Facts.Any(f => f.Index < 0))
         {
             const string errorMsg = "Index cannot be negative";
-            _logger.LogError(request, errorMsg);
+            _logger.LogError(new { Message = "Index cannot be negative" }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
@@ -87,7 +87,7 @@ public class ReorderFactsHandler
             if (fact is null)
             {
                 string errorMsg = $"Cannot find fact with id: {factDto.Id}";
-                _logger.LogError(request, errorMsg);
+                _logger.LogError(new { Message = $"Cannot find fact with id: {factDto.Id}" }, errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }
 
@@ -100,7 +100,7 @@ public class ReorderFactsHandler
         if (!resultIsSuccess)
         {
             const string errorMsg = "Failed to reorder facts";
-            _logger.LogError(request, errorMsg);
+            _logger.LogError(new { Message = "Failed to reorder facts" }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 

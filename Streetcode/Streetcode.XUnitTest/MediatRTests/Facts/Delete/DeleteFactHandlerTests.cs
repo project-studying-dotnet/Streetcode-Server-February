@@ -5,6 +5,7 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Streetcode.Fact.Delete;
 using Streetcode.DAL.Entities.Streetcode.TextContent;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using DALFact = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
 namespace Streetcode.XUnitTest.MediatRTests.Streetcode.Fact.Delete;
 
@@ -23,16 +24,16 @@ public class DeleteFactHandlerTests
             _mockLogger.Object);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public async Task Handle_WhenFactExists_ReturnsSuccessResult()
     {
         // Arrange
         const int factId = 1;
-        var fact = new Fact { Id = factId };
+        var fact = new DALFact { Id = factId };
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<DALFact, bool>>>(),
                 null))
             .ReturnsAsync(fact);
 
@@ -48,7 +49,7 @@ public class DeleteFactHandlerTests
         Assert.True(result.IsSuccess);
     }
 
-    [Fact]
+    [Xunit.Fact]
     public async Task Handle_WhenFactNotFound_ReturnsFailure()
     {
         // Arrange
@@ -56,9 +57,9 @@ public class DeleteFactHandlerTests
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.IsAny<Expression<Func<Fact, bool>>>(),
+                It.IsAny<Expression<Func<DALFact, bool>>>(),
                 null))
-            .ReturnsAsync((Fact?)null);
+            .ReturnsAsync((DALFact?)null);
 
         // Act
         var result = await _handler.Handle(

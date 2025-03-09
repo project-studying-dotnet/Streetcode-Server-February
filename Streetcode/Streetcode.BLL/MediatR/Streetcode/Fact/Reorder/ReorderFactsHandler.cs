@@ -28,9 +28,16 @@ public class ReorderFactsHandler
         ReorderFactsCommand request,
         CancellationToken cancellationToken)
     {
-        if (request?.Facts == null)
+        if (request is null)
         {
-            const string errorMsg = "Request or Facts is null";
+            const string errorMsg = "Request is null";
+            _logger.LogError(null, errorMsg);
+            return Result.Fail(new Error(errorMsg));
+        }
+
+        if (request.Facts is null)
+        {
+            const string errorMsg = "Facts collection is null";
             _logger.LogError(request, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }

@@ -5,6 +5,7 @@ using Streetcode.BLL.MediatR.Streetcode.Fact.GetByStreetcodeId;
 using Streetcode.BLL.DTO.Streetcode.TextContent.Fact;
 using Streetcode.BLL.MediatR.Streetcode.Fact.Reorder;
 using Moq;
+using AutoMapper;
 
 namespace Streetcode.WebApi.Controllers.Streetcode.TextContent;
 

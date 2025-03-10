@@ -159,7 +159,7 @@ public class ReorderFactsHandlerTests
             Times.Once);
     }
 
-    private List<ReorderFactDto> GetTestFacts()
+    private static List<ReorderFactDto> GetTestFacts()
     {
         return new List<ReorderFactDto>
         {

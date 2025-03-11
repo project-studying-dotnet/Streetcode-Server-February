@@ -1,14 +1,15 @@
 using System.Linq.Expressions;
+using AutoMapper;
 using Moq;
 using Xunit;
-using AutoMapper;
+using Streetcode.BLL.DTO.Streetcode.TextContent.Fact;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Streetcode.Fact.Reorder;
 using Streetcode.DAL.Entities.Streetcode.TextContent;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.BLL.DTO.Streetcode.TextContent.Fact;
+using FactEntity = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
-namespace Streetcode.XUnitTest.MediatRTests.Facts.Reorder;
+namespace Streetcode.XUnitTest.MediatRTests.Fact.Reorder;
 
 public class ReorderFactsHandlerTests
 {
@@ -49,7 +50,7 @@ public class ReorderFactsHandlerTests
     {
         // Arrange
         var facts = GetTestFacts();
-        var updatedFacts = new List<Fact>();
+        var updatedFacts = new List<FactEntity>();
         SetupMocks(updatedFacts);
 
         // Act
@@ -66,7 +67,7 @@ public class ReorderFactsHandlerTests
     {
         // Arrange
         var facts = GetTestFacts();
-        var updatedFacts = new List<Fact>();
+        var updatedFacts = new List<FactEntity>();
         SetupMocks(updatedFacts);
 
         // Act
@@ -94,7 +95,7 @@ public class ReorderFactsHandlerTests
 
         // Assert
         _mockRepo.Verify(
-            r => r.FactRepository.Update(It.IsAny<Fact>()),
+            r => r.FactRepository.Update(It.IsAny<FactEntity>()),
             Times.Exactly(3));
     }
 
@@ -112,7 +113,7 @@ public class ReorderFactsHandlerTests
 
         // Assert
         _mockMapper.Verify(
-            m => m.Map<Fact>(It.IsAny<ReorderFactDto>()),
+            m => m.Map<FactEntity>(It.IsAny<ReorderFactDto>()),
             Times.Exactly(3));
     }
 
@@ -169,23 +170,23 @@ public class ReorderFactsHandlerTests
         };
     }
 
-    private void SetupMocks(List<Fact>? updatedFacts = null)
+    private void SetupMocks(List<FactEntity>? updatedFacts = null)
     {
-        var fact1 = new Fact { Id = 1, Index = 0 };
-        var fact2 = new Fact { Id = 2, Index = 1 };
-        var fact3 = new Fact { Id = 3, Index = 2 };
+        var fact1 = new FactEntity { Id = 1, Index = 0 };
+        var fact2 = new FactEntity { Id = 2, Index = 1 };
+        var fact3 = new FactEntity { Id = 3, Index = 2 };
 
-        _mockMapper.Setup(m => m.Map<Fact>(It.IsAny<ReorderFactDto>()))
-            .Returns<ReorderFactDto>(dto => new Fact { Id = dto.Id, Index = dto.Index });
+        _mockMapper.Setup(m => m.Map<FactEntity>(It.IsAny<ReorderFactDto>()))
+            .Returns<ReorderFactDto>(dto => new FactEntity { Id = dto.Id, Index = dto.Index });
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(
-                It.Is<Expression<Func<Fact, bool>>>(
+                It.Is<Expression<Func<FactEntity, bool>>>(
                     expr => expr.Compile().Invoke(fact1) ||
                            expr.Compile().Invoke(fact2) ||
                            expr.Compile().Invoke(fact3)),
                 null))
-            .ReturnsAsync((Expression<Func<Fact, bool>> expr, string? _) =>
+            .ReturnsAsync((Expression<Func<FactEntity, bool>> expr, string? _) =>
             {
                 if (expr.Compile().Invoke(fact1))
                 {
@@ -207,8 +208,8 @@ public class ReorderFactsHandlerTests
 
         if (updatedFacts != null)
         {
-            _mockRepo.Setup(r => r.FactRepository.Update(It.IsAny<Fact>()))
-                .Callback<Fact>(f => updatedFacts.Add(f));
+            _mockRepo.Setup(r => r.FactRepository.Update(It.IsAny<FactEntity>()))
+                .Callback<FactEntity>(f => updatedFacts.Add(f));
         }
 
         _mockRepo.Setup(r => r.SaveChangesAsync())

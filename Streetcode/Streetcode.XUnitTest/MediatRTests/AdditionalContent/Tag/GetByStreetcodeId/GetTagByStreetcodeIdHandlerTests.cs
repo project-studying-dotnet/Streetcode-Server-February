@@ -36,7 +36,6 @@ public class GetTagByStreetcodeIdHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnError_WhenTagsNotFound()
     {
-        // Arrange
         var query = new GetTagByStreetcodeIdQuery(1);
         _repositoryWrapperMock
             .Setup(repo => repo.StreetcodeTagIndexRepository
@@ -46,17 +45,14 @@ public class GetTagByStreetcodeIdHandlerTests
                 IIncludableQueryable<StreetcodeTagIndex, object>>?>()))
             .ReturnsAsync((IEnumerable<StreetcodeTagIndex>)null!);
 
-        // Act
         var result = await _handler.Handle(query, CancellationToken.None);
 
-        // Assert
         result.IsSuccess.Should().BeFalse();
     }
 
     [Fact]
     public async Task Handle_ShouldLogError_WhenTagsNotFound()
     {
-        // Arrange
         var query = new GetTagByStreetcodeIdQuery(1);
         _repositoryWrapperMock
             .Setup(repo => repo.StreetcodeTagIndexRepository
@@ -66,10 +62,8 @@ public class GetTagByStreetcodeIdHandlerTests
                 IIncludableQueryable<StreetcodeTagIndex, object>>?>()))
             .ReturnsAsync((IEnumerable<StreetcodeTagIndex>)null!);
 
-        // Act
         await _handler.Handle(query, CancellationToken.None);
 
-        // Assert
         _loggerMock.Verify(
             logger => logger.LogError(
                 It.IsAny<object>(), It.IsAny<string>()), Times.Once);
@@ -78,7 +72,6 @@ public class GetTagByStreetcodeIdHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnOrderedTags_WhenTagsFound()
     {
-        // Arrange
         var query = new GetTagByStreetcodeIdQuery(1);
         var tags = new List<StreetcodeTagIndex>
         {
@@ -99,10 +92,8 @@ public class GetTagByStreetcodeIdHandlerTests
                 It.IsAny<IEnumerable<StreetcodeTagIndex>>()))
             .Returns(new List<StreetcodeTagDTO>());
 
-        // Act
         var result = await _handler.Handle(query, CancellationToken.None);
 
-        // Assert
         result.IsSuccess.Should().BeTrue();
     }
 }

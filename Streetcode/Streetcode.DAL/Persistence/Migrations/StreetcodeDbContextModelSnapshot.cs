@@ -617,7 +617,9 @@ namespace Streetcode.DAL.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<int>("Index")
+                        .HasColumnType("int")
+                        .IsRequired();
 
                     b.Property<string>("FactContent")
                         .IsRequired()

@@ -43,6 +43,7 @@ public class ReorderFactsHandlerTests
 
         // Assert
         Assert.True(result.IsSuccess);
+        _mockRepo.Verify(r => r.SaveChangesAsync(), Times.Once);
     }
 
     [Fact]
@@ -60,6 +61,7 @@ public class ReorderFactsHandlerTests
 
         // Assert
         Assert.Equal(3, updatedFacts.Count);
+        _mockRepo.Verify(r => r.FactRepository.Update(It.IsAny<FactEntity>()), Times.Exactly(3));
     }
 
     [Fact]
@@ -97,24 +99,7 @@ public class ReorderFactsHandlerTests
         _mockRepo.Verify(
             r => r.FactRepository.Update(It.IsAny<FactEntity>()),
             Times.Exactly(3));
-    }
-
-    [Fact]
-    public async Task Handle_WhenFactsExist_CallsMapperCorrectNumberOfTimes()
-    {
-        // Arrange
-        var facts = GetTestFacts();
-        SetupMocks();
-
-        // Act
-        await _handler.Handle(
-            new ReorderFactsCommand(facts),
-            CancellationToken.None);
-
-        // Assert
-        _mockMapper.Verify(
-            m => m.Map<FactEntity>(It.IsAny<ReorderFactDto>()),
-            Times.Exactly(3));
+        _mockRepo.Verify(r => r.SaveChangesAsync(), Times.Once);
     }
 
     [Fact]
@@ -132,7 +117,7 @@ public class ReorderFactsHandlerTests
         Assert.True(result.IsFailed);
         _mockLogger.Verify(
             l => l.LogError(
-                It.Is<object>(o => true),
+                It.Is<object>(o => o.ToString() !.Contains("Facts list is empty")),
                 It.IsAny<string>()),
             Times.Once);
     }
@@ -155,7 +140,7 @@ public class ReorderFactsHandlerTests
         Assert.True(result.IsFailed);
         _mockLogger.Verify(
             l => l.LogError(
-                It.Is<object>(o => true),
+                It.Is<object>(o => o.ToString() !.Contains("Index cannot be negative")),
                 It.IsAny<string>()),
             Times.Once);
     }

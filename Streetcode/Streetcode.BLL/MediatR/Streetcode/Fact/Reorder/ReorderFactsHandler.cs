@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using FluentResults;
 using MediatR;
 using Streetcode.BLL.Interfaces.Logging;
@@ -79,20 +80,19 @@ public class ReorderFactsHandler
             return Result.Fail(new Error(errorMsg));
         }
 
-        foreach (var factDto in request.Facts)
+        foreach (var factReorderDto in request.Facts)
         {
             var fact = await _repositoryWrapper.FactRepository
-                .GetFirstOrDefaultAsync(f => f.Id == factDto.Id);
+                .GetFirstOrDefaultAsync(f => f.Id == factReorderDto.Id);
 
             if (fact is null)
             {
-                string errorMsg = $"Cannot find fact with id: {factDto.Id}";
-                _logger.LogError(new { Message = $"Cannot find fact with id: {factDto.Id}" }, errorMsg);
+                string errorMsg = $"Cannot find fact with id: {factReorderDto.Id}";
+                _logger.LogError(new { Message = $"Cannot find fact with id: {factReorderDto.Id}" }, errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }
 
-            var mappedFact = _mapper.Map<DALFact>(factDto);
-            fact.Index = mappedFact.Index;
+            fact.Index = factReorderDto.Index;
             _repositoryWrapper.FactRepository.Update(fact);
         }
 

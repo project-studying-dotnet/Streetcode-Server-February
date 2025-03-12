@@ -6,7 +6,7 @@ using Streetcode.BLL.MediatR.Streetcode.Fact.Delete;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using FactEntity = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
-namespace Streetcode.XUnitTest.MediatRTests.Facts.Delete;
+namespace Streetcode.XUnitTest.MediatRTests.Streetcode.Fact.Delete;
 
 public class DeleteFactHandlerTests
 {

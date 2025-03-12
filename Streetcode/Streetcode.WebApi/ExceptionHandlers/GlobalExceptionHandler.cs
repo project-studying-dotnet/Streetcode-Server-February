@@ -13,7 +13,8 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status500InternalServerError,
-            Title = "Server Error"
+            Title = "Server Error",
+            Detail = exception.Message
         };
 
         httpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;

@@ -19,8 +19,14 @@ public class ValidationExceptionHandler(ILogger<ValidationExceptionHandler> logg
         var problemDetails = new ProblemDetails
         {
             Status = StatusCodes.Status400BadRequest,
-            Title = "One or more validation errors occurred.",
-            Extensions = { { nameof(validationException.Errors), validationException!.Errors } },
+            Detail = "One or more validation errors occurred.",
+            Extensions =
+            {
+                {
+                    nameof(validationException.Errors),
+                    validationException.Errors.Select(e => new { Field = e.PropertyName, Message = e.ErrorMessage })
+                }
+            },
         };
 
         httpContext.Response.StatusCode = StatusCodes.Status400BadRequest;

@@ -9,7 +9,7 @@ using Streetcode.DAL.Entities.Streetcode.TextContent;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using FactEntity = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
-namespace Streetcode.XUnitTest.MediatRTests.Fact.Reorder;
+namespace Streetcode.XUnitTest.MediatRTests.Streetcode.Fact.Reorder;
 
 public class ReorderFactsHandlerTests
 {

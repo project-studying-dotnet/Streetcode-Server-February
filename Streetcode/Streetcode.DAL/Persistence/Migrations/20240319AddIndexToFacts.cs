@@ -1,16 +1,16 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Streetcode.DAL.Migrations;
+namespace Streetcode.DAL.Persistence.Migrations;
 
 public partial class AddIndexToFacts : Migration
 {
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.AddColumn<int>(
-            name: "index",
+            name: "Index",
             schema: "streetcode",
             table: "facts",
-            type: "integer",
+            type: "int",
             nullable: false,
             defaultValue: 0);
     }
@@ -18,7 +18,7 @@ public partial class AddIndexToFacts : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropColumn(
-            name: "index",
+            name: "Index",
             schema: "streetcode",
             table: "facts");
     }

@@ -8,8 +8,7 @@ using DALFact = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Fact.Reorder;
 
-public class ReorderFactsHandler
-    : IRequestHandler<ReorderFactsCommand, Result<Unit>>
+public class ReorderFactsHandler : IRequestHandler<ReorderFactsCommand, Result<Unit>>
 {
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ILoggerService _logger;
@@ -32,28 +31,28 @@ public class ReorderFactsHandler
         if (request is null)
         {
             const string errorMsg = "Request is null";
-            _logger.LogError(new { Message = "Request is null" }, errorMsg);
+            _logger.LogError(new { Message = errorMsg }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
         if (request.Facts is null)
         {
             const string errorMsg = "Facts collection is null";
-            _logger.LogError(new { Message = "Facts collection is null" }, errorMsg);
+            _logger.LogError(new { Message = errorMsg }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
         if (!request.Facts.Any())
         {
             const string errorMsg = "Facts list is empty";
-            _logger.LogError(new { Message = "Facts list is empty" }, errorMsg);
+            _logger.LogError(new { Message = errorMsg }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
         if (request.Facts.Any(f => f.Index < 0))
         {
             const string errorMsg = "Index cannot be negative";
-            _logger.LogError(new { Message = "Index cannot be negative" }, errorMsg);
+            _logger.LogError(new { Message = errorMsg }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 
@@ -88,7 +87,7 @@ public class ReorderFactsHandler
             if (fact is null)
             {
                 string errorMsg = $"Cannot find fact with id: {factReorderDto.Id}";
-                _logger.LogError(new { Message = $"Cannot find fact with id: {factReorderDto.Id}" }, errorMsg);
+                _logger.LogError(new { Message = errorMsg }, errorMsg);
                 return Result.Fail(new Error(errorMsg));
             }
 
@@ -100,7 +99,7 @@ public class ReorderFactsHandler
         if (!resultIsSuccess)
         {
             const string errorMsg = "Failed to reorder facts";
-            _logger.LogError(new { Message = "Failed to reorder facts" }, errorMsg);
+            _logger.LogError(new { Message = errorMsg }, errorMsg);
             return Result.Fail(new Error(errorMsg));
         }
 

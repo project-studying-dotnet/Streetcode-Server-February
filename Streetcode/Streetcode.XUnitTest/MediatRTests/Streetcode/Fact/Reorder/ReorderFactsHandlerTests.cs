@@ -15,18 +15,13 @@ public class ReorderFactsHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _mockRepo;
     private readonly Mock<ILoggerService> _mockLogger;
-    private readonly Mock<IMapper> _mockMapper;
     private readonly ReorderFactsHandler _handler;
 
     public ReorderFactsHandlerTests()
     {
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockLogger = new Mock<ILoggerService>();
-        _mockMapper = new Mock<IMapper>();
-        _handler = new ReorderFactsHandler(
-            _mockRepo.Object,
-            _mockLogger.Object,
-            _mockMapper.Object);
+        _handler = new ReorderFactsHandler(_mockRepo.Object, _mockLogger.Object);
     }
 
     [Fact]
@@ -160,9 +155,6 @@ public class ReorderFactsHandlerTests
         var fact1 = new FactEntity { Id = 1, Index = 0 };
         var fact2 = new FactEntity { Id = 2, Index = 1 };
         var fact3 = new FactEntity { Id = 3, Index = 2 };
-
-        _mockMapper.Setup(m => m.Map<FactEntity>(It.IsAny<ReorderFactDto>()))
-            .Returns<ReorderFactDto>(dto => new FactEntity { Id = dto.Id, Index = dto.Index });
 
         _mockRepo.Setup(r => r.FactRepository
             .GetFirstOrDefaultAsync(

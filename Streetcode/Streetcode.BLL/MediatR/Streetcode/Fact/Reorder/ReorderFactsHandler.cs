@@ -3,8 +3,6 @@ using FluentResults;
 using MediatR;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using AutoMapper;
-using DALFact = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Fact.Reorder;
 
@@ -12,16 +10,13 @@ public class ReorderFactsHandler : IRequestHandler<ReorderFactsCommand, Result<U
 {
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ILoggerService _logger;
-    private readonly IMapper _mapper;
 
     public ReorderFactsHandler(
         IRepositoryWrapper repositoryWrapper,
-        ILoggerService logger,
-        IMapper mapper)
+        ILoggerService logger)
     {
         _repositoryWrapper = repositoryWrapper;
         _logger = logger;
-        _mapper = mapper;
     }
 
     public async Task<Result<Unit>> Handle(

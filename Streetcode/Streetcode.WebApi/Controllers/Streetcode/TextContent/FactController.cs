@@ -3,6 +3,7 @@ using Streetcode.BLL.DTO.Streetcode.TextContent.Fact;
 using Streetcode.BLL.MediatR.Streetcode.Fact.GetAll;
 using Streetcode.BLL.MediatR.Streetcode.Fact.GetById;
 using Streetcode.BLL.MediatR.Streetcode.Fact.GetByStreetcodeId;
+using Streetcode.BLL.MediatR.Streetcode.Fact.Reorder;
 using Streetcode.BLL.MediatR.Streetcode.Fact.Delete;
 using Streetcode.BLL.MediatR.Streetcode.Fact.Update;
 
@@ -38,5 +39,11 @@ public class FactController : BaseApiController
     public async Task<IActionResult> Update([FromBody] FactUpdateCreateDTO factDTO)
     {
         return HandleResult(await Mediator.Send(new UpdateFactCommand(factDTO)));
+    }
+
+    [HttpPut("reorder")]
+    public async Task<IActionResult> ReorderFacts([FromBody] IEnumerable<ReorderFactDto> facts)
+    {
+        return HandleResult(await Mediator.Send(new ReorderFactsCommand(facts)));
     }
 }

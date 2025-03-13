@@ -3,6 +3,7 @@ using FluentResults;
 using MediatR;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using FactEntity = Streetcode.DAL.Entities.Streetcode.TextContent.Fact;
 
 namespace Streetcode.BLL.MediatR.Streetcode.Fact.Create;
 
@@ -13,16 +14,21 @@ public class CreateFactHandler
     private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ILoggerService _logger;
 
-    public CreateFactHandler(IMapper mapper, IRepositoryWrapper repositoryWrapper, ILoggerService logger)
+    public CreateFactHandler(
+        IMapper mapper,
+        IRepositoryWrapper repositoryWrapper,
+        ILoggerService logger)
     {
         _mapper = mapper;
         _repositoryWrapper = repositoryWrapper;
         _logger = logger;
     }
 
-    public async Task<Result<Unit>> Handle(CreateFactCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(
+        CreateFactCommand request,
+        CancellationToken cancellationToken)
     {
-        var newFact = _mapper.Map<DAL.Entities.Streetcode.TextContent.Fact>(request.newFact);
+        var newFact = _mapper.Map<FactEntity>(request.newFact);
         if (newFact is null)
         {
             const string errorMsg = "Cannot convert null to fact";

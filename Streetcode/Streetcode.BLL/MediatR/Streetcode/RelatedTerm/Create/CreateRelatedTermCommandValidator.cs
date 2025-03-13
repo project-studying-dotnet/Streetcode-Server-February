@@ -1,5 +1,7 @@
 using FluentValidation;
 using Streetcode.BLL.Constants;
+using Streetcode.BLL.Extensions;
+using Streetcode.BLL.Resources;
 
 namespace Streetcode.BLL.MediatR.Streetcode.RelatedTerm.Create;
 
@@ -8,7 +10,7 @@ public class CreateRelatedTermCommandValidator : AbstractValidator<CreateRelated
     public CreateRelatedTermCommandValidator()
     {
         RuleFor(x => x.RelatedTerm.Word)
-            .NotEmpty().WithMessage("Word is required.")
-            .MaximumLength(ValidatorsConstants.RelatedTermWordMaxLength).WithMessage($"Word must not exceed {ValidatorsConstants.RelatedTermWordMaxLength} characters.");
+            .NotEmpty().WithMessage(ValidatorMessages.WordIsRequired)
+            .MaximumLength(ValidatorConstants.RelatedTermWordMaxLength).WithFormatedMessage(ValidatorMessages.RelatedTermWordMaxLength, ValidatorConstants.RelatedTermWordMaxLength);
     }
 }

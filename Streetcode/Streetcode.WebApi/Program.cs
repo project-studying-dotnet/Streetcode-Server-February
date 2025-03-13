@@ -1,4 +1,5 @@
 using Hangfire;
+using MediatR;
 using Streetcode.BLL.Services.BlobStorageService;
 using Streetcode.WebApi.Extensions;
 using Streetcode.WebApi.Utils;
@@ -48,6 +49,7 @@ if (app.Environment.EnvironmentName != "Local")
 }
 
 app.MapControllers();
+app.RegisterMinimalApis();
 
 app.Run();
 public partial class Program

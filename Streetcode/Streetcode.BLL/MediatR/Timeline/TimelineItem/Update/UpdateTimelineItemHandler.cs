@@ -1,7 +1,5 @@
-﻿using AutoMapper;
-using FluentResults;
+﻿using FluentResults;
 using MediatR;
-using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Enums;
 using Streetcode.DAL.Repositories.Interfaces.Base;
@@ -11,20 +9,14 @@ namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Update;
 public class UpdateTimelineItemHandler
     : IRequestHandler<UpdateTimelineItemCommand, Result<Unit>>
 {
-    private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
-    private readonly IBlobService _blobService;
     private readonly ILoggerService _logger;
 
     public UpdateTimelineItemHandler(
         IRepositoryWrapper repositoryWrapper,
-        IMapper mapper,
-        IBlobService blobService,
         ILoggerService logger)
     {
         _repositoryWrapper = repositoryWrapper;
-        _mapper = mapper;
-        _blobService = blobService;
         _logger = logger;
     }
 
@@ -83,12 +75,14 @@ public class UpdateTimelineItemHandler
         }
         else if (request.TimelineItemDTO.DateViewPattern.HasValue)
         {
-            existingTimelineItem.DateViewPattern = (DateViewPattern)request.TimelineItemDTO.DateViewPattern.Value;
+            existingTimelineItem.DateViewPattern =
+                (DateViewPattern)request.TimelineItemDTO.DateViewPattern.Value;
         }
 
         if (request.TimelineItemDTO.StreetcodeId != null)
         {
-            var existingStreetcode = await _repositoryWrapper.StreetcodeRepository
+            var existingStreetcode =
+                await _repositoryWrapper.StreetcodeRepository
                 .GetFirstOrDefaultAsync(
                 s => s.Id == request.TimelineItemDTO.StreetcodeId, null);
             if (existingStreetcode == null)
@@ -101,7 +95,8 @@ public class UpdateTimelineItemHandler
             }
             else if (request.TimelineItemDTO.StreetcodeId.HasValue)
             {
-                existingTimelineItem.StreetcodeId = request.TimelineItemDTO.StreetcodeId.Value;
+                existingTimelineItem.StreetcodeId =
+                    request.TimelineItemDTO.StreetcodeId.Value;
             }
         }
 

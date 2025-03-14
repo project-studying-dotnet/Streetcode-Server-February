@@ -30,6 +30,7 @@ public class TimelineItemController : BaseApiController
     [HttpPut]
     public async Task<IActionResult> Update([FromBody] TimelineItemCreateUpdateDTO timelineItemDTO)
     {
-        return HandleResult(await Mediator.Send(new UpdateTimelineItemCommand(timelineItemDTO)));
+        return HandleResult(await Mediator.Send(
+            new UpdateTimelineItemCommand(timelineItemDTO)));
     }
 }

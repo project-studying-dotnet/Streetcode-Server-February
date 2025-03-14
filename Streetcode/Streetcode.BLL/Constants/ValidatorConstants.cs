@@ -1,6 +1,6 @@
 namespace Streetcode.BLL.Constants;
 
-public static class ValidatorsConstants
+public static class ValidatorConstants
 {
     public const int PositionMinLength = 2;
 
@@ -22,7 +22,7 @@ public static class ValidatorsConstants
 
     public const string ExtensionRegularExpression = @"^\.[a-zA-Z0-9]+$";
 
-    public const int EmailFromMaxLength = 80;
+    public const int EmailFromMaxLength = 2;
 
     public const int EmailContentMaxLength = 500;
 }

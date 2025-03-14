@@ -1,6 +1,8 @@
 using FluentValidation;
 using Streetcode.BLL.Constants;
-using Streetcode.BLL.SharedValidators.Partners;
+using Streetcode.BLL.Extensions;
+using Streetcode.BLL.MediatR.Partners.SharedValidators;
+using Streetcode.BLL.Resources;
 
 namespace Streetcode.BLL.MediatR.Partners.Create;
 
@@ -9,32 +11,32 @@ public class CreatePartnerCommandValidator : AbstractValidator<CreatePartnerComm
     public CreatePartnerCommandValidator()
     {
         RuleFor(x => x.NewPartner.Title)
-            .NotEmpty().WithMessage("Title is required.")
-            .MaximumLength(ValidatorsConstants.TitleMaxLength).WithMessage($"Title must not exceed {ValidatorsConstants.TitleMaxLength} characters.");
+            .NotEmpty().WithMessage(ValidatorMessages.TitleIsRequired)
+            .MaximumLength(ValidatorConstants.TitleMaxLength).WithFormatedMessage(ValidatorMessages.TitleMaxLength, ValidatorConstants.TitleMaxLength);
 
         RuleFor(x => x.NewPartner.Description)
-            .MaximumLength(ValidatorsConstants.DescriptionMaxLength).WithMessage($"Description must not exceed {ValidatorsConstants.DescriptionMaxLength} characters.");
+            .MaximumLength(ValidatorConstants.DescriptionMaxLength).WithFormatedMessage(ValidatorMessages.DescriptionMaxLength, ValidatorConstants.DescriptionMaxLength);
 
         RuleFor(x => x.NewPartner.TargetUrl)
             .Must(url => Uri.TryCreate(url, UriKind.Absolute, out _))
-            .When(x => !string.IsNullOrEmpty(x.NewPartner.TargetUrl)).WithMessage("TargetUrl must be a valid URL.");
+            .When(x => !string.IsNullOrEmpty(x.NewPartner.TargetUrl)).WithMessage(ValidatorMessages.TargetUrlMustBeValid);
 
         RuleFor(x => x.NewPartner.LogoId)
-            .GreaterThan(0).WithMessage("LogoId must be greater than 0.");
+            .GreaterThan(0).WithMessage(ValidatorMessages.LogoIdMustBeGreaterThanZero);
 
         RuleFor(x => x.NewPartner.UrlTitle)
-            .MaximumLength(ValidatorsConstants.UrlTitleMaxLength).WithMessage($"UrlTitle must not exceed {ValidatorsConstants.UrlTitleMaxLength} characters.")
+            .MaximumLength(ValidatorConstants.UrlTitleMaxLength).WithFormatedMessage(ValidatorMessages.UrlTitleMaxLength, ValidatorConstants.UrlTitleMaxLength)
             .When(x => !string.IsNullOrEmpty(x.NewPartner.UrlTitle));
 
         RuleFor(x => x.NewPartner.PartnerSourceLinks)
-            .NotEmpty().WithMessage("PartnerSourceLinks cannot be empty.")
+            .NotEmpty().WithMessage(ValidatorMessages.PartnerSourceLinksIsRequired)
             .When(x => x.NewPartner.PartnerSourceLinks != null);
 
         RuleForEach(x => x.NewPartner.PartnerSourceLinks)
             .SetValidator(new CreatePartnerSourceLinkDtoValidator());
 
         RuleFor(x => x.NewPartner.Streetcodes)
-            .NotEmpty().WithMessage("At least one Streetcode is required.");
+            .NotEmpty().WithMessage(ValidatorMessages.StreetCodeIsRequired);
 
         RuleForEach(x => x.NewPartner.Streetcodes)
             .SetValidator(new StreetcodeShortDtoValidator());

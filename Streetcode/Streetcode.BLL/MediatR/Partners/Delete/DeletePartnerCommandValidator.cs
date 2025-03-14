@@ -1,4 +1,5 @@
 using FluentValidation;
+using Streetcode.BLL.Resources;
 
 namespace Streetcode.BLL.MediatR.Partners.Delete;
 
@@ -7,6 +8,6 @@ public class DeletePartnerCommandValidator : AbstractValidator<DeletePartnerComm
     public DeletePartnerCommandValidator()
     {
         RuleFor(x => x.Id)
-            .GreaterThan(0).WithMessage("Id must be greater than 0 for an update.");
+            .GreaterThan(0).WithMessage(ValidatorMessages.IdMustBeGreaterThanZero);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using AutoMapper;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -16,15 +17,18 @@ public class UpdateTimelineItemHandlerTests
 {
     private readonly Mock<IRepositoryWrapper> _repositoryWrapperMock;
     private readonly Mock<ILoggerService> _loggerServiceMock;
+    private readonly Mock<IMapper> _mapperMock;
     private readonly UpdateTimelineItemHandler _handler;
 
     public UpdateTimelineItemHandlerTests()
     {
         _repositoryWrapperMock = new Mock<IRepositoryWrapper>();
         _loggerServiceMock = new Mock<ILoggerService>();
+        _mapperMock = new Mock<IMapper>();
         _handler = new UpdateTimelineItemHandler(
             _repositoryWrapperMock.Object,
-            _loggerServiceMock.Object);
+            _loggerServiceMock.Object,
+            _mapperMock.Object);
     }
 
     [Fact]
@@ -60,6 +64,8 @@ public class UpdateTimelineItemHandlerTests
                 It.IsAny<Expression<Func<StreetcodeEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingStreetcode);
+
+        _mapperMock.Setup(m => m.Map(timelineDto, existingTimelineItem));
 
         _repositoryWrapperMock.Setup(r => r.SaveChangesAsync()).ReturnsAsync(1);
 

@@ -35,7 +35,7 @@ public class UpdateTimelineItemHandlerTests
     public async Task Handle_ShouldReturnOk_WhenTimelineItemUpdatedSuccessfully()
     {
         // Arrange
-        var timelineDto = new TimelineItemCreateUpdateDTO
+        var timelineDto = new TimelineItemUpdateDTO
         {
             Id = 1,
             Title = "Updated Title",
@@ -85,7 +85,7 @@ public class UpdateTimelineItemHandlerTests
     public async Task Handle_ShouldReturnFail_WhenDateViewPatternIsOutOfRange(int invalidDateViewPattern)
     {
         // Arrange
-        var timelineDto = new TimelineItemCreateUpdateDTO
+        var timelineDto = new TimelineItemUpdateDTO
         {
             Id = 1,
             StreetcodeId = 2,

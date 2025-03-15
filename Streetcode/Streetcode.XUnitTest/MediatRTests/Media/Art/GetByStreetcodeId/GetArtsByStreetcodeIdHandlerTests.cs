@@ -9,10 +9,10 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.Interfaces.BlobStorage;
 using Streetcode.BLL.DTO.Media.Images;
 using Streetcode.DAL.Repositories.Interfaces.Base;
-using Streetcode.DAL.Entities.Media.Images;
 using Streetcode.DAL.Repositories.Interfaces.Media.Images;
 
 using ArtEntity = Streetcode.DAL.Entities.Media.Images.Art;
+using ImageEntity = Streetcode.DAL.Entities.Media.Images.Image;
 
 namespace Streetcode.XUnitTest.MediatRTests.Media.Art.GetByStreetcodeId;
 
@@ -34,7 +34,7 @@ public class GetArtsByStreetcodeIdHandlerTests
     {
         var arts = new List<ArtEntity>
         {
-            new ArtEntity { Id = 1, Image = new Image { Id = 1 } }
+            new ArtEntity { Id = 1, Image = new ImageEntity { Id = 1 } }
         };
         var artsDto = new List<ArtDTO>
         {

@@ -87,7 +87,7 @@ public class DeleteHistoryEventHandlerTests
         // Assert
         _mockLogger.Verify(
             logger => logger.LogInformation(
-                It.Is<string>(s => s.Contains("1") && s.Contains("deleted"))),
+                It.Is<string>(s => s.Contains('1') && s.Contains("deleted"))),
             Times.Once);
     }
 

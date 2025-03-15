@@ -1,6 +1,6 @@
 using Streetcode.DAL.Enums;
 
-namespace Streetcode.BLL.DTO.Timeline;
+namespace Streetcode.BLL.DTO.Timeline.TimelineItem;
 
 public class TimelineItemDTO
 {

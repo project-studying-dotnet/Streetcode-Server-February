@@ -4,9 +4,9 @@ using Moq;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore.Query;
-using Streetcode.BLL.DTO.Timeline;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetByStreetcodeId;
+using Streetcode.BLL.DTO.Timeline.TimelineItem;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
 using TimelineItemEntity = Streetcode.DAL.Entities.Timeline.TimelineItem;

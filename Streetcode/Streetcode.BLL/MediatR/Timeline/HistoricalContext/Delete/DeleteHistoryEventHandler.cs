@@ -1,21 +1,21 @@
 using FluentResults;
 using MediatR;
 using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.DAL.Repositories.Interfaces.Timeline;
+using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Timeline.HistoricalContext.Delete;
 
 public class DeleteHistoryEventHandler
     : IRequestHandler<DeleteHistoryEventCommand, Result<Unit>>
 {
-    private readonly IHistoricalContextRepository _historicalContextRepository;
+    private readonly IRepositoryWrapper _repositoryWrapper;
     private readonly ILoggerService _logger;
 
     public DeleteHistoryEventHandler(
-        IHistoricalContextRepository historicalContextRepository,
+        IRepositoryWrapper repositoryWrapper,
         ILoggerService logger)
     {
-        _historicalContextRepository = historicalContextRepository;
+        _repositoryWrapper = repositoryWrapper;
         _logger = logger;
     }
 
@@ -29,17 +29,19 @@ public class DeleteHistoryEventHandler
                 new Error($"Id must be more than 0. Id was {request.Id}"));
         }
 
-        var historicalEvent = await _historicalContextRepository
+        var historicalEvent = await _repositoryWrapper.HistoricalContextRepository
             .GetFirstOrDefaultAsync(
                 predicate: he => he.Id == request.Id);
 
         if (historicalEvent is null)
         {
             return Result.Fail(
-                new Error($"Cannot find historical event with id: {request.Id}"));
+                new Error(
+                    $"Cannot find historical event with id: {request.Id}"));
         }
 
-        _historicalContextRepository.Delete(historicalEvent);
+        _repositoryWrapper.HistoricalContextRepository.Delete(historicalEvent);
+        await _repositoryWrapper.SaveChangesAsync();
         _logger.LogInformation(
             $"Historical event with id: {request.Id} was deleted");
 

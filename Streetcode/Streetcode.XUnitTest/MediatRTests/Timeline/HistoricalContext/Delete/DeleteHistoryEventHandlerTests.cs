@@ -6,6 +6,7 @@ using MediatR;
 using Moq;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.HistoricalContext.Delete;
+using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Repositories.Interfaces.Timeline;
 using Xunit;
 
@@ -13,16 +14,21 @@ namespace Streetcode.XUnitTest.MediatRTests.Timeline.HistoricalContext.Delete;
 
 public class DeleteHistoryEventHandlerTests
 {
-    private readonly Mock<IHistoricalContextRepository> _mockHistoricalContextRepository;
+    private readonly Mock<IRepositoryWrapper> _mockRepositoryWrapper;
     private readonly Mock<ILoggerService> _mockLogger;
+    private readonly Mock<IHistoricalContextRepository> _mockHistoricalContextRepository;
     private readonly DeleteHistoryEventHandler _handler;
 
     public DeleteHistoryEventHandlerTests()
     {
+        _mockRepositoryWrapper = new Mock<IRepositoryWrapper>();
         _mockHistoricalContextRepository = new Mock<IHistoricalContextRepository>();
         _mockLogger = new Mock<ILoggerService>();
+        _mockRepositoryWrapper
+            .Setup(repo => repo.HistoricalContextRepository)
+            .Returns(_mockHistoricalContextRepository.Object);
         _handler = new DeleteHistoryEventHandler(
-            _mockHistoricalContextRepository.Object,
+            _mockRepositoryWrapper.Object,
             _mockLogger.Object);
     }
 
@@ -34,8 +40,9 @@ public class DeleteHistoryEventHandlerTests
         var historicalEvent = new DAL.Entities.Timeline.HistoricalContext { Id = 1 };
         _mockHistoricalContextRepository
             .Setup(repo => repo.GetFirstOrDefaultAsync(
-                It.IsAny<System.Linq.Expressions.Expression<
-                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(),
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
                 null))
             .ReturnsAsync(historicalEvent);
 
@@ -54,8 +61,9 @@ public class DeleteHistoryEventHandlerTests
         var historicalEvent = new DAL.Entities.Timeline.HistoricalContext { Id = 1 };
         _mockHistoricalContextRepository
             .Setup(repo => repo.GetFirstOrDefaultAsync(
-                It.IsAny<System.Linq.Expressions.Expression<
-                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(),
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
                 null))
             .ReturnsAsync(historicalEvent);
 
@@ -69,6 +77,29 @@ public class DeleteHistoryEventHandlerTests
     }
 
     [Fact]
+    public async Task Handle_ShouldCallSaveChangesAsync_WhenHistoricalEventExists()
+    {
+        // Arrange
+        var command = new DeleteHistoryEventCommand(1);
+        var historicalEvent = new DAL.Entities.Timeline.HistoricalContext { Id = 1 };
+        _mockHistoricalContextRepository
+            .Setup(repo => repo.GetFirstOrDefaultAsync(
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
+                null))
+            .ReturnsAsync(historicalEvent);
+
+        // Act
+        await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        _mockRepositoryWrapper.Verify(
+            repo => repo.SaveChangesAsync(),
+            Times.Once);
+    }
+
+    [Fact]
     public async Task Handle_ShouldLogInformation_WhenHistoricalEventExists()
     {
         // Arrange
@@ -76,8 +107,9 @@ public class DeleteHistoryEventHandlerTests
         var historicalEvent = new DAL.Entities.Timeline.HistoricalContext { Id = 1 };
         _mockHistoricalContextRepository
             .Setup(repo => repo.GetFirstOrDefaultAsync(
-                It.IsAny<System.Linq.Expressions.Expression<
-                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(),
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
                 null))
             .ReturnsAsync(historicalEvent);
 
@@ -98,8 +130,9 @@ public class DeleteHistoryEventHandlerTests
         var command = new DeleteHistoryEventCommand(1);
         _mockHistoricalContextRepository
             .Setup(repo => repo.GetFirstOrDefaultAsync(
-                It.IsAny<System.Linq.Expressions.Expression<
-                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(),
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
                 null))
             .ReturnsAsync((DAL.Entities.Timeline.HistoricalContext)null!);
 
@@ -117,8 +150,9 @@ public class DeleteHistoryEventHandlerTests
         var command = new DeleteHistoryEventCommand(1);
         _mockHistoricalContextRepository
             .Setup(repo => repo.GetFirstOrDefaultAsync(
-                It.IsAny<System.Linq.Expressions.Expression<
-                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(),
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
                 null))
             .ReturnsAsync((DAL.Entities.Timeline.HistoricalContext)null!);
 
@@ -137,8 +171,9 @@ public class DeleteHistoryEventHandlerTests
         var command = new DeleteHistoryEventCommand(1);
         _mockHistoricalContextRepository
             .Setup(repo => repo.GetFirstOrDefaultAsync(
-                It.IsAny<System.Linq.Expressions.Expression<
-                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(),
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
                 null))
             .ReturnsAsync((DAL.Entities.Timeline.HistoricalContext)null!);
 
@@ -148,6 +183,28 @@ public class DeleteHistoryEventHandlerTests
         // Assert
         _mockHistoricalContextRepository.Verify(
             repo => repo.Delete(It.IsAny<DAL.Entities.Timeline.HistoricalContext>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldNotCallSaveChangesAsync_WhenHistoricalEventDoesNotExist()
+    {
+        // Arrange
+        var command = new DeleteHistoryEventCommand(1);
+        _mockHistoricalContextRepository
+            .Setup(repo => repo.GetFirstOrDefaultAsync(
+                It.Is<System.Linq.Expressions.Expression<
+                    System.Func<DAL.Entities.Timeline.HistoricalContext, bool>>>(
+                    expr => true),
+                null))
+            .ReturnsAsync((DAL.Entities.Timeline.HistoricalContext)null!);
+
+        // Act
+        await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        _mockRepositoryWrapper.Verify(
+            repo => repo.SaveChangesAsync(),
             Times.Never);
     }
 
@@ -211,6 +268,21 @@ public class DeleteHistoryEventHandlerTests
         // Assert
         _mockHistoricalContextRepository.Verify(
             repo => repo.Delete(It.IsAny<DAL.Entities.Timeline.HistoricalContext>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldNotCallSaveChangesAsync_WhenIdIsInvalid()
+    {
+        // Arrange
+        var command = new DeleteHistoryEventCommand(-1);
+
+        // Act
+        await _handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        _mockRepositoryWrapper.Verify(
+            repo => repo.SaveChangesAsync(),
             Times.Never);
     }
 }

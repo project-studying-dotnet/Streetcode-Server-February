@@ -8,7 +8,6 @@ using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Team.GetAll;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Streetcode.DAL.Entities.Team;
-using TeamEntity = Streetcode.DAL.Entities.Team.TeamMember;
 
 namespace Streetcode.XUnitTest.MediatRTests.Team.GetAll;
 
@@ -67,11 +66,11 @@ public class GetAllTeamHandlerTests
     [Fact]
     public async Task Handle_ShouldReturnOkResult_WhenTeamFound()
     {
-        var teams = new List<TeamEntity> { new() };
+        var teams = new List<TeamMember> { new() };
         _repositoryWrapperMock
         .Setup(r => r.TeamRepository.GetAllAsync(
         It.IsAny<Expression<Func<TeamMember, bool>>>(),
-        It.IsAny<Func<IQueryable<TeamEntity>,
+        It.IsAny<Func<IQueryable<TeamMember>,
         IIncludableQueryable<TeamMember, object>>>()))
         .ReturnsAsync(teams);
 
@@ -88,7 +87,7 @@ public class GetAllTeamHandlerTests
     [Fact]
     public async Task Handle_ShouldMapTeams_WhenTeamFound()
     {
-        var teams = new List<TeamEntity> { new() };
+        var teams = new List<TeamMember> { new() };
         _repositoryWrapperMock
         .Setup(r => r.TeamRepository.GetAllAsync(
         It.IsAny<Expression<Func<TeamMember, bool>>>(),

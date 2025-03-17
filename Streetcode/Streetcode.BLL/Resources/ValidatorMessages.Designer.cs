@@ -295,11 +295,38 @@ namespace Streetcode.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No existing streetcode with the id.
+        /// </summary>
+        internal static string StreetcodeNotFoundError {
+            get {
+                return ResourceManager.GetString("StreetcodeNotFoundError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TargetUrl must be a valid URL.
         /// </summary>
         internal static string TargetUrlMustBeValid {
             get {
                 return ResourceManager.GetString("TargetUrlMustBeValid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot convert null to timeline item.
+        /// </summary>
+        internal static string TimelineItemConversionError {
+            get {
+                return ResourceManager.GetString("TimelineItemConversionError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to create a timeline item.
+        /// </summary>
+        internal static string TimelineItemCreationFailed {
+            get {
+                return ResourceManager.GetString("TimelineItemCreationFailed", resourceCulture);
             }
         }
         

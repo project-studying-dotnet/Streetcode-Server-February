@@ -62,7 +62,7 @@ public class CreateTimelineItemCommandValidatorTests
         var result = _validator.TestValidate(command);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.NewTimelineItem.Title);
+        result.ShouldHaveValidationErrorFor(x => x.TimelineItemDTO.Title);
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class CreateTimelineItemCommandValidatorTests
         var result = _validator.TestValidate(command);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.NewTimelineItem.Date);
+        result.ShouldHaveValidationErrorFor(x => x.TimelineItemDTO.Date);
     }
 
     [Fact]
@@ -106,7 +106,7 @@ public class CreateTimelineItemCommandValidatorTests
         var result = _validator.TestValidate(command);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.NewTimelineItem.DateViewPattern);
+        result.ShouldHaveValidationErrorFor(x => x.TimelineItemDTO.DateViewPattern);
     }
 
     [Theory]
@@ -130,6 +130,6 @@ public class CreateTimelineItemCommandValidatorTests
         var result = _validator.TestValidate(command);
 
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.NewTimelineItem.StreetcodeId);
+        result.ShouldHaveValidationErrorFor(x => x.TimelineItemDTO.StreetcodeId);
     }
 }

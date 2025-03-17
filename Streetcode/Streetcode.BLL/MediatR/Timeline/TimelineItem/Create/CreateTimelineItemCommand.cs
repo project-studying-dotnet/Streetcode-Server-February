@@ -5,7 +5,7 @@ using Streetcode.BLL.DTO.Timeline.TimelineItem;
 namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Create;
 
 public record CreateTimelineItemCommand
-    (TimelineItemCreateDTO NewTimelineItem)
+    (TimelineItemCreateDTO TimelineItemDTO)
     : IRequest<Result<Unit>>
 {
 }

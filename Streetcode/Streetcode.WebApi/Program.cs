@@ -14,6 +14,7 @@ builder.Services.AddExceptionHandler();
 builder.Services.ConfigureBlob(builder);
 builder.Services.ConfigurePayment(builder);
 builder.Services.ConfigureInstagram(builder);
+builder.Services.AddRedisCache(builder.Configuration);
 builder.Services.ConfigureSerilog(builder);
 var app = builder.Build();
 app.UseExceptionHandler();

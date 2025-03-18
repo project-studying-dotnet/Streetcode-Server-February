@@ -8,6 +8,7 @@ using Streetcode.BLL.MediatR.Partners.GetById;
 using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Microsoft.EntityFrameworkCore.Query;
+using Streetcode.BLL.Interfaces.CacheService;
 
 namespace Streetcode.XUnitTest.MediatRTests.Partners.GetById;
 
@@ -16,6 +17,7 @@ public class GetPartnerByIdHandlerTests
     private readonly Mock<IRepositoryWrapper> _mockRepo;
     private readonly Mock<IMapper> _mockMapper;
     private readonly Mock<ILoggerService> _mockLogger;
+    private readonly Mock<IRedisCacheService> _mockCacheService;
     private readonly GetPartnerByIdHandler _handler;
 
     public GetPartnerByIdHandlerTests()
@@ -23,10 +25,12 @@ public class GetPartnerByIdHandlerTests
         _mockRepo = new Mock<IRepositoryWrapper>();
         _mockMapper = new Mock<IMapper>();
         _mockLogger = new Mock<ILoggerService>();
+        _mockCacheService = new Mock<IRedisCacheService>();
         _handler = new GetPartnerByIdHandler(
             _mockRepo.Object,
             _mockMapper.Object,
-            _mockLogger.Object);
+            _mockLogger.Object,
+            _mockCacheService.Object);
     }
 
     [Fact]

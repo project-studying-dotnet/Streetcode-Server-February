@@ -40,7 +40,15 @@ public class GetAllImagesHandler
 
         foreach (var image in imageDtos)
         {
-            image.Base64 = _blobService.FindFileInStorageAsBase64(image.BlobName);
+            try
+            {
+                image.Base64 = _blobService.FindFileInStorageAsBase64(image.BlobName);
+            }
+            catch (FileNotFoundException)
+            {
+                _logger.LogError(request, $"Image with id = {image.Id} file not found in storage for BlobName: {image.BlobName}");
+                image.Base64 = null;
+            }
         }
 
         return Result.Ok(imageDtos);

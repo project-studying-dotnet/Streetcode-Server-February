@@ -19,10 +19,7 @@ public class TimelineItemProfile : Profile
                     Title = x.HistoricalContext.Title
                 }).ToList()));
 
-        CreateMap<int?, int>().ConvertUsing((src, dest) => src ?? dest);
-        CreateMap<DateTime?, DateTime>().ConvertUsing((src, dest) => src ?? dest);
-        CreateMap<TimelineItemUpdateDTO, TimelineItem>()
-            .ForAllMembers(
-            opt => opt.Condition((src, dest, srcMember) => srcMember != null));
+        CreateMap<TimelineItemUpdateDTO, TimelineItem>();
+        CreateMap<TimelineItemCreateDTO, TimelineItem>();
     }
 }

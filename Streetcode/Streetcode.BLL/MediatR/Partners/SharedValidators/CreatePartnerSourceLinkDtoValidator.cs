@@ -1,7 +1,7 @@
 using FluentValidation;
 using Streetcode.BLL.DTO.Partners.Create;
 
-namespace Streetcode.BLL.SharedValidators.Partners;
+namespace Streetcode.BLL.MediatR.Partners.SharedValidators;
 
 public class CreatePartnerSourceLinkDtoValidator : AbstractValidator<CreatePartnerSourceLinkDTO>
 {

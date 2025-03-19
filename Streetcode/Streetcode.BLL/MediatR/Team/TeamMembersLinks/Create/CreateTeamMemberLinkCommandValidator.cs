@@ -1,4 +1,5 @@
 using FluentValidation;
+using Streetcode.BLL.Resources;
 
 namespace Streetcode.BLL.MediatR.Team.TeamMembersLinks.Create;
 
@@ -7,6 +8,6 @@ public class CreateTeamMemberLinkCommandValidator : AbstractValidator<CreateTeam
     public CreateTeamMemberLinkCommandValidator()
     {
         RuleFor(x => x.TeamMember.TargetUrl)
-            .NotEmpty().WithMessage("URL is required.");
+            .NotEmpty().WithMessage(ValidatorMessages.UrlIsRequired);
     }
 }

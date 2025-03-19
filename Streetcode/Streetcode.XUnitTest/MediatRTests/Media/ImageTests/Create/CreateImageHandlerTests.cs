@@ -8,7 +8,7 @@ using Streetcode.BLL.MediatR.Media.Image.Create;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
 
-namespace Streetcode.XUnitTest.MediatRTests.Media.Image;
+namespace Streetcode.XUnitTest.MediatRTests.Media.ImageTests.Create;
 
 public class CreateImageHandlerTests
 {

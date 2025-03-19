@@ -213,4 +213,13 @@
   <data name="DateIsRequired" xml:space="preserve">
     <value>Date is required</value>
   </data>
+  <data name="TimelineItemConversionError" xml:space="preserve">
+    <value>Cannot convert null to timeline item</value>
+  </data>
+  <data name="StreetcodeNotFoundError" xml:space="preserve">
+    <value>No existing streetcode with the id</value>
+  </data>
+  <data name="TimelineItemCreationFailed" xml:space="preserve">
+    <value>Failed to create a timeline item</value>
+  </data>
 </root>

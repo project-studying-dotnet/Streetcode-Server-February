@@ -2,12 +2,14 @@
 using FluentResults;
 using MediatR;
 using Streetcode.BLL.Interfaces.Logging;
+using Streetcode.BLL.Resources;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using TimelineItemEntity = Streetcode.DAL.Entities.Timeline.TimelineItem;
 
 namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Create;
 
-public class CreateTimelineItemHandler : IRequestHandler<CreateTimelineItemCommand, Result<Unit>>
+public class CreateTimelineItemHandler
+    : IRequestHandler<CreateTimelineItemCommand, Result<Unit>>
 {
     private readonly IMapper _mapper;
     private readonly IRepositoryWrapper _repositoryWrapper;
@@ -31,9 +33,8 @@ public class CreateTimelineItemHandler : IRequestHandler<CreateTimelineItemComma
 
         if (newTimelineItem is null)
         {
-            const string errorMsg = "Cannot convert null to timeline item";
-            _logger.LogError(request, errorMsg);
-            return Result.Fail(errorMsg);
+            _logger.LogError(request, ValidatorMessages.TimelineItemConversionError);
+            return Result.Fail(ValidatorMessages.TimelineItemConversionError);
         }
 
         var getStreetcodeById = await _repositoryWrapper.StreetcodeRepository
@@ -42,9 +43,8 @@ public class CreateTimelineItemHandler : IRequestHandler<CreateTimelineItemComma
 
         if (getStreetcodeById == null)
         {
-            const string errorMsg = "No existing streetcode with the id";
-            _logger.LogError(request, errorMsg);
-            return Result.Fail(new Error(errorMsg));
+            _logger.LogError(request, ValidatorMessages.StreetcodeNotFoundError);
+            return Result.Fail(new Error(ValidatorMessages.StreetcodeNotFoundError));
         }
 
         newTimelineItem.Id = 0;
@@ -58,9 +58,8 @@ public class CreateTimelineItemHandler : IRequestHandler<CreateTimelineItemComma
         }
         else
         {
-            const string errorMsg = "Failed to create a timeline item";
-            _logger.LogError(request, errorMsg);
-            return Result.Fail(new Error(errorMsg));
+            _logger.LogError(request, ValidatorMessages.TimelineItemCreationFailed);
+            return Result.Fail(new Error(ValidatorMessages.TimelineItemCreationFailed));
         }
     }
 }

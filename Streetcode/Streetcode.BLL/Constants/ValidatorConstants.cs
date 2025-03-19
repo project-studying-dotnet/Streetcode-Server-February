@@ -10,9 +10,11 @@ public static class ValidatorConstants
 
     public const int TitleMaxLength = 100;
 
-    public const int BaseFormatMaxLength = 50;
+    public const int TimelineItemTitleMaxLength = 26;
 
     public const int DescriptionMaxLength = 500;
+
+    public const int TimelineItemDescriptionMaxLength = 400;
 
     public const int UrlTitleMaxLength = 200;
 
@@ -20,7 +22,7 @@ public static class ValidatorConstants
 
     public const string MimeTypeRegularExpression = @"^[\w\-]+\/[\w\-]+$";
 
-    public const string ExtensionRegularExpression = @"^\.[a-zA-Z0-9]+$";
+    public const string ExtensionRegularExpression = @"^[a-zA-Z]+$";
 
     public const int EmailFromMaxLength = 2;
 

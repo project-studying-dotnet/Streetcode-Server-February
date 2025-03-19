@@ -39,7 +39,15 @@ public class GetAllAudiosHandler
         var audioDtos = _mapper.Map<IEnumerable<AudioDTO>>(audios);
         foreach (var audio in audioDtos)
         {
-            audio.Base64 = _blobService.FindFileInStorageAsBase64(audio.BlobName);
+            try
+            {
+                audio.Base64 = _blobService.FindFileInStorageAsBase64(audio.BlobName);
+            }
+            catch (FileNotFoundException)
+            {
+                _logger.LogError(request, $"Audio with id = {audio.Id} file not found in storage for BlobName: {audio.BlobName}");
+                audio.Base64 = null;
+            }
         }
 
         return Result.Ok(audioDtos);

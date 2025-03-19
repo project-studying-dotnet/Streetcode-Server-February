@@ -2,6 +2,7 @@ using FluentResults;
 using MediatR;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.DAL.Repositories.Interfaces.Base;
+using Streetcode.BLL.Resources;
 
 namespace Streetcode.BLL.MediatR.Timeline.HistoricalContext.Delete;
 
@@ -26,7 +27,8 @@ public class DeleteHistoryEventHandler
         if (request.Id <= 0)
         {
             return Result.Fail(
-                new Error($"Id must be more than 0. Id was {request.Id}"));
+                new Error(
+                    $"{ValidatorMessages.IdMustBeGreaterThanZero}. Requested ID: {request.Id}"));
         }
 
         var historicalEvent = await _repositoryWrapper.HistoricalContextRepository

@@ -242,7 +242,7 @@ public class DeleteTimelineItemHandlerTests
 
         // Assert
         result.Errors.Should().Contain(
-            e => e.Message.Contains("must be more than 0"));
+            e => e.Message.Contains("must be greater than 0"));
     }
 
     [Fact]

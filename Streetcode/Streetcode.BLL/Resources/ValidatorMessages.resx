@@ -198,4 +198,19 @@
   <data name="UrlIsRequired" xml:space="preserve">
     <value>URL is required</value>
   </data>
+  <data name="IdIsRequired" xml:space="preserve">
+    <value>Id is required</value>
+  </data>
+  <data name="InvalidDateViewPattern" xml:space="preserve">
+    <value>Invalid DateViewPattern value. Must be in [0 - {0}]</value>
+  </data>
+  <data name="DateViewPatternIsRequired" xml:space="preserve">
+    <value>DateViewPattern is required</value>
+  </data>
+  <data name="StreetcodeIdIsRequired" xml:space="preserve">
+    <value>StreetcodeId is required</value>
+  </data>
+  <data name="DateIsRequired" xml:space="preserve">
+    <value>Date is required</value>
+  </data>
 </root>

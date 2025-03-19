@@ -88,6 +88,24 @@ namespace Streetcode.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Date is required.
+        /// </summary>
+        internal static string DateIsRequired {
+            get {
+                return ResourceManager.GetString("DateIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DateViewPattern is required.
+        /// </summary>
+        internal static string DateViewPatternIsRequired {
+            get {
+                return ResourceManager.GetString("DateViewPatternIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description must be at most {0} characters.
         /// </summary>
         internal static string DescriptionMaxLength {
@@ -160,6 +178,15 @@ namespace Streetcode.BLL.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Id is required.
+        /// </summary>
+        internal static string IdIsRequired {
+            get {
+                return ResourceManager.GetString("IdIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id must be greater than 0.
         /// </summary>
         internal static string IdMustBeGreaterThanZero {
@@ -174,6 +201,15 @@ namespace Streetcode.BLL.Resources {
         internal static string ImageAltMaxLength {
             get {
                 return ResourceManager.GetString("ImageAltMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid DateViewPattern value. Must be in [0 - {0}].
+        /// </summary>
+        internal static string InvalidDateViewPattern {
+            get {
+                return ResourceManager.GetString("InvalidDateViewPattern", resourceCulture);
             }
         }
         
@@ -237,6 +273,15 @@ namespace Streetcode.BLL.Resources {
         internal static string RelatedTermWordMaxLength {
             get {
                 return ResourceManager.GetString("RelatedTermWordMaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StreetcodeId is required.
+        /// </summary>
+        internal static string StreetcodeIdIsRequired {
+            get {
+                return ResourceManager.GetString("StreetcodeIdIsRequired", resourceCulture);
             }
         }
         

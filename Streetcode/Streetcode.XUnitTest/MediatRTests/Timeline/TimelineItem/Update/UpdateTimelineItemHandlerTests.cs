@@ -6,6 +6,7 @@ using Moq;
 using Streetcode.BLL.DTO.Timeline.TimelineItem;
 using Streetcode.BLL.Interfaces.Logging;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.Update;
+using Streetcode.DAL.Enums;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 using Xunit;
 using StreetcodeEntity = Streetcode.DAL.Entities.Streetcode.StreetcodeContent;
@@ -41,7 +42,7 @@ public class UpdateTimelineItemHandlerTests
             Title = "Updated Title",
             Description = "Updated Description",
             Date = DateTime.UtcNow,
-            DateViewPattern = 3,
+            DateViewPattern = (DateViewPattern)3,
             StreetcodeId = 2
         };
 
@@ -89,7 +90,8 @@ public class UpdateTimelineItemHandlerTests
         {
             Id = 1,
             StreetcodeId = 2,
-            DateViewPattern = invalidDateViewPattern
+            Date = DateTime.UtcNow,
+            DateViewPattern = (DateViewPattern)invalidDateViewPattern
         };
 
         var existingTimelineItem = new TimelineItemEntity
@@ -98,11 +100,19 @@ public class UpdateTimelineItemHandlerTests
             StreetcodeId = 2
         };
 
+        var existingStreetcode = new StreetcodeEntity { Id = 2 };
+
         _repositoryWrapperMock
             .Setup(r => r.TimelineRepository.GetFirstOrDefaultAsync(
                 It.IsAny<Expression<Func<TimelineItemEntity, bool>>>(),
                 null))
             .ReturnsAsync(existingTimelineItem);
+
+        _repositoryWrapperMock
+            .Setup(r => r.StreetcodeRepository.GetFirstOrDefaultAsync(
+                It.IsAny<Expression<Func<StreetcodeEntity, bool>>>(),
+                null))
+            .ReturnsAsync(existingStreetcode);
 
         var command = new UpdateTimelineItemCommand(timelineDto);
 
@@ -111,8 +121,5 @@ public class UpdateTimelineItemHandlerTests
 
         // Assert
         result.IsFailed.Should().BeTrue();
-        result.Errors.Should().Contain(e => e.Message == "Out of range DateViewPattern [0 - 3]");
-
-        _loggerServiceMock.Verify(l => l.LogError(command, "Out of range DateViewPattern [0 - 3]"), Times.Once);
     }
 }

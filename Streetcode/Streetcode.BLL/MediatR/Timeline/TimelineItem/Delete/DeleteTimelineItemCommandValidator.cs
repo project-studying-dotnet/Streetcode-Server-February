@@ -3,10 +3,10 @@ using Streetcode.BLL.Resources;
 
 namespace Streetcode.BLL.MediatR.Timeline.TimelineItem.Delete;
 
-public class DeleteTimelineItemValidaror
+public class DeleteTimelineItemCommandValidator
     : AbstractValidator<DeleteTimelineItemCommand>
 {
-    public DeleteTimelineItemValidaror()
+    public DeleteTimelineItemCommandValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty().WithMessage(ValidatorMessages.IdIsRequired)

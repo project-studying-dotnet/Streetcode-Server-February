@@ -14,8 +14,7 @@ public class CreateImageCommandValidator : AbstractValidator<CreateImageCommand>
             .MaximumLength(ValidatorConstants.TitleMaxLength).WithFormatedMessage(ValidatorMessages.TitleMaxLength, ValidatorConstants.TitleMaxLength);
 
         RuleFor(x => x.Image.BaseFormat)
-            .NotEmpty().WithMessage(ValidatorMessages.BaseFormatIsRequired)
-            .MaximumLength(ValidatorConstants.BaseFormatMaxLength).WithFormatedMessage(ValidatorMessages.BaseFormatMaxLength, ValidatorConstants.BaseFormatMaxLength);
+            .NotEmpty().WithMessage(ValidatorMessages.BaseFormatIsRequired);
 
         RuleFor(x => x.Image.MimeType)
             .NotEmpty().WithMessage(ValidatorMessages.MimeTypeIsRequired)

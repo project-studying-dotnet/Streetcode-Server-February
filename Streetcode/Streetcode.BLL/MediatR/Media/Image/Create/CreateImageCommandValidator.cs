@@ -25,7 +25,6 @@ public class CreateImageCommandValidator : AbstractValidator<CreateImageCommand>
             .Matches(ValidatorConstants.ExtensionRegularExpression).WithMessage(ValidatorMessages.ExtensionFormat);
 
         RuleFor(x => x.Image.Alt)
-            .NotEmpty().WithMessage(ValidatorMessages.AltTextIsRequired)
             .MaximumLength(ValidatorConstants.ImageAltMaxLength).WithFormatedMessage(ValidatorMessages.ImageAltMaxLength, ValidatorConstants.ImageAltMaxLength);
     }
 }

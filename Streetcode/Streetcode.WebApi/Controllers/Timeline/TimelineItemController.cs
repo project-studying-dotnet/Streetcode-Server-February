@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Streetcode.BLL.DTO.Timeline.TimelineItem;
+using Streetcode.BLL.MediatR.Timeline.TimelineItem.Create;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetAll;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetById;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetByStreetcodeId;
@@ -26,6 +27,13 @@ public class TimelineItemController : BaseApiController
     public async Task<IActionResult> GetByStreetcodeId([FromRoute] int streetcodeId)
     {
         return HandleResult(await Mediator.Send(new GetTimelineItemsByStreetcodeIdQuery(streetcodeId)));
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] TimelineItemCreateDTO timelineItemCreateDTO)
+    {
+        return HandleResult(await Mediator.Send(
+            new CreateTimelineItemCommand(timelineItemCreateDTO)));
     }
 
     [HttpPut]

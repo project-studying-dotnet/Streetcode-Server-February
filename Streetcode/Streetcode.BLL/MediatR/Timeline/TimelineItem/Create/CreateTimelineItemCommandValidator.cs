@@ -9,6 +9,6 @@ public class CreateTimelineItemCommandValidator
     public CreateTimelineItemCommandValidator(
         BaseTimelineItemValidator timelineItemRules)
     {
-        RuleFor(x => x.NewTimelineItem).SetValidator(timelineItemRules);
+        RuleFor(x => x.TimelineItemDTO).SetValidator(timelineItemRules);
     }
 }

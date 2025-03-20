@@ -24,13 +24,11 @@ public class DeleteImageHandler
     public async Task<Result<Unit>> Handle(DeleteImageCommand request, CancellationToken cancellationToken)
     {
         var image = await _repositoryWrapper.ImageRepository
-            .GetFirstOrDefaultAsync(
-            predicate: i => i.Id == request.Id,
-            include: s => s.Include(i => i.Streetcodes));
+            .GetFirstOrDefaultAsync(i => i.Id == request.Id);
 
         if (image is null)
         {
-            string errorMsg = $"Cannot find an image with corresponding categoryId: {request.Id}";
+            string errorMsg = $"Cannot find an image with Id: {request.Id}";
             _logger.LogError(request, errorMsg);
 
             return Result.Fail(new Error(errorMsg));

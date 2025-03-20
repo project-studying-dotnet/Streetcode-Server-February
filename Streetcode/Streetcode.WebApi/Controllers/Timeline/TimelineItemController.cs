@@ -4,6 +4,7 @@ using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetAll;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetById;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.GetByStreetcodeId;
 using Streetcode.BLL.MediatR.Timeline.TimelineItem.Update;
+using Streetcode.BLL.MediatR.Timeline.TimelineItem.Delete;
 
 namespace Streetcode.WebApi.Controllers.Timeline;
 
@@ -32,5 +33,11 @@ public class TimelineItemController : BaseApiController
     {
         return HandleResult(await Mediator.Send(
             new UpdateTimelineItemCommand(timelineItemDTO)));
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> DeleteTimelineItem(int id)
+    {
+        return HandleResult(await Mediator.Send(new DeleteTimelineItemCommand(id)));
     }
 }

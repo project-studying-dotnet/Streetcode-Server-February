@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Streetcode.BLL.DTO.Partners;
 using Streetcode.BLL.Interfaces.CacheService;
 using Streetcode.BLL.Interfaces.Logging;
-using Streetcode.DAL.Entities.Partners;
 using Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.BLL.MediatR.Partners.GetById;
@@ -30,11 +29,11 @@ public class GetPartnerByIdHandler
     {
         var cacheKey = $"Partner:{request.Id}";
 
-        var cachedPartner = await _cacheService.GetCacheValueAsync<Partner>(cacheKey);
+        var cachedPartner = await _cacheService.GetCacheValueAsync<PartnerDTO>(cacheKey);
 
         if (cachedPartner is not null)
         {
-            return Result.Ok(_mapper.Map<PartnerDTO>(cachedPartner));
+            return Result.Ok(cachedPartner);
         }
 
         var partner = await _repositoryWrapper
@@ -44,8 +43,6 @@ public class GetPartnerByIdHandler
                 include: p => p
                     .Include(pl => pl.PartnerSourceLinks));
 
-        await _cacheService.SetCacheValueAsync(cacheKey, partner);
-
         if (partner is null)
         {
             string errorMsg = $"Cannot find any partner with corresponding id: {request.Id}";
@@ -54,6 +51,10 @@ public class GetPartnerByIdHandler
             return Result.Fail(new Error(errorMsg));
         }
 
-        return Result.Ok(_mapper.Map<PartnerDTO>(partner));
+        var partnerDto = _mapper.Map<PartnerDTO>(partner);
+
+        await _cacheService.SetCacheValueAsync(cacheKey, partnerDto);
+
+        return Result.Ok(partnerDto);
     }
 }

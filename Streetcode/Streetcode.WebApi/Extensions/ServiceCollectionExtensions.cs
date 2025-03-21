@@ -22,7 +22,10 @@ using Streetcode.BLL.Services.Instagram;
 using Streetcode.BLL.Interfaces.Text;
 using Streetcode.BLL.Services.Text;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Org.BouncyCastle.Bcpg.Sig;
+using StackExchange.Redis;
 using Streetcode.BLL.Behaviors;
+using Streetcode.BLL.Services.CacheService;
 using Streetcode.DAL.Repositories.Interfaces.AdditionalContent;
 using Streetcode.DAL.Repositories.Interfaces.Analytics;
 using Streetcode.DAL.Repositories.Interfaces.Media;
@@ -52,6 +55,7 @@ using Streetcode.DAL.Repositories.Realizations.Toponyms;
 using Streetcode.DAL.Repositories.Realizations.Transactions;
 using Streetcode.DAL.Repositories.Realizations.Users;
 using Streetcode.WebApi.ExceptionHandlers;
+using IRedisCacheService = Streetcode.BLL.Interfaces.CacheService.IRedisCacheService;
 
 namespace Streetcode.WebApi.Extensions;
 
@@ -181,6 +185,26 @@ public static class ServiceCollectionExtensions
         services.AddExceptionHandler<ValidationExceptionHandler>();
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
+    }
+
+    public static void AddRedisCache(this IServiceCollection services, ConfigurationManager configuration)
+    {
+        var redisCacheSection = configuration.GetSection("Caching");
+
+        services.Configure<RedisEnviromentVariables>(redisCacheSection);
+
+        var redisCache = redisCacheSection.Get<RedisEnviromentVariables>();
+
+        if (!redisCache.Enabled)
+        {
+            return;
+        }
+
+        var redisConfiguration = configuration.GetConnectionString("Redis");
+        var redis = ConnectionMultiplexer.Connect(redisConfiguration);
+        services.AddSingleton<IConnectionMultiplexer>(redis);
+
+        services.AddSingleton<IRedisCacheService, RedisCacheService>();
     }
 
     public class CorsConfiguration

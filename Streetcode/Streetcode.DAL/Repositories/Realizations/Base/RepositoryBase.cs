@@ -1,21 +1,27 @@
 using System.Linq.Expressions;
+using Ardalis.Specification;
+using Ardalis.Specification.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Query;
 using Streetcode.DAL.Persistence;
-using Streetcode.DAL.Repositories.Interfaces.Base;
+using Street = Streetcode.DAL.Repositories.Interfaces.Base;
 
 namespace Streetcode.DAL.Repositories.Realizations.Base;
 
 public abstract class RepositoryBase<T>
-    : IRepositoryBase<T>
+    : Street.IRepositoryBase<T>
     where T : class
 {
     private readonly StreetcodeDbContext _dbContext;
+    private readonly DbSet<T> _dbSet;
+    private readonly ISpecificationEvaluator _specificationEvaluator;
 
     protected RepositoryBase(StreetcodeDbContext context)
     {
         _dbContext = context;
+        _dbSet = context.Set<T>();
+        _specificationEvaluator = SpecificationEvaluator.Default;
     }
 
     public IQueryable<T> FindAll(Expression<Func<T, bool>>? predicate = default)
@@ -131,6 +137,21 @@ public abstract class RepositoryBase<T>
         Func<IQueryable<T>, IIncludableQueryable<T, object>>? include = default)
     {
         return await GetQueryable(predicate, include, selector).FirstOrDefaultAsync();
+    }
+
+    public T? GetSingleBySpecification(ISpecification<T> specification)
+    {
+        return GetBySpecification(specification).FirstOrDefault();
+    }
+
+    public List<T> GetListBySpecification(ISpecification<T> specification)
+    {
+        return GetBySpecification(specification).ToList();
+    }
+
+    private IEnumerable<T> GetBySpecification(ISpecification<T> specification)
+    {
+        return _specificationEvaluator.GetQuery(_dbSet.AsQueryable(), specification);
     }
 
     private IQueryable<T> GetQueryable(
